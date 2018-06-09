@@ -5,9 +5,14 @@
  */
 package com.cours.allo.docteur.dao.manual.map.impl;
 
+import com.cours.allo.docteur.dao.entities.Adresse;
 import com.cours.allo.docteur.dao.entities.Utilisateur;
 import com.cours.allo.docteur.dao.IUtilisateurDao;
 import com.cours.allo.docteur.utils.DaoHelper;
+
+import java.util.AbstractMap;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import org.apache.commons.logging.Log;
@@ -19,48 +24,144 @@ import org.apache.commons.logging.LogFactory;
  */
 public class ManualMapUtilisateurDao implements IUtilisateurDao {
 
-    private static final Log log = LogFactory.getLog(ManualMapUtilisateurDao.class);
-    public static Map<Integer, Utilisateur> mapUtilisateursOfDataSource = DaoHelper.getUtilisateursMapDataSource();
+	private static final Log log = LogFactory.getLog(ManualMapUtilisateurDao.class);
+	public static Map<Integer,
+					  Utilisateur> mapUtilisateursOfDataSource =
+		DaoHelper.getUtilisateursMapDataSource();
 
-    @Override
-    public List<Utilisateur> findAllUtilisateurs() {
-        log.debug("Entree de la methode");
-        log.debug("Sortie de la methode");
-        return null;
-    }
+	@Override
+	public List<Utilisateur> findAllUtilisateurs() {
+		return new ArrayList<Utilisateur>(mapUtilisateursOfDataSource.values());
+	}
 
-    @Override
-    public Utilisateur findUtilisateurById(int idUtilisateur) {
-        return null;
-    }
+	@Override
+	public Utilisateur findUtilisateurById(int idUtilisateur) {
+		for (Map.Entry<Integer, Utilisateur> entry : mapUtilisateursOfDataSource.entrySet()) {
+			if (entry.getValue().getIdUtilisateur() == idUtilisateur)
+				return entry.getValue();
+		}
 
-    @Override
-    public List<Utilisateur> findUtilisateursByPrenom(String prenom) {
-        return null;
-    }
+		return null;
+	}
 
-    @Override
-    public List<Utilisateur> findUtilisateursByNom(String nom) {
-        return null;
-    }
+	@Override
+	public List<Utilisateur> findUtilisateursByPrenom(String prenom) {
+		List<Utilisateur> ret;
 
-    @Override
-    public List<Utilisateur> findUtilisateursByCodePostal(String codePostal) {
-        return null;
-    }
+		ret = new ArrayList<>();
 
-    @Override
-    public Utilisateur createUtilisateur(Utilisateur user) {
-        return null;
-    }
+		for (Map.Entry<Integer, Utilisateur> entry : mapUtilisateursOfDataSource.entrySet()) {
+			if (entry.getValue().getPrenom() == prenom)
+				ret.add(entry.getValue());
+		}
 
-    @Override
-    public Utilisateur updateUtilisateur(Utilisateur user) {
-        return null;
-    }
+		if (ret.size() == 0)
+			ret = null;
 
-    @Override
-    public boolean deleteUtilisateur(Utilisateur user) {
-        return false;
-    }
+		return ret;
+	}
+
+	@Override
+	public List<Utilisateur> findUtilisateursByNom(String nom) {
+		List<Utilisateur> ret;
+
+		ret = new ArrayList<>();
+
+		for (Map.Entry<Integer, Utilisateur> entry : mapUtilisateursOfDataSource.entrySet()) {
+			if (entry.getValue().getNom() == nom)
+				ret.add(entry.getValue());
+		}
+
+		if (ret.size() == 0)
+			ret = null;
+
+		return ret;
+	}
+
+	@Override
+	public List<Utilisateur> findUtilisateursByCodePostal(String codePostal) {
+		List<Utilisateur> ret;
+		Iterator<Adresse> addresseIt;
+
+		ret = new ArrayList<>();
+
+		for (Map.Entry<Integer, Utilisateur> entry : mapUtilisateursOfDataSource.entrySet()) {
+			addresseIt = entry.getValue().getAdresses().iterator();
+
+			while (addresseIt.hasNext()) {
+				if (addresseIt.next().getCodePostal() == codePostal) {
+					ret.add(entry.getValue());
+					break;
+				}
+			}
+		}
+
+		if (ret.size() == 0)
+			ret = null;
+
+		return ret;
+	}
+
+	@Override
+	public Utilisateur createUtilisateur(Utilisateur user) {
+		Utilisateur ret;
+		Utilisateur lastUser;
+		Integer newId;
+
+		newId = mapUtilisateursOfDataSource.size() + 1;
+
+		ret = new Utilisateur(newId,
+							  user.getCivilite(),
+							  user.getPrenom(),
+							  user.getNom(),
+							  user.getIdentifiant(),
+							  user.getMotPasse(),
+							  user.getDateNaissance(),
+							  user.isActif(),
+							  user.isMarquerEffacer(),
+							  user.getAdresses());
+
+		ret.setIdUtilisateur(newId);
+		ret.setVersion(user.getVersion() + 1);
+
+		mapUtilisateursOfDataSource.put(newId, ret);
+
+		return ret;
+	}
+
+	@Override
+	public Utilisateur updateUtilisateur(Utilisateur user) {
+		Utilisateur ret;
+
+		ret = null;
+
+		for (Map.Entry<Integer, Utilisateur> entry : mapUtilisateursOfDataSource.entrySet()) {
+			if (entry.getValue().getIdUtilisateur() == user.getIdUtilisateur()) {
+				user.setVersion(user.getVersion() + 1);
+				entry.setValue(user);
+				ret = user;
+				break;
+			}
+		}
+
+		return ret;
+	}
+
+	@Override
+	public boolean deleteUtilisateur(Utilisateur user) {
+		boolean ret;
+
+		ret = false;
+
+		for (Map.Entry<Integer, Utilisateur> entry : mapUtilisateursOfDataSource.entrySet()) {
+			if (entry.getValue().equals(user)) {
+				mapUtilisateursOfDataSource.remove(entry.getKey(), entry.getValue());
+				ret = true;
+				break;
+			}
+		}
+
+		return ret;
+	}
+
 }
