@@ -118,4 +118,39 @@ public class Adresse {
     public Integer getIdUtilisateur() {
         return idUtilisateur;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(!(obj instanceof Adresse)) {
+            return false;
+        }
+
+        Adresse adresse = (Adresse) obj;
+
+        if(adresse.idAdresse != this.idAdresse) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        String ret;
+
+        ret = "idAdresse = " + this.idAdresse.toString() + ",";
+        ret += "rue = " + this.rue + ",";
+        ret += "code postal = " + this.codePostal + ",";
+        ret += "ville = " + this.ville + ",";
+        ret += "pays = " + this.pays + ",";
+        ret += "principale = " + this.principale.toString() + ",";
+        ret += "version = " + this.version.toString() + ",";
+        ret += "idUtilisateur = " + this.idUtilisateur.toString();
+
+        return ret;
+    }
+
+    @Override
+    public int hashCode() {
+        return this.idAdresse;
+    }
 }
