@@ -5,16 +5,16 @@
  */
 package com.cours.allo.docteur.dao.manual.map.impl;
 
-import com.cours.allo.docteur.dao.entities.Adresse;
-import com.cours.allo.docteur.dao.entities.Utilisateur;
-import com.cours.allo.docteur.dao.IUtilisateurDao;
-import com.cours.allo.docteur.utils.DaoHelper;
-
-import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+
+import com.cours.allo.docteur.dao.IUtilisateurDao;
+import com.cours.allo.docteur.dao.entities.Adresse;
+import com.cours.allo.docteur.dao.entities.Utilisateur;
+import com.cours.allo.docteur.utils.DaoHelper;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -25,9 +25,7 @@ import org.apache.commons.logging.LogFactory;
 public class ManualMapUtilisateurDao implements IUtilisateurDao {
 
 	private static final Log log = LogFactory.getLog(ManualMapUtilisateurDao.class);
-	public static Map<Integer,
-					  Utilisateur> mapUtilisateursOfDataSource =
-		DaoHelper.getUtilisateursMapDataSource();
+	public static Map<Integer, Utilisateur> mapUtilisateursOfDataSource = DaoHelper.getUtilisateursMapDataSource();
 
 	@Override
 	public List<Utilisateur> findAllUtilisateurs() {
@@ -110,16 +108,9 @@ public class ManualMapUtilisateurDao implements IUtilisateurDao {
 
 		newId = mapUtilisateursOfDataSource.size() + 1;
 
-		ret = new Utilisateur(newId,
-							  user.getCivilite(),
-							  user.getPrenom(),
-							  user.getNom(),
-							  user.getIdentifiant(),
-							  user.getMotPasse(),
-							  user.getDateNaissance(),
-							  user.isActif(),
-							  user.isMarquerEffacer(),
-							  user.getAdresses());
+		ret = new Utilisateur(newId, user.getCivilite(), user.getPrenom(), user.getNom(), user.getIdentifiant(),
+				user.getMotPasse(), user.getDateNaissance(), user.isActif(), user.isMarquerEffacer(),
+				user.getAdresses());
 
 		ret.setIdUtilisateur(newId);
 		ret.setVersion(user.getVersion() + 1);
