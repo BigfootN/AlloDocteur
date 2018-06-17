@@ -68,7 +68,7 @@ public class ManualListUtilisateurDao implements IUtilisateurDao {
 		while (usersIt.hasNext()) {
 			curUser = usersIt.next();
 
-			if (curUser.getPrenom() == prenom)
+			if (curUser.getPrenom().equals(prenom))
 				ret.add(curUser);
 		}
 
@@ -90,7 +90,7 @@ public class ManualListUtilisateurDao implements IUtilisateurDao {
 		while (usersIt.hasNext()) {
 			curUser = usersIt.next();
 
-			if (curUser.getNom() == nom)
+			if (curUser.getNom().equals(nom))
 				ret.add(curUser);
 		}
 
@@ -121,7 +121,6 @@ public class ManualListUtilisateurDao implements IUtilisateurDao {
 
 				if (userHasPostalCode) {
 					ret.add(curUser);
-					break;
 				}
 			}
 		}

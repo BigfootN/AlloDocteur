@@ -8,6 +8,8 @@ package com.cours.allo.docteur.dao.manual.list.impl;
 import com.cours.allo.docteur.dao.IAdresseDao;
 import com.cours.allo.docteur.dao.entities.Adresse;
 import com.cours.allo.docteur.utils.DaoHelper;
+
+import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -31,8 +33,8 @@ public class ManualListAdresseDao implements IAdresseDao {
     @Override
     public Adresse findAdresseById(int idAdresse) {
         log.debug("Entree de la methode");
-        for (Adresse adresse : listAdressesOfDataSource){
-            if(adresse.getIdAdresse() == idAdresse){
+        for (Adresse adresse : listAdressesOfDataSource) {
+            if (adresse.getIdAdresse() == idAdresse) {
                 return adresse;
             }
         }
@@ -43,9 +45,12 @@ public class ManualListAdresseDao implements IAdresseDao {
     @Override
     public List<Adresse> findAdressesByVille(String ville) {
         List<Adresse> adressesByVille = null;
+
+        adressesByVille = new ArrayList<>();
+
         log.debug("Entree de la methode");
-        for (Adresse adresse : listAdressesOfDataSource){
-            if(adresse.getVille() == ville){
+        for (Adresse adresse : listAdressesOfDataSource) {
+            if (adresse.getVille() == ville) {
                 adressesByVille.add(adresse);
             }
         }
@@ -56,9 +61,12 @@ public class ManualListAdresseDao implements IAdresseDao {
     @Override
     public List<Adresse> findAdressesByCodePostal(String codePostal) {
         List<Adresse> adressesByCode = null;
+
+        adressesByCode = new ArrayList<>();
+
         log.debug("Entree de la methode");
-        for (Adresse adresse : listAdressesOfDataSource){
-            if(adresse.getCodePostal() == codePostal){
+        for (Adresse adresse : listAdressesOfDataSource) {
+            if (adresse.getCodePostal() == codePostal) {
                 adressesByCode.add(adresse);
             }
         }
@@ -71,7 +79,7 @@ public class ManualListAdresseDao implements IAdresseDao {
         int idAdresse = 0;
         log.debug("Entree de la methode");
         idAdresse = listAdressesOfDataSource.get(listAdressesOfDataSource.size() - 1).getIdAdresse();
-        adresse.setIdAdresse(idAdresse);
+        adresse.setIdAdresse(idAdresse + 1);
         listAdressesOfDataSource.add(adresse);
         log.debug("Sortie de la methode");
         return adresse;
@@ -80,8 +88,8 @@ public class ManualListAdresseDao implements IAdresseDao {
     @Override
     public Adresse updateAdresse(Adresse adresse) {
         log.debug("Entree de la methode");
-        for (int i = 0; i < listAdressesOfDataSource.size(); i++){
-            if(listAdressesOfDataSource.get(i).getIdAdresse() == adresse.getIdAdresse()){
+        for (int i = 0; i < listAdressesOfDataSource.size(); i++) {
+            if (listAdressesOfDataSource.get(i).getIdAdresse() == adresse.getIdAdresse()) {
                 adresse.setVersion(adresse.getVersion() + 1);
                 listAdressesOfDataSource.set(i, adresse);
                 return adresse;
@@ -98,4 +106,5 @@ public class ManualListAdresseDao implements IAdresseDao {
         log.debug("Sortie de la methode");
         return false;
     }
+
 }

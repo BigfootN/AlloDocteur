@@ -1,5 +1,11 @@
 package com.dao.test;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+
+import com.cours.allo.docteur.dao.entities.Adresse;
+import com.cours.allo.docteur.dao.entities.Utilisateur;
 import com.cours.allo.docteur.dao.manual.list.impl.ManualListAdresseDao;
 import com.cours.allo.docteur.dao.manual.list.impl.ManualListUtilisateurDao;
 /*
@@ -56,20 +62,62 @@ public class JUnitQuestAlloDocteurList {
 		log.debug("recherche par id...");
 		Assert.assertTrue(listAddr.findAdresseById(2).getIdAdresse() == 2);
 		Assert.assertTrue(listUser.findUtilisateurById(2).getIdUtilisateur() == 2);
+		log.debug("recherche par vile...");
+		Assert.assertTrue(listAddr.findAdressesByVille("Paris").size() == 27);
+		log.debug("recherche par adresse code postal...");
+		Assert.assertTrue(listAddr.findAdressesByCodePostal("35000").size() == 28);
+		log.debug("recherche par utilisateur code postal...");
+		Assert.assertTrue(listUser.findUtilisateursByCodePostal("75000").size() == 24);
+		log.debug("recherche utilisateur par nom...");
+		Assert.assertTrue(listUser.findUtilisateursByNom("Dupond").size() == 1);
+		log.debug("recherche utilisateur par prenom...");
+		Assert.assertTrue(listUser.findUtilisateursByPrenom("Jerome").size() == 2);
 		log.debug("Sortie de la methode");
 	}
 
 	@Test
 	public void testCreateUpdateDeleteUtilisateur() {
-		log.debug("Entree de la methode");
+		ManualListUtilisateurDao listUser;
+		Utilisateur userTest;
+		Utilisateur returnUser;
 
+		listUser = new ManualListUtilisateurDao();
+		userTest = new Utilisateur(1,
+								   "Mr",
+								   "Jean",
+								   "Dupoound",
+								   "id_dupond",
+								   "mdp",
+								   new Date(),
+								   true,
+								   true,
+								   Arrays.asList(new Adresse(1)));
+
+		log.debug("Entree de la methode");
+		returnUser = listUser.createUtilisateur(userTest);
+		Assert.assertTrue(returnUser.getIdUtilisateur() == 29);
+		Assert.assertTrue(listUser.findAllUtilisateurs().size() == 29);
+		listUser.deleteUtilisateur(userTest);
+		Assert.assertTrue(listUser.findAllUtilisateurs().size() == 28);
 		log.debug("Sortie de la methode");
 	}
 
 	@Test
 	public void testCreateUpdateDeleteAdresse() {
-		log.debug("Entree de la methode");
+		ManualListAdresseDao listUser;
+		Adresse addrTest;
+		Adresse returnAddr;
+		Integer size;
 
+		listUser = new ManualListAdresseDao();
+		addrTest = new Adresse(1, "Rue des pigeons", "38474", "Pigeon", "Pays");
+		size = listUser.findAllAdresses().size();
+
+		log.debug("Entree de la methode");
+		returnAddr = listUser.createAdresse(addrTest);
+		Assert.assertTrue(listUser.findAllAdresses().size() == (size + 1));
+		listUser.deleteAdresse(addrTest);
+		Assert.assertTrue(listUser.findAllAdresses().size() == size);
 		log.debug("Sortie de la methode");
 	}
 
