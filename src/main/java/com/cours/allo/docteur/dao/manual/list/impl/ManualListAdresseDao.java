@@ -25,38 +25,68 @@ public class ManualListAdresseDao implements IAdresseDao {
     public List<Adresse> findAllAdresses() {
         log.debug("Entree de la methode");
         log.debug("Sortie de la methode");
-        return null;
+        return listAdressesOfDataSource;
     }
 
     @Override
     public Adresse findAdresseById(int idAdresse) {
         log.debug("Entree de la methode");
+        for (Adresse adresse : listAdressesOfDataSource){
+            if(adresse.getIdAdresse() == idAdresse){
+                return adresse;
+            }
+        }
         log.debug("Sortie de la methode");
         return null;
     }
 
     @Override
     public List<Adresse> findAdressesByVille(String ville) {
-        return null;
+        List<Adresse> adressesByVille = null;
+        log.debug("Entree de la methode");
+        for (Adresse adresse : listAdressesOfDataSource){
+            if(adresse.getVille() == ville){
+                adressesByVille.add(adresse);
+            }
+        }
+        log.debug("Sortie de la methode");
+        return adressesByVille;
     }
 
     @Override
     public List<Adresse> findAdressesByCodePostal(String codePostal) {
-        return null;
+        List<Adresse> adressesByCode = null;
+        log.debug("Entree de la methode");
+        for (Adresse adresse : listAdressesOfDataSource){
+            if(adresse.getCodePostal() == codePostal){
+                adressesByCode.add(adresse);
+            }
+        }
+        log.debug("Sortie de la methode");
+        return adressesByCode;
     }
 
     @Override
     public Adresse createAdresse(Adresse adresse) {
+        int idAdresse = 0;
         log.debug("Entree de la methode");
-
+        idAdresse = listAdressesOfDataSource.get(listAdressesOfDataSource.size() - 1).getIdAdresse();
+        adresse.setIdAdresse(idAdresse);
+        listAdressesOfDataSource.add(adresse);
         log.debug("Sortie de la methode");
-        return null;
+        return adresse;
     }
 
     @Override
     public Adresse updateAdresse(Adresse adresse) {
         log.debug("Entree de la methode");
-
+        for (int i = 0; i < listAdressesOfDataSource.size(); i++){
+            if(listAdressesOfDataSource.get(i).getIdAdresse() == adresse.getIdAdresse()){
+                adresse.setVersion(adresse.getVersion() + 1);
+                listAdressesOfDataSource.set(i, adresse);
+                return adresse;
+            }
+        }
         log.debug("Sortie de la methode");
         return null;
     }
@@ -64,7 +94,7 @@ public class ManualListAdresseDao implements IAdresseDao {
     @Override
     public boolean deleteAdresse(Adresse adresse) {
         log.debug("Entree de la methode");
-
+        listAdressesOfDataSource.remove(adresse);
         log.debug("Sortie de la methode");
         return false;
     }
