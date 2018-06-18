@@ -53,7 +53,7 @@ public class ManualListUtilisateurDao implements IUtilisateurDao {
 				return curUser;
 		}
 
-		return null;
+		throw new CustomException("L'utilisateur portant l'idUtilisateur " + idUtilisateur + " n'existe pas", CustomException.FIND_ERROR);
 	}
 
 	@Override
@@ -184,12 +184,19 @@ public class ManualListUtilisateurDao implements IUtilisateurDao {
 			}
 		}
 
+		if (ret == null)
+			throw new CustomException("L'utilisateur portant l'identifiant " + user.getIdentifiant() + " n'existe pas", CustomException.UPDTAE_ERROR);
+
 		return ret;
 	}
 
 	@Override
 	public boolean deleteUtilisateur(Utilisateur user) {
-		return listUtilisateursOfDataSource.remove(user);
+		if (listUtilisateursOfDataSource.remove(user)){
+			return true;
+		}else {
+			throw new CustomException("L'utilisateur portant l'identifiant " + user.getIdentifiant() + " n'existe pas", CustomException.FIND_ERROR);
+		}
 	}
 
 }

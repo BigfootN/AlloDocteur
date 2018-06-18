@@ -34,7 +34,7 @@ public class ManualMapUtilisateurDao implements IUtilisateurDao {
 	}
 
 	@Override
-	public Utilisateur findUtilisateurById(int idUtilisateur) {
+	public Utilisateur findUtilisateurById(int idUtilisateur) throws CustomException {
 		for (Map.Entry<Integer, Utilisateur> entry : mapUtilisateursOfDataSource.entrySet()) {
 			if (entry.getValue().getIdUtilisateur() == idUtilisateur)
 				return entry.getValue();
@@ -44,7 +44,7 @@ public class ManualMapUtilisateurDao implements IUtilisateurDao {
 	}
 
 	@Override
-	public List<Utilisateur> findUtilisateursByPrenom(String prenom) {
+	public List<Utilisateur> findUtilisateursByPrenom(String prenom) throws CustomException {
 		List<Utilisateur> ret;
 
 		ret = new ArrayList<>();
@@ -61,7 +61,7 @@ public class ManualMapUtilisateurDao implements IUtilisateurDao {
 	}
 
 	@Override
-	public List<Utilisateur> findUtilisateursByNom(String nom) {
+	public List<Utilisateur> findUtilisateursByNom(String nom) throws CustomException {
 		List<Utilisateur> ret;
 
 		ret = new ArrayList<>();
@@ -78,7 +78,7 @@ public class ManualMapUtilisateurDao implements IUtilisateurDao {
 	}
 
 	@Override
-	public List<Utilisateur> findUtilisateursByCodePostal(String codePostal) {
+	public List<Utilisateur> findUtilisateursByCodePostal(String codePostal) throws CustomException {
 		List<Utilisateur> ret;
 		Iterator<Adresse> addresseIt;
 
@@ -102,7 +102,7 @@ public class ManualMapUtilisateurDao implements IUtilisateurDao {
 	}
 
 	@Override
-	public Utilisateur createUtilisateur(Utilisateur user) {
+	public Utilisateur createUtilisateur(Utilisateur user) throws CustomException {
 		Utilisateur ret;
 		Utilisateur lastUser;
 		Integer newId;
@@ -128,7 +128,7 @@ public class ManualMapUtilisateurDao implements IUtilisateurDao {
 	}
 
 	@Override
-	public Utilisateur updateUtilisateur(Utilisateur user) {
+	public Utilisateur updateUtilisateur(Utilisateur user) throws CustomException {
 		Utilisateur ret;
 
 		ret = null;
@@ -149,7 +149,7 @@ public class ManualMapUtilisateurDao implements IUtilisateurDao {
 	}
 
 	@Override
-	public boolean deleteUtilisateur(Utilisateur user) {
+	public boolean deleteUtilisateur(Utilisateur user) throws CustomException {
 		boolean ret;
 
 		ret = false;

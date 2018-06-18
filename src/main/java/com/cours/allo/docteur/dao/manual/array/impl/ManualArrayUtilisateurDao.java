@@ -149,7 +149,7 @@ public class ManualArrayUtilisateurDao implements IUtilisateurDao {
 		int size;
 		int lastId;
 
-		tmp = Arrays.asList(arrayUtilisateursOfDataSource);
+		tmp = new ArrayList<>(Arrays.asList(arrayUtilisateursOfDataSource));
 		size = tmp.size();
 		lastId = tmp.get(size - 1).getIdUtilisateur();
 		user.setIdUtilisateur(lastId + 1);
@@ -203,6 +203,8 @@ public class ManualArrayUtilisateurDao implements IUtilisateurDao {
 				ret = true;
 			}
 		}
+
+		arrayUtilisateursOfDataSource = tmp.toArray(new Utilisateur[tmp.size()]);
 
 		return ret;
 	}

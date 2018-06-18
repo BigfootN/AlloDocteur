@@ -111,12 +111,12 @@ public class ManualArrayAdresseDao implements IAdresseDao {
 		int lastId;
 		int size;
 
-		size = arrayAdressesOfDataSource.length;
-		tmp = Arrays.asList(arrayAdressesOfDataSource);
+		tmp = new ArrayList<>(Arrays.asList(arrayAdressesOfDataSource));
+		size = tmp.size();
 		lastId = tmp.get(size - 1).getIdAdresse();
 		adresse.setIdAdresse(lastId + 1);
 		tmp.add(adresse);
-		arrayAdressesOfDataSource = tmp.toArray(new Adresse[size + 1]);
+		//arrayAdressesOfDataSource = tmp.toArray(new Adresse[size + 1]);
 
 		return adresse;
 	}
