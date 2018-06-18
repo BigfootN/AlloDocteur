@@ -15,6 +15,7 @@ import com.cours.allo.docteur.dao.manual.list.impl.ManualListUtilisateurDao;
  */
 import com.cours.allo.docteur.service.IServiceFacade;
 import com.cours.allo.docteur.service.ServiceFacade;
+import com.cours.allo.docteur.utils.DaoHelper;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -38,15 +39,22 @@ public class JUnitQuestAlloDocteurList {
 
 	@Test
 	public void testFindAllUtilisateurs() {
-		log.debug("Entree de la methode");
+		ManualListUtilisateurDao users;
 
+		users = new ManualListUtilisateurDao();
+
+		log.debug("Entree de la methode");
+		Assert.assertTrue(users.findAllUtilisateurs().size() == DaoHelper.getUtilisateursListDataSource().size());
 		log.debug("Sortie de la methode");
 	}
 
 	@Test
 	public void testFindAllAdresses() {
-		log.debug("Entree de la methode");
+		ManualListAdresseDao addresses;
 
+		addresses = new ManualListAdresseDao();
+		log.debug("Entree de la methode");
+		Assert.assertTrue(addresses.findAllAdresses().size() == DaoHelper.getAdressesListDataSource().size());
 		log.debug("Sortie de la methode");
 	}
 
@@ -62,7 +70,7 @@ public class JUnitQuestAlloDocteurList {
 		log.debug("recherche par id...");
 		Assert.assertTrue(listAddr.findAdresseById(2).getIdAdresse() == 2);
 		Assert.assertTrue(listUser.findUtilisateurById(2).getIdUtilisateur() == 2);
-		log.debug("recherche par vile...");
+		log.debug("recherche par ville...");
 		Assert.assertTrue(listAddr.findAdressesByVille("Paris").size() == 27);
 		log.debug("recherche par adresse code postal...");
 		Assert.assertTrue(listAddr.findAdressesByCodePostal("35000").size() == 28);
@@ -82,16 +90,8 @@ public class JUnitQuestAlloDocteurList {
 		Utilisateur returnUser;
 
 		listUser = new ManualListUtilisateurDao();
-		userTest = new Utilisateur(1,
-								   "Mr",
-								   "Jean",
-								   "Dupoound",
-								   "id_dupond",
-								   "mdp",
-								   new Date(),
-								   true,
-								   true,
-								   Arrays.asList(new Adresse(1)));
+		userTest = new Utilisateur(1, "Mr", "Jean", "Dupoound", "id_dupond", "mdp", new Date(), true, true,
+				Arrays.asList(new Adresse(1)));
 
 		log.debug("Entree de la methode");
 		returnUser = listUser.createUtilisateur(userTest);

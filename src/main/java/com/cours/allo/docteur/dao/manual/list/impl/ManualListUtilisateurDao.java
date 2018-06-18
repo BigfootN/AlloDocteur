@@ -26,8 +26,7 @@ import org.apache.commons.logging.LogFactory;
 public class ManualListUtilisateurDao implements IUtilisateurDao {
 
 	private static final Log log = LogFactory.getLog(ManualListUtilisateurDao.class);
-	public static List<Utilisateur> listUtilisateursOfDataSource =
-		DaoHelper.getUtilisateursListDataSource();
+	public static List<Utilisateur> listUtilisateursOfDataSource = DaoHelper.getUtilisateursListDataSource();
 
 	@Override
 	public List<Utilisateur> findAllUtilisateurs() {
@@ -41,7 +40,7 @@ public class ManualListUtilisateurDao implements IUtilisateurDao {
 	}
 
 	@Override
-	public Utilisateur findUtilisateurById(int idUtilisateur) throws CustomException {
+	public Utilisateur findUtilisateurById(int idUtilisateur) {
 		Iterator<Utilisateur> usersIt;
 		Utilisateur curUser;
 
@@ -75,7 +74,7 @@ public class ManualListUtilisateurDao implements IUtilisateurDao {
 
 		if (ret.size() == 0) {
 			throw new CustomException("L'utilisateur portant le prenom " + prenom + " n'existe pas",
-									  32);
+					CustomException.FIND_ERROR);
 		}
 		ret = null;
 
@@ -99,15 +98,15 @@ public class ManualListUtilisateurDao implements IUtilisateurDao {
 		}
 
 		if (ret.size() == 0) {
-			throw new CustomException("Il n'existe aucun utilisateur portant le nom " + nom, 32);
+			throw new CustomException("Il n'existe aucun utilisateur portant le nom " + nom,
+					CustomException.FIND_ERROR);
 		}
 
 		return ret;
 	}
 
 	@Override
-	public List<Utilisateur> findUtilisateursByCodePostal(String codePostal) throws CustomException
-	{
+	public List<Utilisateur> findUtilisateursByCodePostal(String codePostal) throws CustomException {
 		Iterator<Utilisateur> usersIt;
 		Iterator<Adresse> addrIt;
 		List<Utilisateur> ret;
@@ -132,9 +131,8 @@ public class ManualListUtilisateurDao implements IUtilisateurDao {
 		}
 
 		if (ret.size() == 0) {
-			throw new CustomException(
-					  "Il n'existe aucun utilisateur ayant comme adresse postale " + codePostal,
-					  32);
+			throw new CustomException("Il n'existe aucun utilisateur ayant comme adresse postale " + codePostal,
+					CustomException.FIND_ERROR);
 		}
 
 		return ret;
@@ -152,20 +150,13 @@ public class ManualListUtilisateurDao implements IUtilisateurDao {
 		while (it.hasNext()) {
 			if (it.next().getIdentifiant().equals(user.getIdentifiant()))
 				throw new CustomException(
-						  "L'utilisateur portant l'identitifiant " + user.getIdentifiant() + " existe deja",
-						  32);
+						"L'utilisateur portant l'identitifiant " + user.getIdentifiant() + " existe deja",
+						CustomException.CREATE_ERROR);
 		}
 
-		ret = new Utilisateur(lastUser.getIdUtilisateur() + 1,
-							  user.getCivilite(),
-							  user.getPrenom(),
-							  user.getNom(),
-							  user.getIdentifiant(),
-							  user.getMotPasse(),
-							  user.getDateNaissance(),
-							  user.isActif(),
-							  user.isMarquerEffacer(),
-							  user.getAdresses());
+		ret = new Utilisateur(lastUser.getIdUtilisateur() + 1, user.getCivilite(), user.getPrenom(), user.getNom(),
+				user.getIdentifiant(), user.getMotPasse(), user.getDateNaissance(), user.isActif(),
+				user.isMarquerEffacer(), user.getAdresses());
 
 		ret.setVersion(user.getVersion() + 1);
 		listUtilisateursOfDataSource.add(ret);
