@@ -13,6 +13,7 @@ import java.util.Map;
 import com.cours.allo.docteur.dao.IUtilisateurDao;
 import com.cours.allo.docteur.dao.entities.Adresse;
 import com.cours.allo.docteur.dao.entities.Utilisateur;
+import com.cours.allo.docteur.exception.CustomException;
 import com.cours.allo.docteur.utils.DaoHelper;
 
 import org.apache.commons.logging.Log;
@@ -39,7 +40,7 @@ public class ManualMapUtilisateurDao implements IUtilisateurDao {
 				return entry.getValue();
 		}
 
-		return null;
+		throw new CustomException("L'utilisateur portant l'idUtilisateur " + idUtilisateur + " n'existe pas", CustomException.FIND_ERROR);
 	}
 
 	@Override
@@ -54,7 +55,7 @@ public class ManualMapUtilisateurDao implements IUtilisateurDao {
 		}
 
 		if (ret.size() == 0)
-			ret = null;
+			throw new CustomException("Les utilisateurs portant le prenom " + prenom + " sont introuvable", CustomException.FIND_ERROR);
 
 		return ret;
 	}
@@ -71,7 +72,7 @@ public class ManualMapUtilisateurDao implements IUtilisateurDao {
 		}
 
 		if (ret.size() == 0)
-			ret = null;
+			throw new CustomException("Les utilisateurs portant le nom " + nom + " sont introuvable", CustomException.FIND_ERROR);
 
 		return ret;
 	}
@@ -95,7 +96,7 @@ public class ManualMapUtilisateurDao implements IUtilisateurDao {
 		}
 
 		if (ret.size() == 0)
-			ret = null;
+			throw new CustomException("Les utilisateurs portant le codePostal " + codePostal + " sont introuvable", CustomException.FIND_ERROR);
 
 		return ret;
 	}
@@ -105,6 +106,12 @@ public class ManualMapUtilisateurDao implements IUtilisateurDao {
 		Utilisateur ret;
 		Utilisateur lastUser;
 		Integer newId;
+
+
+		for (Map.Entry<Integer, Utilisateur> entry : mapUtilisateursOfDataSource.entrySet()) {
+			if (entry.getValue().getIdentifiant() == user.getIdentifiant())
+				throw new CustomException("L'utilisateur portant l'identifiant " + user.getIdentifiant() + " existe deja", CustomException.CREATE_ERROR);
+		}
 
 		newId = mapUtilisateursOfDataSource.size() + 1;
 
@@ -134,6 +141,9 @@ public class ManualMapUtilisateurDao implements IUtilisateurDao {
 				break;
 			}
 		}
+		if (ret == null){
+			throw new CustomException("L'utilisateur portant l'identifiant " + user.getIdentifiant() + " n'existe pas", CustomException.UPDTAE_ERROR);
+		}
 
 		return ret;
 	}
@@ -151,6 +161,11 @@ public class ManualMapUtilisateurDao implements IUtilisateurDao {
 				break;
 			}
 		}
+
+		if (ret == false){
+			throw new CustomException("L'utilisateur portant l'identifiant " + user.getIdentifiant() + " n'existe pas", CustomException.FIND_ERROR);
+		}
+
 
 		return ret;
 	}
