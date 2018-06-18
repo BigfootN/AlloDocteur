@@ -155,6 +155,8 @@ public class ManualArrayUtilisateurDao implements IUtilisateurDao {
 		user.setIdUtilisateur(lastId + 1);
 		tmp.add(user);
 
+		arrayUtilisateursOfDataSource = tmp.toArray(new Utilisateur[size + 1]);
+
 		return user;
 	}
 
@@ -181,6 +183,8 @@ public class ManualArrayUtilisateurDao implements IUtilisateurDao {
 			}
 		}
 
+		arrayUtilisateursOfDataSource = tmp.toArray(new Utilisateur[tmp.size()]);
+
 		return ret;
 	}
 
@@ -191,7 +195,7 @@ public class ManualArrayUtilisateurDao implements IUtilisateurDao {
 		Utilisateur curUser;
 		ListIterator<Utilisateur> it;
 
-		tmp = Arrays.asList(arrayUtilisateursOfDataSource);
+		tmp = new ArrayList<>(Arrays.asList(arrayUtilisateursOfDataSource));
 		ret = false;
 		it = tmp.listIterator();
 

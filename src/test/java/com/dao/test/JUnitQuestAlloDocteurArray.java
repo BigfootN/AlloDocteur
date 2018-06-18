@@ -101,7 +101,7 @@ public class JUnitQuestAlloDocteurArray {
         Assert.assertTrue(returnUser.getIdUtilisateur() == 29);
         log.debug("Sortie getIdUtilisateur");
         log.debug("Entre de FindAllUtilisateurs");
-        Assert.assertTrue(listUser.findAllUtilisateurs().size() == DaoHelper.getUtilisateursArrayDataSource().length);
+        Assert.assertTrue(listUser.findAllUtilisateurs().size() == (DaoHelper.getUtilisateursArrayDataSource().length + 1));
         log.debug("Sortie de FindAllUtilisateurs");
         listUser.deleteUtilisateur(userTest);
         Assert.assertTrue(listUser.findAllUtilisateurs().size() == 28);
@@ -121,6 +121,7 @@ public class JUnitQuestAlloDocteurArray {
 
         log.debug("Entree de la methode");
         log.debug("Entree de createAdresse");
+
         returnAddr = listUser.createAdresse(addrTest);
         log.debug("Sortie de createAdresse");
         log.debug("Entree getIdUtilisateur");
@@ -128,9 +129,10 @@ public class JUnitQuestAlloDocteurArray {
         Assert.assertTrue(returnAddr.getIdAdresse() == 83);
         log.debug("Sortie getIdUtilisateur");
         log.debug("Entree de findAllAdresses");
-        Assert.assertTrue(listUser.findAllAdresses().size() == DaoHelper.getAdressesArrayDataSource().length);
+        Assert.assertTrue(listUser.findAllAdresses().size() == (DaoHelper.getAdressesArrayDataSource().length + 1));
         log.debug("Sortie de findAllAdresses");
         log.debug("Entree de deleteAdresses");
+        log.debug(addrTest.getIdAdresse());
         listUser.deleteAdresse(addrTest);
         log.debug("Sortie de deleteAdresses");
         Assert.assertTrue(listUser.findAllAdresses().size() == size);

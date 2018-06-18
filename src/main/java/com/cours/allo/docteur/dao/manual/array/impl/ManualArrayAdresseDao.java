@@ -116,7 +116,7 @@ public class ManualArrayAdresseDao implements IAdresseDao {
 		lastId = tmp.get(size - 1).getIdAdresse();
 		adresse.setIdAdresse(lastId + 1);
 		tmp.add(adresse);
-		//arrayAdressesOfDataSource = tmp.toArray(new Adresse[size + 1]);
+		arrayAdressesOfDataSource = tmp.toArray(new Adresse[size + 1]);
 
 		return adresse;
 	}
@@ -153,7 +153,7 @@ public class ManualArrayAdresseDao implements IAdresseDao {
 		Adresse curAddr;
 		boolean found;
 
-		tmp = Arrays.asList(arrayAdressesOfDataSource);
+		tmp = new ArrayList<>(Arrays.asList(arrayAdressesOfDataSource));
 		it = tmp.listIterator();
 		found = false;
 
