@@ -110,7 +110,7 @@ public class ManualMapUtilisateurDao implements IUtilisateurDao {
 
 		for (Map.Entry<Integer, Utilisateur> entry : mapUtilisateursOfDataSource.entrySet()) {
 			if (entry.getValue().getIdentifiant() == user.getIdentifiant())
-				throw new CustomException("L'utilisateur portant l'identifiant " + user.getIdentifiant() + " existe deja", CustomException.INSERT_ERROR);
+				throw new CustomException("L'utilisateur portant l'identifiant " + user.getIdentifiant() + " existe deja", CustomException.CREATE_ERROR);
 		}
 
 		newId = mapUtilisateursOfDataSource.size() + 1;
