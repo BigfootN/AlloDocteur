@@ -3,6 +3,10 @@ package com.cours.allo.docteur.exception;
 @SuppressWarnings("serial")
 public class CustomException extends RuntimeException {
 
+    public static final int UPDTAE_ERROR = 0;
+    public static final int INSERT_ERROR = 1;
+    public static final int FIND_ERROR = 2;
+
     // code d'erreur
     private int code;
 
@@ -26,7 +30,7 @@ public class CustomException extends RuntimeException {
         this.code = code;
     }
 
-  // getter et setter
+    // getter et setter
     public int getCode() {
         return code;
     }
