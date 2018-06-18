@@ -68,7 +68,7 @@ public class ManualArrayAdresseDao implements IAdresseDao {
 
         ret = new ArrayList<>();
         idx = 0;
-        size = 0;
+		size = arrayAdressesOfDataSource.length;
 
         while (idx < size) {
             if (arrayAdressesOfDataSource[idx].getVille().equals(ville))
