@@ -7,6 +7,7 @@ package com.cours.allo.docteur.dao.manual.array.impl;
 
 import com.cours.allo.docteur.dao.IAdresseDao;
 import com.cours.allo.docteur.dao.entities.Adresse;
+import com.cours.allo.docteur.exception.CustomException;
 import com.cours.allo.docteur.utils.DaoHelper;
 
 import java.util.ArrayList;
@@ -61,14 +62,14 @@ public class ManualArrayAdresseDao implements IAdresseDao {
     }
 
     @Override
-    public List<Adresse> findAdressesByVille(String ville) {
+    public List<Adresse> findAdressesByVille(String ville) throws CustomException {
         int idx;
         int size;
         List<Adresse> ret;
 
         ret = new ArrayList<>();
         idx = 0;
-		size = arrayAdressesOfDataSource.length;
+        size = arrayAdressesOfDataSource.length;
 
         while (idx < size) {
             if (arrayAdressesOfDataSource[idx].getVille().equals(ville))
@@ -77,11 +78,14 @@ public class ManualArrayAdresseDao implements IAdresseDao {
             idx++;
         }
 
+        if (ret.size() == 0)
+            throw new CustomException("Aucune adresse est situee a " + ville, 32);
+
         return ret;
     }
 
     @Override
-    public List<Adresse> findAdressesByCodePostal(String codePostal) {
+    public List<Adresse> findAdressesByCodePostal(String codePostal) throws CustomException {
         int idx;
         int size;
         List<Adresse> ret;
@@ -101,7 +105,7 @@ public class ManualArrayAdresseDao implements IAdresseDao {
     }
 
     @Override
-    public Adresse createAdresse(Adresse adresse) {
+    public Adresse createAdresse(Adresse adresse) throws CustomException {
         List<Adresse> tmp;
         int lastId;
         int size;

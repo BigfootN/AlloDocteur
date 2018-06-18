@@ -7,6 +7,7 @@ package com.cours.allo.docteur.dao.manual.list.impl;
 
 import com.cours.allo.docteur.dao.entities.Adresse;
 import com.cours.allo.docteur.dao.entities.Utilisateur;
+import com.cours.allo.docteur.exception.CustomException;
 import com.cours.allo.docteur.dao.IUtilisateurDao;
 import com.cours.allo.docteur.utils.DaoHelper;
 
@@ -40,7 +41,7 @@ public class ManualListUtilisateurDao implements IUtilisateurDao {
 	}
 
 	@Override
-	public Utilisateur findUtilisateurById(int idUtilisateur) {
+	public Utilisateur findUtilisateurById(int idUtilisateur) throws CustomException {
 		Iterator<Utilisateur> usersIt;
 		Utilisateur curUser;
 
@@ -57,7 +58,7 @@ public class ManualListUtilisateurDao implements IUtilisateurDao {
 	}
 
 	@Override
-	public List<Utilisateur> findUtilisateursByPrenom(String prenom) {
+	public List<Utilisateur> findUtilisateursByPrenom(String prenom) throws CustomException {
 		Iterator<Utilisateur> usersIt;
 		List<Utilisateur> ret;
 		Utilisateur curUser;
@@ -72,14 +73,17 @@ public class ManualListUtilisateurDao implements IUtilisateurDao {
 				ret.add(curUser);
 		}
 
-		if (ret.size() == 0)
-			ret = null;
+		if (ret.size() == 0) {
+			throw new CustomException("L'utilisateur portant le prenom " + prenom + " n'existe pas",
+									  32);
+		}
+		ret = null;
 
 		return ret;
 	}
 
 	@Override
-	public List<Utilisateur> findUtilisateursByNom(String nom) {
+	public List<Utilisateur> findUtilisateursByNom(String nom) throws CustomException {
 		Iterator<Utilisateur> usersIt;
 		List<Utilisateur> ret;
 		Utilisateur curUser;
@@ -94,14 +98,16 @@ public class ManualListUtilisateurDao implements IUtilisateurDao {
 				ret.add(curUser);
 		}
 
-		if (ret.size() == 0)
-			ret = null;
+		if (ret.size() == 0) {
+			throw new CustomException("Il n'existe aucun utilisateur portant le nom " + nom, 32);
+		}
 
 		return ret;
 	}
 
 	@Override
-	public List<Utilisateur> findUtilisateursByCodePostal(String codePostal) {
+	public List<Utilisateur> findUtilisateursByCodePostal(String codePostal) throws CustomException
+	{
 		Iterator<Utilisateur> usersIt;
 		Iterator<Adresse> addrIt;
 		List<Utilisateur> ret;
@@ -125,18 +131,30 @@ public class ManualListUtilisateurDao implements IUtilisateurDao {
 			}
 		}
 
-		if (ret.size() == 0)
-			ret = null;
+		if (ret.size() == 0) {
+			throw new CustomException(
+					  "Il n'existe aucun utilisateur ayant comme adresse postale " + codePostal,
+					  32);
+		}
 
 		return ret;
 	}
 
 	@Override
-	public Utilisateur createUtilisateur(Utilisateur user) {
+	public Utilisateur createUtilisateur(Utilisateur user) throws CustomException {
 		Utilisateur ret;
 		Utilisateur lastUser;
+		Iterator<Utilisateur> it;
 
 		lastUser = listUtilisateursOfDataSource.get(listUtilisateursOfDataSource.size() - 1);
+		it = listUtilisateursOfDataSource.iterator();
+
+		while (it.hasNext()) {
+			if (it.next().getIdentifiant().equals(user.getIdentifiant()))
+				throw new CustomException(
+						  "L'utilisateur portant l'identitifiant " + user.getIdentifiant() + " existe deja",
+						  32);
+		}
 
 		ret = new Utilisateur(lastUser.getIdUtilisateur() + 1,
 							  user.getCivilite(),
