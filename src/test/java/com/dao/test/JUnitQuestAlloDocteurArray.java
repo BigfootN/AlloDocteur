@@ -125,14 +125,12 @@ public class JUnitQuestAlloDocteurArray {
         returnAddr = listUser.createAdresse(addrTest);
         log.debug("Sortie de createAdresse");
         log.debug("Entree getIdUtilisateur");
-        //log.debug(returnAddr.getIdAdresse());
         Assert.assertTrue(returnAddr.getIdAdresse() == 83);
         log.debug("Sortie getIdUtilisateur");
         log.debug("Entree de findAllAdresses");
         Assert.assertTrue(listUser.findAllAdresses().size() == (DaoHelper.getAdressesArrayDataSource().length + 1));
         log.debug("Sortie de findAllAdresses");
         log.debug("Entree de deleteAdresses");
-        log.debug(addrTest.getIdAdresse());
         listUser.deleteAdresse(addrTest);
         log.debug("Sortie de deleteAdresses");
         Assert.assertTrue(listUser.findAllAdresses().size() == size);
