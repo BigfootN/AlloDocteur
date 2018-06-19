@@ -21,7 +21,7 @@ public abstract class AbstractDaoFactory {
 
 	public enum FactoryDaoType {
 
-		MANUAL_LIST_DAO_FACTORY, MANUAL_MAP_DAO_FACTORY;
+		MANUAL_LIST_DAO_FACTORY, MANUAL_MAP_DAO_FACTORY, MANUAL_ARRAY_DAO_FACTORY;
 	}
 
 	public abstract IUtilisateurDao getUtilisateurDao();
@@ -44,6 +44,9 @@ public abstract class AbstractDaoFactory {
 				break;
 			case MANUAL_MAP_DAO_FACTORY:
 				factory = new ManualMapDaoFactory();
+				break;
+			case MANUAL_ARRAY_DAO_FACTORY:
+				factory = new ManualArrayDaoFactory();
 				break;
 			default:
 				factory = null;
