@@ -2,7 +2,7 @@ Question 1
 
  - La methode toString permet d'afficher des informations sur l'objet en question (proprites, valeurs, ...)
  - La methode equals permet de comparer l'instance d'une classe / objet avec un autre : si ils sont egaux ou non
- - La methode hashCode permet permet d'envoyer un code / une valeur unique d'un objet. Elle sert notamment a pouvoir stocker de servir de la classe HashTable.
+ - La methode hashCode permet permet d'envoyer un code / une valeur unique d'un objet. Elle sert notamment a pouvoir stocker un objet dans la classe HashTable.
 
 Question 2
 
