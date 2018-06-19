@@ -41,21 +41,14 @@ public class ManualArrayAdresseDao implements IAdresseDao {
 		Adresse ret;
 		ret = null;
 
-<<<<<<< HEAD
-			if (curAdresse.getIdAdresse().equals(idAdresse)) {
-				found = true;
-				ret = curAdresse;
-=======
-		for(int i = 0; i < arrayAdressesOfDataSource.length; i++){
-			if(arrayAdressesOfDataSource[i].getIdAdresse().equals(idAdresse)){
-				ret =arrayAdressesOfDataSource[i];
->>>>>>> 78d670dc0365b3378aa235358dc1d7f29a76d36c
+		for (int i = 0; i < arrayAdressesOfDataSource.length; i++) {
+			if (arrayAdressesOfDataSource[i].getIdAdresse().equals(idAdresse)) {
+				ret = arrayAdressesOfDataSource[i];
 			}
 		}
 
 		if (ret == null)
-			throw new CustomException("Aucune adresse a l'" + idAdresse,
-					CustomException.FIND_ERROR);
+			throw new CustomException("Aucune adresse a l'" + idAdresse, CustomException.FIND_ERROR);
 
 		return ret;
 	}
@@ -66,16 +59,15 @@ public class ManualArrayAdresseDao implements IAdresseDao {
 		Adresse[] ret = new Adresse[arrayAdressesOfDataSource.length];
 		int size = 0;
 
-		for(int i = 0; i < arrayAdressesOfDataSource.length; i++){
-			if(arrayAdressesOfDataSource[i].getVille().equals(ville)){
+		for (int i = 0; i < arrayAdressesOfDataSource.length; i++) {
+			if (arrayAdressesOfDataSource[i].getVille().equals(ville)) {
 				ret[size] = arrayAdressesOfDataSource[i];
 				size++;
 			}
 		}
 
 		if (ret == null)
-			throw new CustomException("Aucune adresse a l'" + ville,
-					CustomException.FIND_ERROR);
+			throw new CustomException("Aucune adresse a l'" + ville, CustomException.FIND_ERROR);
 
 		Adresse[] array = new Adresse[size];
 		System.arraycopy(ret, 0, array, 0, array.length);
@@ -86,19 +78,19 @@ public class ManualArrayAdresseDao implements IAdresseDao {
 	@Override
 	public List<Adresse> findAdressesByCodePostal(String codePostal) throws CustomException {
 
-		Adresse[] ret = new Adresse[arrayAdressesOfDataSource.length];;
+		Adresse[] ret = new Adresse[arrayAdressesOfDataSource.length];
+		;
 		int size = 0;
 
-		for(int i = 0; i < arrayAdressesOfDataSource.length; i++){
-			if(arrayAdressesOfDataSource[i].getCodePostal().equals(codePostal)){
+		for (int i = 0; i < arrayAdressesOfDataSource.length; i++) {
+			if (arrayAdressesOfDataSource[i].getCodePostal().equals(codePostal)) {
 				ret[size] = arrayAdressesOfDataSource[i];
 				size++;
 			}
 		}
 
 		if (ret == null)
-			throw new CustomException("Aucune adresse au '" + codePostal,
-					CustomException.FIND_ERROR);
+			throw new CustomException("Aucune adresse au '" + codePostal, CustomException.FIND_ERROR);
 
 		Adresse[] array = new Adresse[size];
 		System.arraycopy(ret, 0, array, 0, array.length);
@@ -109,12 +101,12 @@ public class ManualArrayAdresseDao implements IAdresseDao {
 	@Override
 	public Adresse createAdresse(Adresse adresse) throws CustomException {
 
-		/*for (int i = 0; i < arrayAdressesOfDataSource.length; i++){
-			if (arrayAdressesOfDataSource[i].getIdAdresse().equals(adresse.getIdAdresse())){
-				throw new CustomException("Adresse existe deja",
-						CustomException.CREATE_ERROR);
-			}
-		}*/
+		/*
+		 * for (int i = 0; i < arrayAdressesOfDataSource.length; i++){ if
+		 * (arrayAdressesOfDataSource[i].getIdAdresse().equals(adresse.getIdAdresse())){
+		 * throw new CustomException("Adresse existe deja",
+		 * CustomException.CREATE_ERROR); } }
+		 */
 
 		Adresse[] tmp = new Adresse[arrayAdressesOfDataSource.length + 1];
 
@@ -135,8 +127,8 @@ public class ManualArrayAdresseDao implements IAdresseDao {
 	@Override
 	public Adresse updateAdresse(Adresse adresse) {
 
-		for (int i = 0; i < arrayAdressesOfDataSource.length; i++){
-			if (arrayAdressesOfDataSource[i].getIdAdresse().equals(adresse.getIdAdresse())){
+		for (int i = 0; i < arrayAdressesOfDataSource.length; i++) {
+			if (arrayAdressesOfDataSource[i].getIdAdresse().equals(adresse.getIdAdresse())) {
 				adresse.setVersion(adresse.getVersion() + 1);
 				arrayAdressesOfDataSource[i] = adresse;
 			}
@@ -154,10 +146,10 @@ public class ManualArrayAdresseDao implements IAdresseDao {
 
 		int j = 0;
 
-		for (int i = 0; i < arrayAdressesOfDataSource.length; i++){
-			if (arrayAdressesOfDataSource[i].getIdAdresse().equals(adresse.getIdAdresse())){
+		for (int i = 0; i < arrayAdressesOfDataSource.length; i++) {
+			if (arrayAdressesOfDataSource[i].getIdAdresse().equals(adresse.getIdAdresse())) {
 				find = true;
-			}else {
+			} else {
 				tmp[j] = arrayAdressesOfDataSource[i];
 				j++;
 			}
