@@ -29,14 +29,14 @@ public class ManualMapAdresseDao implements IAdresseDao {
 
 
         log.debug("Sortie de la methode");
-        return new ArrayList<Adresse>(mapAdressesOfDataSource.values());
+        return new ArrayList<>(mapAdressesOfDataSource.values());
     }
 
     @Override
     public Adresse findAdresseById(int idAdresse) {
         log.debug("Entree de la methode");
         for (Map.Entry<Integer, Adresse> entry : mapAdressesOfDataSource.entrySet()) {
-            if (entry.getValue().getIdUtilisateur() == idAdresse)
+            if (entry.getValue().getIdAdresse().equals(idAdresse))
                 return entry.getValue();
         }
         log.debug("Sortie de la methode");
@@ -50,7 +50,7 @@ public class ManualMapAdresseDao implements IAdresseDao {
         ret = new ArrayList<>();
 
         for (Map.Entry<Integer, Adresse> entry : mapAdressesOfDataSource.entrySet()) {
-            if (entry.getValue().getVille() == ville)
+            if (entry.getValue().getVille().equals(ville))
                 ret.add(entry.getValue());
         }
 
@@ -67,7 +67,7 @@ public class ManualMapAdresseDao implements IAdresseDao {
         ret = new ArrayList<>();
 
         for (Map.Entry<Integer, Adresse> entry : mapAdressesOfDataSource.entrySet()) {
-            if (entry.getValue().getCodePostal() == codePostal)
+            if (entry.getValue().getCodePostal().equals(codePostal))
                 ret.add(entry.getValue());
         }
 
@@ -81,9 +81,17 @@ public class ManualMapAdresseDao implements IAdresseDao {
     public Adresse createAdresse(Adresse adresse) {
         log.debug("Entree de la methode");
         Adresse ret;
-        Integer newId;
+        Integer newId = 0;
 
-        newId = mapAdressesOfDataSource.size() + 1;
+
+
+        for (Map.Entry<Integer, Adresse> entry : mapAdressesOfDataSource.entrySet()) {
+            if(newId < entry.getValue().getIdAdresse()){
+                newId = entry.getValue().getIdAdresse();
+            }
+        }
+
+        newId++;
 
         ret = new Adresse(newId,
                 adresse.getRue(),
@@ -93,7 +101,6 @@ public class ManualMapAdresseDao implements IAdresseDao {
                 adresse.getIdUtilisateur());
 
         ret.setIdUtilisateur(newId);
-        ret.setVersion(adresse.getVersion() + 1);
 
         mapAdressesOfDataSource.put(newId, ret);
 
@@ -110,7 +117,7 @@ public class ManualMapAdresseDao implements IAdresseDao {
         ret = null;
 
         for (Map.Entry<Integer, Adresse> entry : mapAdressesOfDataSource.entrySet()) {
-            if (entry.getValue().getIdAdresse() == adresse.getIdAdresse()) {
+            if (entry.getValue().getIdAdresse().equals(adresse.getIdAdresse())) {
                 adresse.setVersion(adresse.getVersion() + 1);
                 entry.setValue(adresse);
                 ret = adresse;

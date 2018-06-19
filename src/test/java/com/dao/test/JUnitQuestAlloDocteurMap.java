@@ -53,7 +53,7 @@ public class JUnitQuestAlloDocteurMap {
         addresses = new ManualMapAdresseDao();
 
         log.debug("Entree de la methode");
-        Assert.assertTrue(addresses.findAllAdresses().size() == DaoHelper.getUtilisateursMapDataSource().size());
+        Assert.assertTrue(addresses.findAllAdresses().size() == DaoHelper.getAdressesMapDataSource().size());
         log.debug("Sortie de la methode");
     }
 
@@ -71,7 +71,7 @@ public class JUnitQuestAlloDocteurMap {
         log.debug("Recherche par nom...");
         Assert.assertTrue(users.findUtilisateursByNom("Collard").size() == 1);
         log.debug("Recherche par code postal...");
-        Assert.assertTrue(users.findUtilisateursByCodePostal("76000").size() == 4);
+        Assert.assertTrue(users.findUtilisateursByCodePostal("76000").size() == 5);
         Assert.assertTrue(addresses.findAdressesByCodePostal("35000").size() == 28);
         log.debug("Recherche par ville...");
         Assert.assertTrue(addresses.findAdressesByVille("Rouen").size() == 5);
@@ -95,6 +95,7 @@ public class JUnitQuestAlloDocteurMap {
 
         log.debug("Entree de la methode");
         log.debug("ajout de l'utilisateur...");
+        log.debug(users.createUtilisateur(testUser).getIdUtilisateur());
         Assert.assertTrue(users.createUtilisateur(testUser).getIdUtilisateur() == (testUser.getIdUtilisateur() + 1));
         Assert.assertTrue(users.findAllUtilisateurs().size() == (DaoHelper.getAdressesMapDataSource().size() + 1));
         log.debug("suppression de l'utilisateur");
@@ -113,8 +114,11 @@ public class JUnitQuestAlloDocteurMap {
 
         log.debug("Entree de la methode");
         log.debug("ajout de l'utilisateur...");
-        Assert.assertTrue(addresses.createAdresse(testAddr).getIdUtilisateur() == (testAddr.getIdUtilisateur() + 1));
-        Assert.assertTrue(addresses.findAllAdresses().size() == (DaoHelper.getAdressesMapDataSource().size()));
+        //log.debug(addresses.createAdresse(testAddr).getIdAdresse());
+        Assert.assertTrue(addresses.createAdresse(testAddr).getIdAdresse() == 83);
+        /*log.debug(addresses.findAllAdresses().size());
+        log.debug(DaoHelper.getAdressesMapDataSource().size());*/
+        Assert.assertTrue(addresses.findAllAdresses().size() == (DaoHelper.getAdressesMapDataSource().size() + 1));
         log.debug("suppression de l'addresse...");
         addresses.deleteAdresse(testAddr);
         Assert.assertTrue(addresses.findAllAdresses().size() == DaoHelper.getAdressesMapDataSource().size());
