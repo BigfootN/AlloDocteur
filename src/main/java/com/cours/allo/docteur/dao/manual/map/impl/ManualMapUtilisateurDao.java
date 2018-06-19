@@ -6,6 +6,7 @@
 package com.cours.allo.docteur.dao.manual.map.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -36,11 +37,12 @@ public class ManualMapUtilisateurDao implements IUtilisateurDao {
 	@Override
 	public Utilisateur findUtilisateurById(int idUtilisateur) throws CustomException {
 		for (Map.Entry<Integer, Utilisateur> entry : mapUtilisateursOfDataSource.entrySet()) {
-			if (entry.getValue().getIdUtilisateur() == idUtilisateur)
+			if (entry.getValue().getIdUtilisateur().equals(idUtilisateur))
 				return entry.getValue();
 		}
 
-		throw new CustomException("L'utilisateur portant l'idUtilisateur " + idUtilisateur + " n'existe pas", CustomException.FIND_ERROR);
+		throw new CustomException("L'utilisateur portant l'idUtilisateur " + idUtilisateur + " n'existe pas",
+				CustomException.FIND_ERROR);
 	}
 
 	@Override
@@ -50,12 +52,13 @@ public class ManualMapUtilisateurDao implements IUtilisateurDao {
 		ret = new ArrayList<>();
 
 		for (Map.Entry<Integer, Utilisateur> entry : mapUtilisateursOfDataSource.entrySet()) {
-			if (entry.getValue().getPrenom() == prenom)
+			if (entry.getValue().getPrenom().equals(prenom))
 				ret.add(entry.getValue());
 		}
 
 		if (ret.size() == 0)
-			throw new CustomException("Les utilisateurs portant le prenom " + prenom + " sont introuvable", CustomException.FIND_ERROR);
+			throw new CustomException("Les utilisateurs portant le prenom " + prenom + " sont introuvable",
+					CustomException.FIND_ERROR);
 
 		return ret;
 	}
@@ -67,12 +70,13 @@ public class ManualMapUtilisateurDao implements IUtilisateurDao {
 		ret = new ArrayList<>();
 
 		for (Map.Entry<Integer, Utilisateur> entry : mapUtilisateursOfDataSource.entrySet()) {
-			if (entry.getValue().getNom() == nom)
+			if (entry.getValue().getNom().equals(nom))
 				ret.add(entry.getValue());
 		}
 
 		if (ret.size() == 0)
-			throw new CustomException("Les utilisateurs portant le nom " + nom + " sont introuvable", CustomException.FIND_ERROR);
+			throw new CustomException("Les utilisateurs portant le nom " + nom + " sont introuvable",
+					CustomException.FIND_ERROR);
 
 		return ret;
 	}
@@ -88,7 +92,7 @@ public class ManualMapUtilisateurDao implements IUtilisateurDao {
 			addresseIt = entry.getValue().getAdresses().iterator();
 
 			while (addresseIt.hasNext()) {
-				if (addresseIt.next().getCodePostal() == codePostal) {
+				if (addresseIt.next().getCodePostal().equals(codePostal)) {
 					ret.add(entry.getValue());
 					break;
 				}
@@ -96,35 +100,41 @@ public class ManualMapUtilisateurDao implements IUtilisateurDao {
 		}
 
 		if (ret.size() == 0)
-			throw new CustomException("Les utilisateurs portant le codePostal " + codePostal + " sont introuvable", CustomException.FIND_ERROR);
+			throw new CustomException("Les utilisateurs portant le codePostal " + codePostal + " sont introuvable",
+					CustomException.FIND_ERROR);
 
 		return ret;
 	}
 
 	@Override
-	public Utilisateur createUtilisateur(Utilisateur user) throws CustomException {
-		Utilisateur ret;
-		Utilisateur lastUser;
-		Integer newId;
+	public Utilisateur createUtilisateur(Utilisateur user) {
+		Integer newIdUser;
+		Integer startIdAddr;
+		Iterator<Adresse> itAddr;
 
+		newIdUser = 0;
+		startIdAddr = 0;
 
 		for (Map.Entry<Integer, Utilisateur> entry : mapUtilisateursOfDataSource.entrySet()) {
-			if (entry.getValue().getIdentifiant() == user.getIdentifiant())
-				throw new CustomException("L'utilisateur portant l'identifiant " + user.getIdentifiant() + " existe deja", CustomException.CREATE_ERROR);
+			if (entry.getValue().getIdUtilisateur() > newIdUser)
+				newIdUser = entry.getValue().getIdUtilisateur();
 		}
 
-		newId = mapUtilisateursOfDataSource.size() + 1;
+		startIdAddr = user.getAdresses().get(user.getAdresses().size() - 1).getIdAdresse() + 1;
+		itAddr = user.getAdresses().listIterator();
 
-		ret = new Utilisateur(newId, user.getCivilite(), user.getPrenom(), user.getNom(), user.getIdentifiant(),
-				user.getMotPasse(), user.getDateNaissance(), user.isActif(), user.isMarquerEffacer(),
-				user.getAdresses());
+		while (itAddr.hasNext()) {
+			itAddr.next().setIdAdresse(startIdAddr);
+			startIdAddr++;
+		}
 
-		ret.setIdUtilisateur(newId);
-		ret.setVersion(user.getVersion() + 1);
+		user.setDateCreation(new Date());
+		user.setDateModification(new Date());
+		user.setIdUtilisateur(newIdUser + 1);
 
-		mapUtilisateursOfDataSource.put(newId, ret);
+		mapUtilisateursOfDataSource.put(newIdUser + 1, user);
 
-		return ret;
+		return user;
 	}
 
 	@Override
@@ -134,15 +144,18 @@ public class ManualMapUtilisateurDao implements IUtilisateurDao {
 		ret = null;
 
 		for (Map.Entry<Integer, Utilisateur> entry : mapUtilisateursOfDataSource.entrySet()) {
-			if (entry.getValue().getIdUtilisateur() == user.getIdUtilisateur()) {
+			if (entry.getValue().getIdUtilisateur().equals(user.getIdUtilisateur())) {
 				user.setVersion(user.getVersion() + 1);
+				user.setDateModification(new Date());
+
 				entry.setValue(user);
 				ret = user;
 				break;
 			}
 		}
-		if (ret == null){
-			throw new CustomException("L'utilisateur portant l'identifiant " + user.getIdentifiant() + " n'existe pas", CustomException.UPDTAE_ERROR);
+		if (ret == null) {
+			throw new CustomException("L'utilisateur portant l'identifiant " + user.getIdentifiant() + " n'existe pas",
+					CustomException.UPDTAE_ERROR);
 		}
 
 		return ret;
@@ -162,10 +175,10 @@ public class ManualMapUtilisateurDao implements IUtilisateurDao {
 			}
 		}
 
-		if (ret == false){
-			throw new CustomException("L'utilisateur portant l'identifiant " + user.getIdentifiant() + " n'existe pas", CustomException.FIND_ERROR);
+		if (ret == false) {
+			throw new CustomException("L'utilisateur portant l'identifiant " + user.getIdentifiant() + " n'existe pas",
+					CustomException.FIND_ERROR);
 		}
-
 
 		return ret;
 	}

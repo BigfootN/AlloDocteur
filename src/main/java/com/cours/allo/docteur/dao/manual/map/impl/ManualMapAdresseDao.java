@@ -20,123 +20,124 @@ import org.apache.commons.logging.LogFactory;
  */
 public class ManualMapAdresseDao implements IAdresseDao {
 
-    private static final Log log = LogFactory.getLog(ManualMapAdresseDao.class);
-    public static Map<Integer, Adresse> mapAdressesOfDataSource = DaoHelper.getAdressesMapDataSource();
+	private static final Log log = LogFactory.getLog(ManualMapAdresseDao.class);
+	public static Map<Integer,
+					  Adresse> mapAdressesOfDataSource = DaoHelper.getAdressesMapDataSource();
 
-    @Override
-    public List<Adresse> findAllAdresses() {
-        log.debug("Entree de la methode");
+	@Override
+	public List<Adresse> findAllAdresses() {
+		log.debug("Entree de la methode");
 
+		log.debug("Sortie de la methode");
+		return new ArrayList<Adresse>(mapAdressesOfDataSource.values());
+	}
 
-        log.debug("Sortie de la methode");
-        return new ArrayList<Adresse>(mapAdressesOfDataSource.values());
-    }
+	@Override
+	public Adresse findAdresseById(int idAdresse) {
+		log.debug("Entree de la methode");
+		for (Map.Entry<Integer, Adresse> entry : mapAdressesOfDataSource.entrySet()) {
+			if (entry.getValue().getIdAdresse().equals(idAdresse))
+				return entry.getValue();
+		}
+		log.debug("Sortie de la methode");
+		return null;
+	}
 
-    @Override
-    public Adresse findAdresseById(int idAdresse) {
-        log.debug("Entree de la methode");
-        for (Map.Entry<Integer, Adresse> entry : mapAdressesOfDataSource.entrySet()) {
-            if (entry.getValue().getIdUtilisateur() == idAdresse)
-                return entry.getValue();
-        }
-        log.debug("Sortie de la methode");
-        return null;
-    }
+	@Override
+	public List<Adresse> findAdressesByVille(String ville) {
+		List<Adresse> ret;
 
-    @Override
-    public List<Adresse> findAdressesByVille(String ville) {
-        List<Adresse> ret;
+		ret = new ArrayList<>();
 
-        ret = new ArrayList<>();
+		for (Map.Entry<Integer, Adresse> entry : mapAdressesOfDataSource.entrySet()) {
+			if (entry.getValue().getVille() == ville)
+				ret.add(entry.getValue());
+		}
 
-        for (Map.Entry<Integer, Adresse> entry : mapAdressesOfDataSource.entrySet()) {
-            if (entry.getValue().getVille() == ville)
-                ret.add(entry.getValue());
-        }
+		if (ret.size() == 0)
+			ret = null;
 
-        if (ret.size() == 0)
-            ret = null;
+		return ret;
+	}
 
-        return ret;
-    }
+	@Override
+	public List<Adresse> findAdressesByCodePostal(String codePostal) {
+		List<Adresse> ret;
 
-    @Override
-    public List<Adresse> findAdressesByCodePostal(String codePostal) {
-        List<Adresse> ret;
+		ret = new ArrayList<>();
 
-        ret = new ArrayList<>();
+		for (Map.Entry<Integer, Adresse> entry : mapAdressesOfDataSource.entrySet()) {
+			if (entry.getValue().getCodePostal() == codePostal)
+				ret.add(entry.getValue());
+		}
 
-        for (Map.Entry<Integer, Adresse> entry : mapAdressesOfDataSource.entrySet()) {
-            if (entry.getValue().getCodePostal() == codePostal)
-                ret.add(entry.getValue());
-        }
+		if (ret.size() == 0)
+			ret = null;
 
-        if (ret.size() == 0)
-            ret = null;
+		return ret;
+	}
 
-        return ret;
-    }
+	@Override
+	public Adresse createAdresse(Adresse adresse) {
+		log.debug("Entree de la methode");
+		Adresse ret;
+		Integer newId;
 
-    @Override
-    public Adresse createAdresse(Adresse adresse) {
-        log.debug("Entree de la methode");
-        Adresse ret;
-        Integer newId;
+		newId = mapAdressesOfDataSource.size() + 1;
 
-        newId = mapAdressesOfDataSource.size() + 1;
+		ret = new Adresse(newId,
+						  adresse.getRue(),
+						  adresse.getCodePostal(),
+						  adresse.getVille(),
+						  adresse.getPays(),
+						  adresse.getIdUtilisateur());
 
-        ret = new Adresse(newId,
-                adresse.getRue(),
-                adresse.getCodePostal(),
-                adresse.getVille(),
-                adresse.getPays(),
-                adresse.getIdUtilisateur());
+		ret.setIdUtilisateur(newId);
+		ret.setVersion(adresse.getVersion() + 1);
 
-        ret.setIdUtilisateur(newId);
-        ret.setVersion(adresse.getVersion() + 1);
+		mapAdressesOfDataSource.put(newId, ret);
 
-        mapAdressesOfDataSource.put(newId, ret);
+		log.debug("Sortie de la methode");
+		return ret;
 
-        log.debug("Sortie de la methode");
-        return ret;
+	}
 
-    }
+	@Override
+	public Adresse updateAdresse(Adresse adresse) {
+		log.debug("Entree de la methode");
+		Adresse ret;
 
-    @Override
-    public Adresse updateAdresse(Adresse adresse) {
-        log.debug("Entree de la methode");
-        Adresse ret;
+		ret = null;
 
-        ret = null;
+		for (Map.Entry<Integer, Adresse> entry : mapAdressesOfDataSource.entrySet()) {
+			if (entry.getValue().getIdAdresse() == adresse.getIdAdresse()) {
+				adresse.setVersion(adresse.getVersion() + 1);
+				entry.setValue(adresse);
+				ret = adresse;
+				break;
+			}
+		}
+		log.debug("Sortie de la methode");
+		return ret;
+	}
 
-        for (Map.Entry<Integer, Adresse> entry : mapAdressesOfDataSource.entrySet()) {
-            if (entry.getValue().getIdAdresse() == adresse.getIdAdresse()) {
-                adresse.setVersion(adresse.getVersion() + 1);
-                entry.setValue(adresse);
-                ret = adresse;
-                break;
-            }
-        }
-        log.debug("Sortie de la methode");
-        return ret;
-    }
+	@Override
+	public boolean deleteAdresse(Adresse adresse) {
+		log.debug("Entree de la methode");
+		boolean ret;
 
-    @Override
-    public boolean deleteAdresse(Adresse adresse) {
-        log.debug("Entree de la methode");
-        boolean ret;
+		ret = false;
 
-        ret = false;
+		for (Map.Entry<Integer, Adresse> entry : mapAdressesOfDataSource.entrySet()) {
+			if (entry.getValue().equals(adresse)) {
+				mapAdressesOfDataSource.remove(entry.getKey(), entry.getValue());
+				ret = true;
+				break;
+			}
+		}
+		log.debug("Sortie de la methode");
+		return ret;
 
-        for (Map.Entry<Integer, Adresse> entry : mapAdressesOfDataSource.entrySet()) {
-            if (entry.getValue().equals(adresse)) {
-                mapAdressesOfDataSource.remove(entry.getKey(), entry.getValue());
-                ret = true;
-                break;
-            }
-        }
-        log.debug("Sortie de la methode");
-        return ret;
+	}
 
-    }
 }

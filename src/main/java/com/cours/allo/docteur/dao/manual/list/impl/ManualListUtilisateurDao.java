@@ -12,6 +12,7 @@ import com.cours.allo.docteur.dao.IUtilisateurDao;
 import com.cours.allo.docteur.utils.DaoHelper;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
@@ -49,11 +50,12 @@ public class ManualListUtilisateurDao implements IUtilisateurDao {
 		while (usersIt.hasNext()) {
 			curUser = usersIt.next();
 
-			if (curUser.getIdUtilisateur() == idUtilisateur)
+			if (curUser.getIdUtilisateur().equals(idUtilisateur))
 				return curUser;
 		}
 
-		throw new CustomException("L'utilisateur portant l'idUtilisateur " + idUtilisateur + " n'existe pas", CustomException.FIND_ERROR);
+		throw new CustomException("L'utilisateur portant l'idUtilisateur " + idUtilisateur + " n'existe pas",
+				CustomException.FIND_ERROR);
 	}
 
 	@Override
@@ -140,7 +142,6 @@ public class ManualListUtilisateurDao implements IUtilisateurDao {
 
 	@Override
 	public Utilisateur createUtilisateur(Utilisateur user) throws CustomException {
-		Utilisateur ret;
 		Utilisateur lastUser;
 		Iterator<Utilisateur> it;
 
@@ -154,14 +155,13 @@ public class ManualListUtilisateurDao implements IUtilisateurDao {
 						CustomException.CREATE_ERROR);
 		}
 
-		ret = new Utilisateur(lastUser.getIdUtilisateur() + 1, user.getCivilite(), user.getPrenom(), user.getNom(),
-				user.getIdentifiant(), user.getMotPasse(), user.getDateNaissance(), user.isActif(),
-				user.isMarquerEffacer(), user.getAdresses());
+		listUtilisateursOfDataSource.add(user);
+		listUtilisateursOfDataSource.get(listUtilisateursOfDataSource.size() - 1)
+				.setIdUtilisateur(lastUser.getIdUtilisateur() + 1);
+		listUtilisateursOfDataSource.get(listUtilisateursOfDataSource.size() - 1).setDateModification(new Date());
+		listUtilisateursOfDataSource.get(listUtilisateursOfDataSource.size() - 1).setDateCreation(new Date());
 
-		ret.setVersion(user.getVersion() + 1);
-		listUtilisateursOfDataSource.add(ret);
-
-		return ret;
+		return listUtilisateursOfDataSource.get(listUtilisateursOfDataSource.size() - 1);
 	}
 
 	@Override
@@ -178,24 +178,29 @@ public class ManualListUtilisateurDao implements IUtilisateurDao {
 
 			if (curUser.getIdUtilisateur() == user.getIdUtilisateur()) {
 				user.setVersion(user.getVersion() + 1);
+				user.setDateModification(new Date());
+				user.setVersion(user.getVersion() + 1);
 				usersIt.set(user);
+
 				ret = user;
 				break;
 			}
 		}
 
 		if (ret == null)
-			throw new CustomException("L'utilisateur portant l'identifiant " + user.getIdentifiant() + " n'existe pas", CustomException.UPDTAE_ERROR);
+			throw new CustomException("L'utilisateur portant l'identifiant " + user.getIdentifiant() + " n'existe pas",
+					CustomException.UPDTAE_ERROR);
 
 		return ret;
 	}
 
 	@Override
 	public boolean deleteUtilisateur(Utilisateur user) {
-		if (listUtilisateursOfDataSource.remove(user)){
+		if (listUtilisateursOfDataSource.remove(user)) {
 			return true;
-		}else {
-			throw new CustomException("L'utilisateur portant l'identifiant " + user.getIdentifiant() + " n'existe pas", CustomException.FIND_ERROR);
+		} else {
+			throw new CustomException("L'utilisateur portant l'identifiant " + user.getIdentifiant() + " n'existe pas",
+					CustomException.FIND_ERROR);
 		}
 	}
 

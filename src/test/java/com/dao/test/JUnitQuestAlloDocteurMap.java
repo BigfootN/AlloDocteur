@@ -25,109 +25,109 @@ import org.junit.Test;
 
 public class JUnitQuestAlloDocteurMap {
 
-    private static final Log log = LogFactory.getLog(JUnitQuestAlloDocteurMap.class);
-    private static IServiceFacade serviceFacade = null;
+	private static final Log log = LogFactory.getLog(JUnitQuestAlloDocteurMap.class);
+	private static IServiceFacade serviceFacade = null;
 
-    @BeforeClass
-    public static void init() throws Exception {
-        // configuration de l'application
-        log.debug("Entree de la methode");
-        log.debug("Sortie de la methode");
-    }
+	@BeforeClass
+	public static void init() throws Exception {
+		// configuration de l'application
+		log.debug("Entree de la methode");
+		log.debug("Sortie de la methode");
+	}
 
-    @Test
-    public void testFindAllUtilisateurs() {
-        ManualMapUtilisateurDao users;
+	@Test
+	public void testFindAllUtilisateurs() {
+		ManualMapUtilisateurDao users;
 
-        users = new ManualMapUtilisateurDao();
+		users = new ManualMapUtilisateurDao();
 
-        log.debug("Entree de la methode");
-        Assert.assertTrue(users.findAllUtilisateurs().size() == DaoHelper.getUtilisateursMapDataSource().size());
-        log.debug("Sortie de la methode");
-    }
+		log.debug("Entree de la methode");
+		Assert.assertTrue(users.findAllUtilisateurs().size() == DaoHelper.getUtilisateursMapDataSource().size());
+		log.debug("Sortie de la methode");
+	}
 
-    @Test
-    public void testFindAllAdresses() {
-        ManualMapAdresseDao addresses;
+	@Test
+	public void testFindAllAdresses() {
+		ManualMapAdresseDao addresses;
 
-        addresses = new ManualMapAdresseDao();
+		addresses = new ManualMapAdresseDao();
 
-        log.debug("Entree de la methode");
-        Assert.assertTrue(addresses.findAllAdresses().size() == DaoHelper.getUtilisateursMapDataSource().size());
-        log.debug("Sortie de la methode");
-    }
+		log.debug("Entree de la methode");
+		Assert.assertTrue(addresses.findAllAdresses().size() == DaoHelper.getUtilisateursMapDataSource().size());
+		log.debug("Sortie de la methode");
+	}
 
-    @Test
-    public void testFindByCriteria() {
-        ManualMapUtilisateurDao users;
-        ManualMapAdresseDao addresses;
+	@Test
+	public void testFindByCriteria() {
+		ManualMapUtilisateurDao users;
+		ManualMapAdresseDao addresses;
 
-        users = new ManualMapUtilisateurDao();
-        addresses = new ManualMapAdresseDao();
+		users = new ManualMapUtilisateurDao();
+		addresses = new ManualMapAdresseDao();
 
-        log.debug("Entree de la methode");
-        log.debug("Recherche par prenom...");
-        Assert.assertTrue(users.findUtilisateursByPrenom("Jerome").size() == 2);
-        log.debug("Recherche par nom...");
-        Assert.assertTrue(users.findUtilisateursByNom("Collard").size() == 1);
-        log.debug("Recherche par code postal...");
-        Assert.assertTrue(users.findUtilisateursByCodePostal("76000").size() == 4);
-        Assert.assertTrue(addresses.findAdressesByCodePostal("35000").size() == 28);
-        log.debug("Recherche par ville...");
-        Assert.assertTrue(addresses.findAdressesByVille("Rouen").size() == 5);
-        log.debug("Recherche par id...");
-        Assert.assertTrue(addresses.findAdresseById(3).getRue().equals("66 rue des deportés"));
-        Assert.assertTrue(users.findUtilisateurById(4).getPrenom().equals("Dimitry"));
-        log.debug("Sortie de la methode");
-    }
+		log.debug("Entree de la methode");
+		log.debug("Recherche par prenom...");
+		Assert.assertTrue(users.findUtilisateursByPrenom("Jerome").size() == 2);
+		log.debug("Recherche par nom...");
+		Assert.assertTrue(users.findUtilisateursByNom("Collard").size() == 1);
+		log.debug("Recherche par code postal...");
+		Assert.assertTrue(users.findUtilisateursByCodePostal("76000").size() == 5);
+		Assert.assertTrue(addresses.findAdressesByCodePostal("35000").size() == 28);
+		log.debug("Recherche par ville...");
+		Assert.assertTrue(addresses.findAdressesByVille("Rouen").size() == 5);
+		log.debug("Recherche par id...");
+		Assert.assertTrue(addresses.findAdresseById(5).getRue().equals("55 rue de la mer"));
+		Assert.assertTrue(users.findUtilisateurById(4).getPrenom().equals("Dimitry"));
+		log.debug("Sortie de la methode");
+	}
 
-    @Test
-    public void testCreateUpdateDeleteUtilisateur() {
-        ManualMapUtilisateurDao users;
-        Utilisateur testUser;
+	@Test
+	public void testCreateUpdateDeleteUtilisateur() {
+		ManualMapUtilisateurDao users;
+		Utilisateur testUser;
 
-        testUser = new Utilisateur(3, "Mme", "Deuiu", "Jajer", "identifiant", "mdp",
-                new Date(System.currentTimeMillis()),
-                new ArrayList<Adresse>(
-                        Arrays.asList(new Adresse(1, "5 rue du Paradis", "75000", "Paris", "France", true, 1),
-                                new Adresse(2, "61 rue des faveurs", "44000", "Nantes", "France", 1))));
-        users = new ManualMapUtilisateurDao();
+		testUser = new Utilisateur(3, "Mme", "Deuiu", "Jajer", "identifiant", "mdp",
+				new Date(System.currentTimeMillis()),
+				new ArrayList<Adresse>(
+						Arrays.asList(new Adresse(1, "5 rue du Paradis", "75000", "Paris", "France", true, 1),
+								new Adresse(2, "61 rue des faveurs", "44000", "Nantes", "France", 1))));
+		users = new ManualMapUtilisateurDao();
 
-        log.debug("Entree de la methode");
-        log.debug("ajout de l'utilisateur...");
-        Assert.assertTrue(users.createUtilisateur(testUser).getIdUtilisateur() == (testUser.getIdUtilisateur() + 1));
-        Assert.assertTrue(users.findAllUtilisateurs().size() == (DaoHelper.getAdressesMapDataSource().size() + 1));
-        log.debug("suppression de l'utilisateur");
-        users.deleteUtilisateur(testUser);
-        Assert.assertTrue(users.findAllUtilisateurs().size() == DaoHelper.getAdressesMapDataSource().size());
-        log.debug("Sortie de la methode");
-    }
+		log.debug("Entree de la methode");
+		log.debug("ajout de l'utilisateur...");
+		Assert.assertTrue(users.createUtilisateur(testUser).getIdUtilisateur().equals(29));
+		Assert.assertTrue(users.findAllUtilisateurs().size() == (DaoHelper.getAdressesMapDataSource().size() + 1));
+		log.debug("suppression de l'utilisateur");
+		users.deleteUtilisateur(testUser);
+		Assert.assertTrue(users.findAllUtilisateurs().size() == DaoHelper.getAdressesMapDataSource().size());
+		log.debug("Sortie de la methode");
+	}
 
-    @Test
-    public void testCreateUpdateDeleteAdresse() {
-        ManualMapAdresseDao addresses;
-        Adresse testAddr;
+	@Test
+	public void testCreateUpdateDeleteAdresse() {
+		ManualMapAdresseDao addresses;
+		Adresse testAddr;
 
-        testAddr = new Adresse(1, "5 rue du Paradis", "75000", "Paris", "France", true, 1);
-        addresses = new ManualMapAdresseDao();
+		testAddr = new Adresse(1, "5 rue du Paradis", "75000", "Paris", "France", true, 1);
+		addresses = new ManualMapAdresseDao();
 
-        log.debug("Entree de la methode");
-        log.debug("ajout de l'utilisateur...");
-        Assert.assertTrue(addresses.createAdresse(testAddr).getIdUtilisateur() == (testAddr.getIdUtilisateur() + 1));
-        Assert.assertTrue(addresses.findAllAdresses().size() == (DaoHelper.getAdressesMapDataSource().size()));
-        log.debug("suppression de l'addresse...");
-        addresses.deleteAdresse(testAddr);
-        Assert.assertTrue(addresses.findAllAdresses().size() == DaoHelper.getAdressesMapDataSource().size());
-        log.debug("Sortie de la methode");
-    }
+		log.debug("Entree de la methode");
+		log.debug("ajout de l'utilisateur...");
+		Assert.assertTrue(addresses.createAdresse(testAddr).getIdUtilisateur() == (testAddr.getIdUtilisateur() + 1));
+		Assert.assertTrue(addresses.findAllAdresses().size() == (DaoHelper.getAdressesMapDataSource().size()));
+		log.debug("suppression de l'addresse...");
+		addresses.deleteAdresse(testAddr);
+		Assert.assertTrue(addresses.findAllAdresses().size() == DaoHelper.getAdressesMapDataSource().size());
+		log.debug("Sortie de la methode");
+	}
 
-    @AfterClass
-    public static void terminate() throws Exception {
-        String methodName = "terminate";
+	@AfterClass
+	public static void terminate() throws Exception {
+		String methodName = "terminate";
 
-        log.debug("Entree de la methode");
-        serviceFacade = null;
-        log.debug("Sortie de la methode");
-    }
+		log.debug("Entree de la methode");
+		serviceFacade = null;
+		log.debug("Sortie de la methode");
+	}
 
 }

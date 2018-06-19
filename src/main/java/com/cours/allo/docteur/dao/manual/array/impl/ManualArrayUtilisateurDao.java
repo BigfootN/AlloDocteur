@@ -5,16 +5,17 @@
  */
 package com.cours.allo.docteur.dao.manual.array.impl;
 
-import com.cours.allo.docteur.dao.entities.Adresse;
-import com.cours.allo.docteur.dao.entities.Utilisateur;
-import com.cours.allo.docteur.dao.IUtilisateurDao;
-import com.cours.allo.docteur.utils.DaoHelper;
-
-import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+
+import com.cours.allo.docteur.dao.IUtilisateurDao;
+import com.cours.allo.docteur.dao.entities.Adresse;
+import com.cours.allo.docteur.dao.entities.Utilisateur;
+import com.cours.allo.docteur.exception.CustomException;
+import com.cours.allo.docteur.utils.DaoHelper;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -37,180 +38,229 @@ public class ManualArrayUtilisateurDao implements IUtilisateurDao {
 	}
 
 	@Override
-	public Utilisateur findUtilisateurById(int idUtilisateur) {
-		List<Utilisateur> tmp;
-		boolean found;
+	public Utilisateur findUtilisateurById(int idUtilisateur) throws CustomException {
 		Utilisateur ret;
-		Utilisateur curUser;
-		Iterator<Utilisateur> it;
+		int idx;
+		int size;
 
+		size = arrayUtilisateursOfDataSource.length;
+		idx = 0;
 		ret = null;
-		tmp = Arrays.asList(arrayUtilisateursOfDataSource);
-		found = false;
-		it = tmp.iterator();
 
-		while (it.hasNext() && !found) {
-			curUser = it.next();
+		while (idx < size && ret == null) {
+			if (arrayUtilisateursOfDataSource[idx].getIdUtilisateur().equals(idUtilisateur))
+				ret = arrayUtilisateursOfDataSource[idx];
 
-			if (curUser.getIdUtilisateur() == idUtilisateur) {
-				found = true;
-				ret = curUser;
-			}
+			idx++;
 		}
+
+		if (ret == null)
+			throw new CustomException(
+					  "L'utilisateur avec l'id " + idUtilisateur + " n'a pas pu etre trouve",
+					  CustomException.FIND_ERROR);
 
 		return ret;
 	}
 
 	@Override
-	public List<Utilisateur> findUtilisateursByPrenom(String prenom) {
-		List<Utilisateur> tmp;
-		List<Utilisateur> ret;
-		Utilisateur curUser;
-		Iterator<Utilisateur> it;
+	public List<Utilisateur> findUtilisateursByPrenom(String prenom) throws CustomException {
+		Utilisateur[] tmp;
+		Utilisateur[] ret;
+		int idx;
+		int size;
 
-		ret = new ArrayList<>();
-		tmp = Arrays.asList(arrayUtilisateursOfDataSource);
-		it = tmp.iterator();
+		size = 0;
+		idx = 0;
+		tmp = new Utilisateur[arrayUtilisateursOfDataSource.length];
 
-		while (it.hasNext()) {
-			curUser = it.next();
-
-			if (curUser.getPrenom().equals(prenom)) {
-				ret.add(curUser);
+		while (idx < size) {
+			if (arrayUtilisateursOfDataSource[idx].getPrenom().equals(prenom)) {
+				tmp[size] = arrayUtilisateursOfDataSource[idx];
+				size++;
 			}
+
+			idx++;
 		}
 
-		if (ret.size() == 0)
-			ret = null;
+		if (size == 0)
+			throw new CustomException(
+					  "L'utilisateur portant le prenom " + prenom + " n'a pas pu etre trouve",
+					  CustomException.FIND_ERROR);
 
-		return ret;
+		ret = new Utilisateur[size];
+		System.arraycopy(tmp, 0, ret, 0, size);
+
+		return Arrays.asList(ret);
 	}
 
 	@Override
-	public List<Utilisateur> findUtilisateursByNom(String nom) {
-		List<Utilisateur> tmp;
-		List<Utilisateur> ret;
-		Utilisateur curUser;
-		Iterator<Utilisateur> it;
+	public List<Utilisateur> findUtilisateursByNom(String nom) throws CustomException {
+		Utilisateur[] tmp;
+		Utilisateur[] ret;
+		int idx;
+		int size;
 
-		ret = new ArrayList<>();
-		tmp = Arrays.asList(arrayUtilisateursOfDataSource);
-		it = tmp.iterator();
+		size = 0;
+		idx = 0;
+		tmp = new Utilisateur[arrayUtilisateursOfDataSource.length];
 
-		while (it.hasNext()) {
-			curUser = it.next();
-
-			if (curUser.getNom().equals(nom)) {
-				ret.add(curUser);
+		while (idx < size) {
+			if (arrayUtilisateursOfDataSource[idx].getNom().equals(nom)) {
+				tmp[size] = arrayUtilisateursOfDataSource[idx];
+				size++;
 			}
+
+			idx++;
 		}
 
-		if (ret.size() == 0)
-			ret = null;
+		if (size == 0)
+			throw new CustomException(
+					  "L'utilisateur portant le prenom " + nom + " n'a pas pu etre trouve",
+					  CustomException.FIND_ERROR);
 
-		return ret;
+		ret = new Utilisateur[size];
+		System.arraycopy(tmp, 0, ret, 0, size);
+
+		return Arrays.asList(ret);
 	}
 
 	@Override
-	public List<Utilisateur> findUtilisateursByCodePostal(String codePostal) {
-		List<Utilisateur> tmp;
-		List<Utilisateur> ret;
-		Utilisateur curUser;
-		Iterator<Utilisateur> itUser;
+	public List<Utilisateur> findUtilisateursByCodePostal(String codePostal) throws CustomException
+	{
+		Utilisateur[] tmp;
+		Utilisateur[] ret;
 		Iterator<Adresse> itAddr;
 		boolean addrFound;
+		int idx;
+		int size;
 
-		ret = new ArrayList<>();
-		tmp = Arrays.asList(arrayUtilisateursOfDataSource);
-		itUser = tmp.iterator();
+		size = 0;
+		idx = 0;
+		tmp = new Utilisateur[arrayUtilisateursOfDataSource.length];
 
-		while (itUser.hasNext()) {
-			curUser = itUser.next();
-			itAddr = curUser.getAdresses().iterator();
+		while (idx < size) {
 			addrFound = false;
+			itAddr = arrayUtilisateursOfDataSource[idx].getAdresses().iterator();
 
 			while (itAddr.hasNext() && !addrFound) {
 				if (itAddr.next().getCodePostal().equals(codePostal)) {
+					tmp[size] = arrayUtilisateursOfDataSource[idx];
+					size++;
 					addrFound = true;
-					ret.add(curUser);
 				}
 			}
 		}
 
-		if (ret.size() == 0)
-			ret = null;
+		if (size == 0)
+			throw new CustomException(
+					  "L'utilisateur habitant a " + codePostal + " n'a pas pu etre trouve",
+					  CustomException.FIND_ERROR);
 
-		return ret;
+		ret = new Utilisateur[size];
+		System.arraycopy(tmp, 0, ret, 0, size);
+
+		return Arrays.asList(ret);
 	}
 
 	@Override
 	public Utilisateur createUtilisateur(Utilisateur user) {
-		List<Utilisateur> tmp;
-		int size;
+		Utilisateur[] ret;
 		int lastId;
+		int idx;
+		int size;
 
-		tmp = new ArrayList<>(Arrays.asList(arrayUtilisateursOfDataSource));
-		size = tmp.size();
-		lastId = tmp.get(size - 1).getIdUtilisateur();
+		idx = 0;
+		size = arrayUtilisateursOfDataSource.length;
+
+		lastId =
+			arrayUtilisateursOfDataSource[arrayUtilisateursOfDataSource.length -
+										  1].getIdUtilisateur();
+
+		ret = new Utilisateur[arrayUtilisateursOfDataSource.length + 1];
+		System.arraycopy(arrayUtilisateursOfDataSource,
+						 0,
+						 ret,
+						 0,
+						 arrayUtilisateursOfDataSource.length);
+
 		user.setIdUtilisateur(lastId + 1);
-		tmp.add(user);
+		user.setDateModification(new Date());
+		user.setDateCreation(new Date());
 
-		arrayUtilisateursOfDataSource = tmp.toArray(new Utilisateur[size + 1]);
+		ret[arrayUtilisateursOfDataSource.length] = user;
+
+		arrayUtilisateursOfDataSource = ret.clone();
 
 		return user;
 	}
 
 	@Override
-	public Utilisateur updateUtilisateur(Utilisateur user) {
+	public Utilisateur updateUtilisateur(Utilisateur user) throws CustomException {
 		List<Utilisateur> tmp;
 		boolean found;
 		Utilisateur ret;
 		Utilisateur curUser;
 		ListIterator<Utilisateur> it;
+		int idx;
+		int size;
 
+		idx = 0;
 		tmp = Arrays.asList(arrayUtilisateursOfDataSource);
 		ret = null;
 		found = false;
 		it = tmp.listIterator();
+		size = arrayUtilisateursOfDataSource.length;
 
-		while (it.hasNext() && !found) {
-			curUser = it.next();
+		while (idx < size && !found) {
+			if (arrayUtilisateursOfDataSource[idx].getIdUtilisateur().equals(user.getIdUtilisateur()))
+			{
+				arrayUtilisateursOfDataSource[idx] = user;
+				arrayUtilisateursOfDataSource[idx].setVersion(user.getVersion() + 1);
+				arrayUtilisateursOfDataSource[idx].setDateModification(new Date());
 
-			if (curUser.getIdUtilisateur() == user.getIdUtilisateur()) {
-				it.set(user);
 				found = true;
-				ret = user;
 			}
+
+			idx++;
 		}
 
-		arrayUtilisateursOfDataSource = tmp.toArray(new Utilisateur[tmp.size()]);
+		if (!found) {
+			throw new CustomException(
+					  "L'utilisateur portant l'identifiant " + user.getIdentifiant() + " n'existe pas",
+					  CustomException.UPDTAE_ERROR);
+		}
 
-		return ret;
+		return arrayUtilisateursOfDataSource[idx--];
 	}
 
 	@Override
-	public boolean deleteUtilisateur(Utilisateur user) {
-		List<Utilisateur> tmp;
-		boolean ret;
-		Utilisateur curUser;
-		ListIterator<Utilisateur> it;
+	public boolean deleteUtilisateur(Utilisateur user) throws CustomException {
+		int idxArray;
+		int idxTmp;
+		int size;
+		Utilisateur[] tmp;
+		boolean found;
 
-		tmp = new ArrayList<>(Arrays.asList(arrayUtilisateursOfDataSource));
-		ret = false;
-		it = tmp.listIterator();
+		found = false;
+		idxArray = 0;
+		idxTmp = 0;
+		size = arrayUtilisateursOfDataSource.length;
+		tmp = new Utilisateur[size - 1];
 
-		while (it.hasNext() && !ret) {
-			curUser = it.next();
-
-			if (curUser.getIdUtilisateur() == user.getIdUtilisateur()) {
-				it.remove();
-				ret = true;
+		while (idxArray < size) {
+			if (arrayUtilisateursOfDataSource[idxArray].getIdUtilisateur().equals(user.
+																				  getIdUtilisateur()))
+			{
+				found = true;
+			} else {
+				tmp[idxTmp] = arrayUtilisateursOfDataSource[idxArray];
+				idxTmp++;
 			}
+
+			idxArray++;
 		}
 
-		arrayUtilisateursOfDataSource = tmp.toArray(new Utilisateur[tmp.size()]);
-
-		return ret;
+		return found;
 	}
 
 }

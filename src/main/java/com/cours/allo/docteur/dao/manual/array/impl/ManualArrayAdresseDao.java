@@ -52,7 +52,7 @@ public class ManualArrayAdresseDao implements IAdresseDao {
 		while (it.hasNext() && !found) {
 			curAdresse = it.next();
 
-			if (curAdresse.getIdAdresse() == idAdresse) {
+			if (curAdresse.getIdAdresse().equals(idAdresse)) {
 				found = true;
 				ret = curAdresse;
 			}
