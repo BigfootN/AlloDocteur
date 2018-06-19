@@ -27,7 +27,9 @@ import org.apache.commons.logging.LogFactory;
 public class ManualMapUtilisateurDao implements IUtilisateurDao {
 
 	private static final Log log = LogFactory.getLog(ManualMapUtilisateurDao.class);
-	public static Map<Integer, Utilisateur> mapUtilisateursOfDataSource = DaoHelper.getUtilisateursMapDataSource();
+	public static Map<Integer,
+					  Utilisateur> mapUtilisateursOfDataSource =
+		DaoHelper.getUtilisateursMapDataSource();
 
 	@Override
 	public List<Utilisateur> findAllUtilisateurs() {
@@ -41,8 +43,9 @@ public class ManualMapUtilisateurDao implements IUtilisateurDao {
 				return entry.getValue();
 		}
 
-		throw new CustomException("L'utilisateur portant l'idUtilisateur " + idUtilisateur + " n'existe pas",
-				CustomException.FIND_ERROR);
+		throw new CustomException(
+				  "L'utilisateur portant l'idUtilisateur " + idUtilisateur + " n'existe pas",
+				  CustomException.FIND_ERROR);
 	}
 
 	@Override
@@ -57,8 +60,9 @@ public class ManualMapUtilisateurDao implements IUtilisateurDao {
 		}
 
 		if (ret.size() == 0)
-			throw new CustomException("Les utilisateurs portant le prenom " + prenom + " sont introuvable",
-					CustomException.FIND_ERROR);
+			throw new CustomException(
+					  "Les utilisateurs portant le prenom " + prenom + " sont introuvable",
+					  CustomException.FIND_ERROR);
 
 		return ret;
 	}
@@ -75,14 +79,16 @@ public class ManualMapUtilisateurDao implements IUtilisateurDao {
 		}
 
 		if (ret.size() == 0)
-			throw new CustomException("Les utilisateurs portant le nom " + nom + " sont introuvable",
-					CustomException.FIND_ERROR);
+			throw new CustomException(
+					  "Les utilisateurs portant le nom " + nom + " sont introuvable",
+					  CustomException.FIND_ERROR);
 
 		return ret;
 	}
 
 	@Override
-	public List<Utilisateur> findUtilisateursByCodePostal(String codePostal) throws CustomException {
+	public List<Utilisateur> findUtilisateursByCodePostal(String codePostal) throws CustomException
+	{
 		List<Utilisateur> ret;
 		Iterator<Adresse> addresseIt;
 
@@ -100,8 +106,9 @@ public class ManualMapUtilisateurDao implements IUtilisateurDao {
 		}
 
 		if (ret.size() == 0)
-			throw new CustomException("Les utilisateurs portant le codePostal " + codePostal + " sont introuvable",
-					CustomException.FIND_ERROR);
+			throw new CustomException(
+					  "Les utilisateurs portant le codePostal " + codePostal + " sont introuvable",
+					  CustomException.FIND_ERROR);
 
 		return ret;
 	}
@@ -109,23 +116,12 @@ public class ManualMapUtilisateurDao implements IUtilisateurDao {
 	@Override
 	public Utilisateur createUtilisateur(Utilisateur user) {
 		Integer newIdUser;
-		Integer startIdAddr;
-		Iterator<Adresse> itAddr;
 
 		newIdUser = 0;
-		startIdAddr = 0;
 
 		for (Map.Entry<Integer, Utilisateur> entry : mapUtilisateursOfDataSource.entrySet()) {
 			if (entry.getValue().getIdUtilisateur() > newIdUser)
 				newIdUser = entry.getValue().getIdUtilisateur();
-		}
-
-		startIdAddr = user.getAdresses().get(user.getAdresses().size() - 1).getIdAdresse() + 1;
-		itAddr = user.getAdresses().listIterator();
-
-		while (itAddr.hasNext()) {
-			itAddr.next().setIdAdresse(startIdAddr);
-			startIdAddr++;
 		}
 
 		user.setDateCreation(new Date());
@@ -154,8 +150,9 @@ public class ManualMapUtilisateurDao implements IUtilisateurDao {
 			}
 		}
 		if (ret == null) {
-			throw new CustomException("L'utilisateur portant l'identifiant " + user.getIdentifiant() + " n'existe pas",
-					CustomException.UPDTAE_ERROR);
+			throw new CustomException(
+					  "L'utilisateur portant l'identifiant " + user.getIdentifiant() + " n'existe pas",
+					  CustomException.UPDTAE_ERROR);
 		}
 
 		return ret;
@@ -176,8 +173,9 @@ public class ManualMapUtilisateurDao implements IUtilisateurDao {
 		}
 
 		if (ret == false) {
-			throw new CustomException("L'utilisateur portant l'identifiant " + user.getIdentifiant() + " n'existe pas",
-					CustomException.FIND_ERROR);
+			throw new CustomException(
+					  "L'utilisateur portant l'identifiant " + user.getIdentifiant() + " n'existe pas",
+					  CustomException.FIND_ERROR);
 		}
 
 		return ret;

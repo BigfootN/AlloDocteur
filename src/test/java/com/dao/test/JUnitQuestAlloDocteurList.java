@@ -44,7 +44,8 @@ public class JUnitQuestAlloDocteurList {
 		users = new ManualListUtilisateurDao();
 
 		log.debug("Entree de la methode");
-		Assert.assertTrue(users.findAllUtilisateurs().size() == DaoHelper.getUtilisateursListDataSource().size());
+		Assert.assertTrue(
+			users.findAllUtilisateurs().size() == DaoHelper.getUtilisateursListDataSource().size());
 		log.debug("Sortie de la methode");
 	}
 
@@ -54,7 +55,8 @@ public class JUnitQuestAlloDocteurList {
 
 		addresses = new ManualListAdresseDao();
 		log.debug("Entree de la methode");
-		Assert.assertTrue(addresses.findAllAdresses().size() == DaoHelper.getAdressesListDataSource().size());
+		Assert.assertTrue(
+			addresses.findAllAdresses().size() == DaoHelper.getAdressesListDataSource().size());
 		log.debug("Sortie de la methode");
 	}
 
@@ -90,8 +92,16 @@ public class JUnitQuestAlloDocteurList {
 		Utilisateur returnUser;
 
 		listUser = new ManualListUtilisateurDao();
-		userTest = new Utilisateur(1, "Mr", "Jean", "Dupoound", "id_dupond", "mdp", new Date(), true, true,
-				Arrays.asList(new Adresse(1)));
+		userTest = new Utilisateur(1,
+								   "Mr",
+								   "Jean",
+								   "Dupoound",
+								   "id_dupond",
+								   "mdp",
+								   new Date(),
+								   true,
+								   true,
+								   Arrays.asList(new Adresse(1)));
 
 		log.debug("Entree de la methode");
 		returnUser = listUser.createUtilisateur(userTest);

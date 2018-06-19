@@ -24,7 +24,6 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class JUnitQuestAlloDocteurMap {
-
 	private static final Log log = LogFactory.getLog(JUnitQuestAlloDocteurMap.class);
 	private static IServiceFacade serviceFacade = null;
 
@@ -42,7 +41,8 @@ public class JUnitQuestAlloDocteurMap {
 		users = new ManualMapUtilisateurDao();
 
 		log.debug("Entree de la methode");
-		Assert.assertTrue(users.findAllUtilisateurs().size() == DaoHelper.getUtilisateursMapDataSource().size());
+		Assert.assertTrue(
+			users.findAllUtilisateurs().size() == DaoHelper.getUtilisateursMapDataSource().size());
 		log.debug("Sortie de la methode");
 	}
 
@@ -53,7 +53,8 @@ public class JUnitQuestAlloDocteurMap {
 		addresses = new ManualMapAdresseDao();
 
 		log.debug("Entree de la methode");
-		Assert.assertTrue(addresses.findAllAdresses().size() == DaoHelper.getUtilisateursMapDataSource().size());
+		Assert.assertTrue(
+			addresses.findAllAdresses().size() == DaoHelper.getAdressesMapDataSource().size());
 		log.debug("Sortie de la methode");
 	}
 
@@ -76,7 +77,7 @@ public class JUnitQuestAlloDocteurMap {
 		log.debug("Recherche par ville...");
 		Assert.assertTrue(addresses.findAdressesByVille("Rouen").size() == 5);
 		log.debug("Recherche par id...");
-		Assert.assertTrue(addresses.findAdresseById(5).getRue().equals("55 rue de la mer"));
+		Assert.assertTrue(addresses.findAdresseById(3).getRue().equals("66 rue des deportés"));
 		Assert.assertTrue(users.findUtilisateurById(4).getPrenom().equals("Dimitry"));
 		log.debug("Sortie de la methode");
 	}
@@ -85,21 +86,25 @@ public class JUnitQuestAlloDocteurMap {
 	public void testCreateUpdateDeleteUtilisateur() {
 		ManualMapUtilisateurDao users;
 		Utilisateur testUser;
+		int nbUsers;
 
 		testUser = new Utilisateur(3, "Mme", "Deuiu", "Jajer", "identifiant", "mdp",
-				new Date(System.currentTimeMillis()),
-				new ArrayList<Adresse>(
-						Arrays.asList(new Adresse(1, "5 rue du Paradis", "75000", "Paris", "France", true, 1),
-								new Adresse(2, "61 rue des faveurs", "44000", "Nantes", "France", 1))));
+								   new Date(System.currentTimeMillis()),
+								   new ArrayList<Adresse>(
+									   Arrays.asList(new Adresse(1, "5 rue du Paradis", "75000",
+																 "Paris", "France", true, 1),
+													 new Adresse(2, "61 rue des faveurs", "44000",
+																 "Nantes", "France", 1))));
 		users = new ManualMapUtilisateurDao();
+		nbUsers = users.findAllUtilisateurs().size();
 
 		log.debug("Entree de la methode");
 		log.debug("ajout de l'utilisateur...");
 		Assert.assertTrue(users.createUtilisateur(testUser).getIdUtilisateur().equals(29));
-		Assert.assertTrue(users.findAllUtilisateurs().size() == (DaoHelper.getAdressesMapDataSource().size() + 1));
+		Assert.assertTrue(users.findAllUtilisateurs().size() == (nbUsers + 1));
 		log.debug("suppression de l'utilisateur");
 		users.deleteUtilisateur(testUser);
-		Assert.assertTrue(users.findAllUtilisateurs().size() == DaoHelper.getAdressesMapDataSource().size());
+		Assert.assertTrue(users.findAllUtilisateurs().size() == nbUsers);
 		log.debug("Sortie de la methode");
 	}
 
@@ -113,11 +118,18 @@ public class JUnitQuestAlloDocteurMap {
 
 		log.debug("Entree de la methode");
 		log.debug("ajout de l'utilisateur...");
-		Assert.assertTrue(addresses.createAdresse(testAddr).getIdUtilisateur() == (testAddr.getIdUtilisateur() + 1));
-		Assert.assertTrue(addresses.findAllAdresses().size() == (DaoHelper.getAdressesMapDataSource().size()));
+		// log.debug(addresses.createAdresse(testAddr).getIdAdresse());
+		Assert.assertTrue(addresses.createAdresse(testAddr).getIdAdresse() == 83);
+		/*
+		 * log.debug(addresses.findAllAdresses().size());
+		 * log.debug(DaoHelper.getAdressesMapDataSource().size());
+		 */
+		Assert.assertTrue(addresses.findAllAdresses().size() ==
+						  (DaoHelper.getAdressesMapDataSource().size() + 1));
 		log.debug("suppression de l'addresse...");
 		addresses.deleteAdresse(testAddr);
-		Assert.assertTrue(addresses.findAllAdresses().size() == DaoHelper.getAdressesMapDataSource().size());
+		Assert.assertTrue(
+			addresses.findAllAdresses().size() == DaoHelper.getAdressesMapDataSource().size());
 		log.debug("Sortie de la methode");
 	}
 

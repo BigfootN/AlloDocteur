@@ -34,7 +34,7 @@ public class ManualListAdresseDao implements IAdresseDao {
     public Adresse findAdresseById(int idAdresse) {
         log.debug("Entree de la methode");
         for (Adresse adresse : listAdressesOfDataSource) {
-            if (adresse.getIdAdresse() == idAdresse) {
+            if (adresse.getIdAdresse().equals(idAdresse)) {
                 return adresse;
             }
         }
@@ -50,7 +50,7 @@ public class ManualListAdresseDao implements IAdresseDao {
 
         log.debug("Entree de la methode");
         for (Adresse adresse : listAdressesOfDataSource) {
-            if (adresse.getVille() == ville) {
+            if (adresse.getVille().equals(ville)) {
                 adressesByVille.add(adresse);
             }
         }
@@ -66,7 +66,7 @@ public class ManualListAdresseDao implements IAdresseDao {
 
         log.debug("Entree de la methode");
         for (Adresse adresse : listAdressesOfDataSource) {
-            if (adresse.getCodePostal() == codePostal) {
+            if (adresse.getCodePostal().equals(codePostal)) {
                 adressesByCode.add(adresse);
             }
         }
@@ -89,7 +89,7 @@ public class ManualListAdresseDao implements IAdresseDao {
     public Adresse updateAdresse(Adresse adresse) {
         log.debug("Entree de la methode");
         for (int i = 0; i < listAdressesOfDataSource.size(); i++) {
-            if (listAdressesOfDataSource.get(i).getIdAdresse() == adresse.getIdAdresse()) {
+            if (listAdressesOfDataSource.get(i).getIdAdresse().equals(adresse.getIdAdresse())) {
                 adresse.setVersion(adresse.getVersion() + 1);
                 listAdressesOfDataSource.set(i, adresse);
                 return adresse;

@@ -41,7 +41,7 @@ public class ManualListUtilisateurDao implements IUtilisateurDao {
 	}
 
 	@Override
-	public Utilisateur findUtilisateurById(int idUtilisateur) {
+	public Utilisateur findUtilisateurById(int idUtilisateur) throws CustomException {
 		Iterator<Utilisateur> usersIt;
 		Utilisateur curUser;
 
@@ -78,7 +78,6 @@ public class ManualListUtilisateurDao implements IUtilisateurDao {
 			throw new CustomException("L'utilisateur portant le prenom " + prenom + " n'existe pas",
 					CustomException.FIND_ERROR);
 		}
-		ret = null;
 
 		return ret;
 	}
