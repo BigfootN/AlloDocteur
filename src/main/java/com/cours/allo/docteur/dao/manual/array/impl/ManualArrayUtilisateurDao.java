@@ -27,7 +27,8 @@ import org.apache.commons.logging.LogFactory;
 public class ManualArrayUtilisateurDao implements IUtilisateurDao {
 
 	private static final Log log = LogFactory.getLog(ManualArrayUtilisateurDao.class);
-	public static Utilisateur[] arrayUtilisateursOfDataSource = DaoHelper.getUtilisateursArrayDataSource();
+	public static Utilisateur[] arrayUtilisateursOfDataSource =
+		DaoHelper.getUtilisateursArrayDataSource();
 
 	@Override
 	public List<Utilisateur> findAllUtilisateurs() {
@@ -54,8 +55,9 @@ public class ManualArrayUtilisateurDao implements IUtilisateurDao {
 		}
 
 		if (ret == null)
-			throw new CustomException("L'utilisateur avec l'id " + idUtilisateur + " n'a pas pu etre trouve",
-					CustomException.FIND_ERROR);
+			throw new CustomException(
+					  "L'utilisateur avec l'id " + idUtilisateur + " n'a pas pu etre trouve",
+					  CustomException.FIND_ERROR);
 
 		return ret;
 	}
@@ -71,7 +73,7 @@ public class ManualArrayUtilisateurDao implements IUtilisateurDao {
 		idx = 0;
 		tmp = new Utilisateur[arrayUtilisateursOfDataSource.length];
 
-		while (idx < size) {
+		while (idx < arrayUtilisateursOfDataSource.length) {
 			if (arrayUtilisateursOfDataSource[idx].getPrenom().equals(prenom)) {
 				tmp[size] = arrayUtilisateursOfDataSource[idx];
 				size++;
@@ -81,8 +83,9 @@ public class ManualArrayUtilisateurDao implements IUtilisateurDao {
 		}
 
 		if (size == 0)
-			throw new CustomException("L'utilisateur portant le prenom " + prenom + " n'a pas pu etre trouve",
-					CustomException.FIND_ERROR);
+			throw new CustomException(
+					  "L'utilisateur portant le prenom " + prenom + " n'a pas pu etre trouve",
+					  CustomException.FIND_ERROR);
 
 		ret = new Utilisateur[size];
 		System.arraycopy(tmp, 0, ret, 0, size);
@@ -101,7 +104,7 @@ public class ManualArrayUtilisateurDao implements IUtilisateurDao {
 		idx = 0;
 		tmp = new Utilisateur[arrayUtilisateursOfDataSource.length];
 
-		while (idx < size) {
+		while (idx < arrayUtilisateursOfDataSource.length) {
 			if (arrayUtilisateursOfDataSource[idx].getNom().equals(nom)) {
 				tmp[size] = arrayUtilisateursOfDataSource[idx];
 				size++;
@@ -111,8 +114,9 @@ public class ManualArrayUtilisateurDao implements IUtilisateurDao {
 		}
 
 		if (size == 0)
-			throw new CustomException("L'utilisateur portant le prenom " + nom + " n'a pas pu etre trouve",
-					CustomException.FIND_ERROR);
+			throw new CustomException(
+					  "L'utilisateur portant le nom " + nom + " n'a pas pu etre trouve",
+					  CustomException.FIND_ERROR);
 
 		ret = new Utilisateur[size];
 		System.arraycopy(tmp, 0, ret, 0, size);
@@ -121,7 +125,8 @@ public class ManualArrayUtilisateurDao implements IUtilisateurDao {
 	}
 
 	@Override
-	public List<Utilisateur> findUtilisateursByCodePostal(String codePostal) throws CustomException {
+	public List<Utilisateur> findUtilisateursByCodePostal(String codePostal) throws CustomException
+	{
 		Utilisateur[] tmp;
 		Utilisateur[] ret;
 		Iterator<Adresse> itAddr;
@@ -151,8 +156,9 @@ public class ManualArrayUtilisateurDao implements IUtilisateurDao {
 		}
 
 		if (sizeTmp == 0)
-			throw new CustomException("L'utilisateur habitant a " + codePostal + " n'a pas pu etre trouve",
-					CustomException.FIND_ERROR);
+			throw new CustomException(
+					  "L'utilisateur habitant a " + codePostal + " n'a pas pu etre trouve",
+					  CustomException.FIND_ERROR);
 
 		ret = new Utilisateur[sizeTmp];
 		System.arraycopy(tmp, 0, ret, 0, sizeTmp);
@@ -170,10 +176,16 @@ public class ManualArrayUtilisateurDao implements IUtilisateurDao {
 		idx = 0;
 		size = arrayUtilisateursOfDataSource.length;
 
-		lastId = arrayUtilisateursOfDataSource[arrayUtilisateursOfDataSource.length - 1].getIdUtilisateur();
+		lastId =
+			arrayUtilisateursOfDataSource[arrayUtilisateursOfDataSource.length -
+										  1].getIdUtilisateur();
 
 		ret = new Utilisateur[arrayUtilisateursOfDataSource.length + 1];
-		System.arraycopy(arrayUtilisateursOfDataSource, 0, ret, 0, arrayUtilisateursOfDataSource.length);
+		System.arraycopy(arrayUtilisateursOfDataSource,
+						 0,
+						 ret,
+						 0,
+						 arrayUtilisateursOfDataSource.length);
 
 		user.setIdUtilisateur(lastId + 1);
 		user.setDateModification(new Date());
@@ -204,7 +216,8 @@ public class ManualArrayUtilisateurDao implements IUtilisateurDao {
 		size = arrayUtilisateursOfDataSource.length;
 
 		while (idx < size && !found) {
-			if (arrayUtilisateursOfDataSource[idx].getIdUtilisateur().equals(user.getIdUtilisateur())) {
+			if (arrayUtilisateursOfDataSource[idx].getIdUtilisateur().equals(user.getIdUtilisateur()))
+			{
 				arrayUtilisateursOfDataSource[idx] = user;
 				arrayUtilisateursOfDataSource[idx].setVersion(user.getVersion() + 1);
 				arrayUtilisateursOfDataSource[idx].setDateModification(new Date());
@@ -216,8 +229,9 @@ public class ManualArrayUtilisateurDao implements IUtilisateurDao {
 		}
 
 		if (!found) {
-			throw new CustomException("L'utilisateur portant l'identifiant " + user.getIdentifiant() + " n'existe pas",
-					CustomException.UPDTAE_ERROR);
+			throw new CustomException(
+					  "L'utilisateur portant l'identifiant " + user.getIdentifiant() + " n'existe pas",
+					  CustomException.UPDTAE_ERROR);
 		}
 
 		return arrayUtilisateursOfDataSource[idx--];
@@ -238,7 +252,9 @@ public class ManualArrayUtilisateurDao implements IUtilisateurDao {
 		tmp = new Utilisateur[size - 1];
 
 		while (idxArray < size) {
-			if (arrayUtilisateursOfDataSource[idxArray].getIdUtilisateur().equals(user.getIdUtilisateur())) {
+			if (arrayUtilisateursOfDataSource[idxArray].getIdUtilisateur().equals(user.
+																				  getIdUtilisateur()))
+			{
 				found = true;
 			} else {
 				tmp[idxTmp] = arrayUtilisateursOfDataSource[idxArray];
