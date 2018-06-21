@@ -26,9 +26,15 @@ public class Constants {
     public static String DATABASE_USER_KEY = "DATABASE_USER_KEY";
     // Cle mot passe
     public static String DATABASE_PASSWORD_KEY = "DATABASE_PASSWORD_KEY";
+    // Nom de la base de donnees
+    public static String DATABASE_NAME = "base_quest_allo_docteur";
+    // Nom de la table des utilisateurs
+    public static String USERS_TABLE_NAME = "Utilisateur";
+    // Nom de la table des addresses
+    public static String ADDRESSES_TABLE_NAME = "Adresse";
 
     // Drivers Jdbc key
     public static String JDBC_DRIVER_KEY = "JDBC_DRIVER_KEY";
-    
-     public static String SQL_JUNIT_PATH_FILE = "base_test_junit_quest_allo_docteur.sql";
+
+    public static String SQL_JUNIT_PATH_FILE = "base_test_junit_quest_allo_docteur.sql";
 }

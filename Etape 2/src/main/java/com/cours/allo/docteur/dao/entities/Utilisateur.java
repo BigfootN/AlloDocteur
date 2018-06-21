@@ -32,7 +32,9 @@ public class Utilisateur {
     public Utilisateur() {
     }
 
-    public Utilisateur(Integer idUtilisateur, String civilite, String prenom, String nom, String identifiant, String motPasse, Date dateCreation, Date dateModification, Boolean actif, Boolean marquerEffacer, Integer version, List<Adresse> adresses) {
+    public Utilisateur(Integer idUtilisateur, String civilite, String prenom, String nom, String identifiant,
+            String motPasse, Date dateCreation, Date dateModification, Boolean actif, Boolean marquerEffacer,
+            Integer version, List<Adresse> adresses) {
         this.idUtilisateur = idUtilisateur;
         this.civilite = civilite;
         this.prenom = prenom;
@@ -48,7 +50,9 @@ public class Utilisateur {
 
     }
 
-    public Utilisateur(Integer idUtilisateur, String civilite, String prenom, String nom, String identifiant, String motPasse, Date dateNaissance, Date dateCreation, Date dateModification, Boolean actif, Boolean marquerEffacer, Integer version, List<Adresse> adresses) {
+    public Utilisateur(Integer idUtilisateur, String civilite, String prenom, String nom, String identifiant,
+            String motPasse, Date dateNaissance, Date dateCreation, Date dateModification, Boolean actif,
+            Boolean marquerEffacer, Integer version, List<Adresse> adresses) {
         this.idUtilisateur = idUtilisateur;
         this.civilite = civilite;
         this.prenom = prenom;
@@ -65,7 +69,9 @@ public class Utilisateur {
 
     }
 
-    public Utilisateur(Integer idUtilisateur, String civilite, String prenom, String nom, String identifiant, String motPasse, Date dateNaissance, Date dateCreation, Date dateModification, Boolean actif, Boolean marquerEffacer, Integer version) {
+    public Utilisateur(Integer idUtilisateur, String civilite, String prenom, String nom, String identifiant,
+            String motPasse, Date dateNaissance, Date dateCreation, Date dateModification, Boolean actif,
+            Boolean marquerEffacer, Integer version) {
         this.idUtilisateur = idUtilisateur;
         this.civilite = civilite;
         this.prenom = prenom;
@@ -80,7 +86,8 @@ public class Utilisateur {
         this.version = version;
     }
 
-    public Utilisateur(String civilite, String prenom, String nom, String identifiant, String motPasse, Date dateNaissance) {
+    public Utilisateur(String civilite, String prenom, String nom, String identifiant, String motPasse,
+            Date dateNaissance) {
         this.civilite = civilite;
         this.prenom = prenom;
         this.nom = nom;
@@ -211,7 +218,8 @@ public class Utilisateur {
             return false;
         }
         Utilisateur other = (Utilisateur) object;
-        if ((this.idUtilisateur == null && other.idUtilisateur != null) || (this.idUtilisateur != null && !this.idUtilisateur.equals(other.idUtilisateur))) {
+        if ((this.idUtilisateur == null && other.idUtilisateur != null)
+                || (this.idUtilisateur != null && !this.idUtilisateur.equals(other.idUtilisateur))) {
             return false;
         }
         return true;
@@ -219,6 +227,9 @@ public class Utilisateur {
 
     @Override
     public String toString() {
-        return String.format("\n[idUtilisateur=%s, civilite=%s, prenom=%s, nom=%s, identifiant=%s, motPasse=%s, dateNaissance=%s, dateCreation=%s, dateModification=%s, actif=%s, marquerEffacer=%s ,version=%s]\n", idUtilisateur, civilite, prenom, nom, identifiant, motPasse, dateNaissance, dateCreation, dateModification, actif, marquerEffacer, version);
+        return String.format(
+                "\n[idUtilisateur=%s, civilite=%s, prenom=%s, nom=%s, identifiant=%s, motPasse=%s, dateNaissance=%s, dateCreation=%s, dateModification=%s, actif=%s, marquerEffacer=%s ,version=%s]\n",
+                idUtilisateur, civilite, prenom, nom, identifiant, motPasse, dateNaissance, dateCreation,
+                dateModification, actif, marquerEffacer, version);
     }
 }
