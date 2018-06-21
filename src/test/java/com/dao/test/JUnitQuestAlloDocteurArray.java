@@ -78,6 +78,7 @@ public class JUnitQuestAlloDocteurArray {
 		log.debug("recherche par adresse code postal...");
 		Assert.assertTrue(listAddr.findAdressesByCodePostal("35000").size() == 28);
 		log.debug("recherche par utilisateur code postal...");
+		log.debug(listUser.findUtilisateursByCodePostal("75000").size());
 		Assert.assertTrue(listUser.findUtilisateursByCodePostal("75000").size() == 24);
 		log.debug("recherche utilisateur par nom...");
 		Assert.assertTrue(listUser.findUtilisateursByNom("Dupond").size() == 1);
