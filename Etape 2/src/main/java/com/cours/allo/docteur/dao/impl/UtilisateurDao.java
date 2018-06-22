@@ -44,8 +44,7 @@ public class UtilisateurDao implements IUtilisateurDao {
 
 		try {
 			conn = getConnection();
-			stmt = conn.prepareStatement("SELECT * FROM ?");
-			stmt.setString(1, Constants.USERS_TABLE_NAME);
+			stmt = conn.prepareStatement("SELECT * FROM Utilisateur");
 			resSet = stmt.executeQuery();
 
 			while (resSet.next()) {
@@ -71,10 +70,9 @@ public class UtilisateurDao implements IUtilisateurDao {
 
 		try {
 			conn = getConnection();
-			stmt = conn.prepareStatement("SELECT * FROM ? WHERE idUtilisateur = ?");
+			stmt = conn.prepareStatement("SELECT * FROM Utilisateur WHERE idUtilisateur = ?");
 
-			stmt.setString(1, Constants.USERS_TABLE_NAME);
-			stmt.setInt(2, idUtilisateur);
+			stmt.setInt(1, idUtilisateur);
 			resSet = stmt.executeQuery();
 			resSet.next();
 			ret = resultSetToUser(resSet);
@@ -96,10 +94,9 @@ public class UtilisateurDao implements IUtilisateurDao {
 
 		try {
 			conn = getConnection();
-			stmt = conn.prepareStatement("SELECT * FROM ? WHERE prenom = ?");
+			stmt = conn.prepareStatement("SELECT * FROM Utilisateur WHERE prenom = ?");
 
-			stmt.setString(1, Constants.USERS_TABLE_NAME);
-			stmt.setString(2, prenom);
+			stmt.setString(1, prenom);
 			resSet = stmt.executeQuery();
 			while (resSet.next()) {
 				ret.add(resultSetToUser(resSet));
@@ -125,10 +122,9 @@ public class UtilisateurDao implements IUtilisateurDao {
 
 		try {
 			conn = getConnection();
-			stmt = conn.prepareStatement("SELECT * FROM ? WHERE nom = ?");
+			stmt = conn.prepareStatement("SELECT * FROM Utilisateur WHERE nom = ?");
 
-			stmt.setString(1, Constants.USERS_TABLE_NAME);
-			stmt.setString(2, nom);
+			stmt.setString(1, nom);
 			resSet = stmt.executeQuery();
 			while (resSet.next()) {
 				ret.add(resultSetToUser(resSet));
@@ -188,10 +184,13 @@ public class UtilisateurDao implements IUtilisateurDao {
 
 		try {
 			idInsertedUser = insertUserIntoTable(user);
-			insertAdressesIntoTable(user.getAdresses(), idInsertedUser);
+			if (user.getAdresses() != null)
+				insertAdressesIntoTable(user.getAdresses(), idInsertedUser);
 		} catch (Exception e) {
 			return null;
 		}
+
+		user.setIdUtilisateur(idInsertedUser);
 
 		return user;
 	}
@@ -207,21 +206,20 @@ public class UtilisateurDao implements IUtilisateurDao {
 		try {
 			conn = getConnection();
 			stmt = conn.prepareStatement(
-				"UPDATE ? SET civilite = ?, prenom = ?, nom = ?, identifiant = ?, identifiant = ?, motPasse = ?, dateNaissance = ?, dateCreation = ?, dateModification = ?, actif = ?, marquerEffacer = ?, version = ? WHERE idUtilisateur = ?");
+				"UPDATE Utilisateur SET civilite = ?, prenom = ?, nom = ?, identifiant = ?, motPasse = ?, dateNaissance = ?, dateCreation = ?, dateModification = ?, actif = ?, marquerEffacer = ?, version = ? WHERE idUtilisateur = ?");
 
-			stmt.setString(1, Constants.USERS_TABLE_NAME);
-			stmt.setString(2, user.getCivilite());
-			stmt.setString(3, user.getPrenom());
-			stmt.setString(4, user.getNom());
-			stmt.setString(5, user.getIdentifiant());
-			stmt.setString(6, user.getMotPasse());
-			stmt.setTimestamp(7, new Timestamp(user.getDateNaissance().getTime()));
-			stmt.setTimestamp(8, new Timestamp(user.getDateCreation().getTime()));
-			stmt.setTimestamp(9, new Timestamp(user.getDateModification().getTime()));
-			stmt.setBoolean(10, user.isActif());
-			stmt.setBoolean(11, user.isMarquerEffacer());
-			stmt.setBoolean(12, user.isActif());
-			stmt.setInt(13, user.getIdUtilisateur());
+			stmt.setString(1, user.getCivilite());
+			stmt.setString(2, user.getPrenom());
+			stmt.setString(3, user.getNom());
+			stmt.setString(4, user.getIdentifiant());
+			stmt.setString(5, user.getMotPasse());
+			stmt.setTimestamp(6, new Timestamp(user.getDateNaissance().getTime()));
+			stmt.setTimestamp(7, new Timestamp(user.getDateCreation().getTime()));
+			stmt.setTimestamp(8, new Timestamp(user.getDateModification().getTime()));
+			stmt.setBoolean(9, user.isActif());
+			stmt.setBoolean(10, user.isMarquerEffacer());
+			stmt.setInt(11, user.getVersion());
+			stmt.setInt(12, user.getIdUtilisateur());
 
 			stmt.executeUpdate();
 		} catch (Exception e) {
@@ -238,11 +236,9 @@ public class UtilisateurDao implements IUtilisateurDao {
 
 		try {
 			conn = getConnection();
-			stmt = conn.prepareStatement("DELETE ? WHERE idUtilisateur = ?");
+			stmt = conn.prepareStatement("DELETE FROM Utilisateur WHERE idUtilisateur = ?");
 
-			stmt.setString(1, Constants.USERS_TABLE_NAME);
-			stmt.setInt(2, user.getIdUtilisateur());
-
+			stmt.setInt(1, user.getIdUtilisateur());
 			stmt.executeUpdate();
 		} catch (Exception e) {
 			return false;
@@ -306,21 +302,20 @@ public class UtilisateurDao implements IUtilisateurDao {
 
 		conn = getConnection();
 		stmt = conn.prepareStatement(
-			"INSERT INTO ?(civilite, prenom, nom, identifiant, motPasse, dateNaissance, dateCreation, dateModification, actif, marquerEffacer, version) VALUES (?,?,?,?,?,?,?,?,?,?,?)",
+			"INSERT INTO Utilisateur(civilite, prenom, nom, identifiant, motPasse, dateNaissance, dateCreation, dateModification, actif, marquerEffacer, version) VALUES (?,?,?,?,?,?,?,?,?,?,?)",
 			Statement.RETURN_GENERATED_KEYS);
 
-		stmt.setString(1, Constants.USERS_TABLE_NAME);
-		stmt.setString(2, user.getCivilite());
-		stmt.setString(3, user.getPrenom());
-		stmt.setString(4, user.getNom());
-		stmt.setString(5, user.getIdentifiant());
-		stmt.setString(6, user.getMotPasse());
-		stmt.setTimestamp(7, new Timestamp(user.getDateNaissance().getTime()));
-		stmt.setTimestamp(8, new Timestamp(user.getDateCreation().getTime()));
-		stmt.setTimestamp(9, new Timestamp(user.getDateModification().getTime()));
-		stmt.setBoolean(10, user.isActif());
-		stmt.setBoolean(11, user.isMarquerEffacer());
-		stmt.setInt(12, user.getVersion());
+		stmt.setString(1, user.getCivilite());
+		stmt.setString(2, user.getPrenom());
+		stmt.setString(3, user.getNom());
+		stmt.setString(4, user.getIdentifiant());
+		stmt.setString(5, user.getMotPasse());
+		stmt.setTimestamp(6, new Timestamp(user.getDateNaissance().getTime()));
+		stmt.setTimestamp(7, new Timestamp(user.getDateCreation().getTime()));
+		stmt.setTimestamp(8, new Timestamp(user.getDateModification().getTime()));
+		stmt.setBoolean(9, user.isActif());
+		stmt.setBoolean(10, user.isMarquerEffacer());
+		stmt.setInt(11, user.getVersion());
 
 		stmt.executeUpdate();
 		key = stmt.getGeneratedKeys();
@@ -344,14 +339,13 @@ public class UtilisateurDao implements IUtilisateurDao {
 
 		conn = getConnection();
 		stmt = conn.prepareStatement(
-			"INSERT INTO ?(idUtilisateur, rue, codePostal, ville, pays, principale, version) VALUES (?,?,?,?,?,?,?)");
+			"INSERT INTO Adresse(idUtilisateur, rue, codePostal, ville, pays, principale, version) VALUES (?,?,?,?,?,?,?)");
 
-		stmt.setString(1, Constants.ADDRESSES_TABLE_NAME);
-		stmt.setInt(2, userId);
-		stmt.setString(3, addr.getRue());
-		stmt.setString(4, addr.getCodePostal());
-		stmt.setString(5, addr.getVille());
-		stmt.setString(6, addr.getPays());
+		stmt.setInt(1, userId);
+		stmt.setString(2, addr.getRue());
+		stmt.setString(3, addr.getCodePostal());
+		stmt.setString(4, addr.getVille());
+		stmt.setString(5, addr.getPays());
 		stmt.setBoolean(6, addr.isPrincipale());
 		stmt.setInt(7, addr.getVersion());
 
