@@ -14,6 +14,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
+import com.cours.allo.docteur.dao.ConnectionHelper;
 import com.cours.allo.docteur.dao.IUtilisateurDao;
 import com.cours.allo.docteur.dao.MySqlSingleton;
 import com.cours.allo.docteur.dao.entities.Adresse;
@@ -89,6 +90,7 @@ public class UtilisateurDao implements IUtilisateurDao {
 		Connection conn;
 		ResultSet resSet;
 		List<Utilisateur> ret;
+		Utilisateur curUser;
 
 		ret = new ArrayList<>();
 
@@ -98,8 +100,12 @@ public class UtilisateurDao implements IUtilisateurDao {
 
 			stmt.setString(1, prenom);
 			resSet = stmt.executeQuery();
+
 			while (resSet.next()) {
-				ret.add(resultSetToUser(resSet));
+				curUser = resultSetToUser(resSet);
+				curUser.setAdresses(getAddrUser(curUser.getIdUtilisateur()));
+				ret.add(curUser);
+
 			}
 		} catch (Exception e) {
 			return null;
@@ -151,15 +157,9 @@ public class UtilisateurDao implements IUtilisateurDao {
 		try {
 			conn = getConnection();
 			stmt = conn.prepareStatement(
-				"SELECT ?.* FROM ? INNER JOIN ? ON (?.idUtilisateur = ?.idUtilisateur AND ?.codePostal = ?)");
+				"SELECT Utilisateur.* FROM Utilisateur INNER JOIN Adresse ON (Adresse.idUtilisateur = Utilisateur.idUtilisateur AND Adresse.codePostal = ?)");
 
-			stmt.setString(1, Constants.USERS_TABLE_NAME);
-			stmt.setString(2, Constants.USERS_TABLE_NAME);
-			stmt.setString(3, Constants.ADDRESSES_TABLE_NAME);
-			stmt.setString(4, Constants.ADDRESSES_TABLE_NAME);
-			stmt.setString(5, Constants.USERS_TABLE_NAME);
-			stmt.setString(6, Constants.ADDRESSES_TABLE_NAME);
-			stmt.setString(7, codePostal);
+			stmt.setString(1, codePostal);
 
 			resSet = stmt.executeQuery();
 			while (resSet.next()) {
@@ -350,6 +350,63 @@ public class UtilisateurDao implements IUtilisateurDao {
 		stmt.setInt(7, addr.getVersion());
 
 		stmt.executeUpdate();
+	}
+
+	private List<Adresse> getAddrUser(int userId) {
+		List<Adresse> ret;
+		Connection conn;
+		PreparedStatement stmt;
+		ResultSet resSet;
+
+		ret = new ArrayList<>();
+
+		try {
+			conn = ConnectionHelper.getConnection();
+			stmt = conn.prepareStatement("SELECT Adresse.* FROM Adresse WHERE idUtilisateur = ?");
+
+			stmt.setInt(1, userId);
+
+			resSet = stmt.executeQuery();
+			while (resSet.next()) {
+				ret.add(resultSetToAdresse(resSet));
+			}
+		} catch (Exception e) {
+			return null;
+		}
+
+		if (ret.isEmpty())
+			ret = null;
+
+		return ret;
+	}
+
+	private Adresse resultSetToAdresse(ResultSet resSet) {
+		Adresse ret;
+		int idAddr;
+		int idUser;
+		String street;
+		String city;
+		String postalCode;
+		String country;
+		boolean main;
+		int version;
+
+		try {
+			idAddr = resSet.getInt(1);
+			idUser = resSet.getInt(2);
+			street = resSet.getString(3);
+			postalCode = resSet.getString(4);
+			city = resSet.getString(5);
+			country = resSet.getString(6);
+			main = resSet.getBoolean(7);
+			version = resSet.getInt(8);
+
+			ret = new Adresse(idAddr, street, postalCode, city, country, main, version, idUser);
+		} catch (Exception e) {
+			return null;
+		}
+
+		return ret;
 	}
 
 }
