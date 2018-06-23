@@ -5,7 +5,10 @@
  */
 package com.cours.allo.docteur.dao;
 
-import javax.sql.DataSource;
+import com.cours.allo.docteur.utils.Constants;
+import com.mysql.jdbc.jdbc2.optional.MysqlConnectionPoolDataSource;
+import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -15,43 +18,55 @@ import org.apache.commons.logging.LogFactory;
  */
 public class MySqlSingleton {
 
-    private static final Log log = LogFactory.getLog(MySqlSingleton.class);
-    public final static String className = MySqlSingleton.class.getName();
-    // Objet DataSource
-    private DataSource dataSource = null;
+	private static final Log log = LogFactory.getLog(MySqlSingleton.class);
+	public final static String className = MySqlSingleton.class.getName();
+	// Objet DataSource
+	private MysqlDataSource dataSource = null;
 
-    /**
-     * Constructeur privé
-     */
-    private MySqlSingleton() {
-        String methodName = "MySqlSingleton";
+	/**
+	 * Constructeur privé
+	 */
+	private MySqlSingleton() {
+		String methodName = "MySqlSingleton";
 
-        System.out.println(className + " --> " + methodName + "--> Nouvelle Instance de DataSource ");
-    }
+		System.out.println(className + " --> " + methodName + "--> Nouvelle Instance de DataSource ");
 
-    public DataSource getDataSource() {
-        return dataSource;
-    }
+		try {
+			dataSource = new MysqlConnectionPoolDataSource();
+			dataSource.setUrl(Constants.DATABASE_URL);
+			dataSource.setUser(Constants.DATABASE_USER);
+			dataSource.setPassword(Constants.DATABASE_PASSWORD);
+			dataSource.setDatabaseName(Constants.DATABASE_NAME);
 
-    /**
-     * Holder
-     */
-    private static class SingletonHolder {
+		} catch (Exception e) {
+			dataSource = null;
+		}
+	}
 
-        /**
-         * Instance unique non préinitialisée
-         */
-        private final static MySqlSingleton instance = new MySqlSingleton();
-    }
+	public MysqlDataSource getDataSource() {
+		return dataSource;
+	}
 
-    /**
-     * Point d'accès pour l'instance unique du singleton
-     *
-     * @return
-     */
-    public static MySqlSingleton getInstance() {
-        String methodName = "MySqlSingleton";
+	/**
+	 * Holder
+	 */
+	private static class SingletonHolder {
 
-        return null;
-    }
+		/**
+		 * Instance unique non préinitialisée
+		 */
+		private final static MySqlSingleton instance = new MySqlSingleton();
+	}
+
+	/**
+	 * Point d'accès pour l'instance unique du singleton
+	 *
+	 * @return
+	 */
+	public static synchronized MySqlSingleton getInstance() {
+		String methodName = "MySqlSingleton";
+
+		return SingletonHolder.instance;
+	}
+
 }
