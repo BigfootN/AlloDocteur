@@ -40,6 +40,7 @@ public class UtilisateurDao implements IUtilisateurDao {
 		Connection conn;
 		ResultSet resSet;
 		List<Utilisateur> ret;
+		Utilisateur curUser;
 
 		ret = new ArrayList<>();
 
@@ -49,7 +50,9 @@ public class UtilisateurDao implements IUtilisateurDao {
 			resSet = stmt.executeQuery();
 
 			while (resSet.next()) {
-				ret.add(resultSetToUser(resSet));
+				curUser = resultSetToUser(resSet);
+				curUser.setAdresses(getAddrUser(curUser.getIdUtilisateur()));
+				ret.add(curUser);
 			}
 		} catch (Exception e) {
 			return null;
@@ -105,7 +108,6 @@ public class UtilisateurDao implements IUtilisateurDao {
 				curUser = resultSetToUser(resSet);
 				curUser.setAdresses(getAddrUser(curUser.getIdUtilisateur()));
 				ret.add(curUser);
-
 			}
 		} catch (Exception e) {
 			return null;
@@ -123,6 +125,7 @@ public class UtilisateurDao implements IUtilisateurDao {
 		Connection conn;
 		ResultSet resSet;
 		List<Utilisateur> ret;
+		Utilisateur curUser;
 
 		ret = new ArrayList<>();
 
@@ -133,7 +136,9 @@ public class UtilisateurDao implements IUtilisateurDao {
 			stmt.setString(1, nom);
 			resSet = stmt.executeQuery();
 			while (resSet.next()) {
-				ret.add(resultSetToUser(resSet));
+				curUser = resultSetToUser(resSet);
+				curUser.setAdresses(getAddrUser(curUser.getIdUtilisateur()));
+				ret.add(curUser);
 			}
 		} catch (Exception e) {
 			return null;
@@ -151,19 +156,22 @@ public class UtilisateurDao implements IUtilisateurDao {
 		Connection conn;
 		ResultSet resSet;
 		List<Utilisateur> ret;
+		Utilisateur curUser;
 
 		ret = new ArrayList<>();
 
 		try {
 			conn = getConnection();
 			stmt = conn.prepareStatement(
-				"SELECT Utilisateur.* FROM Utilisateur INNER JOIN Adresse ON (Adresse.idUtilisateur = Utilisateur.idUtilisateur AND Adresse.codePostal = ?)");
+					"SELECT Utilisateur.* FROM Utilisateur INNER JOIN Adresse ON (Adresse.idUtilisateur = Utilisateur.idUtilisateur AND Adresse.codePostal = ?)");
 
 			stmt.setString(1, codePostal);
 
 			resSet = stmt.executeQuery();
 			while (resSet.next()) {
-				ret.add(resultSetToUser(resSet));
+				curUser = resultSetToUser(resSet);
+				curUser.setAdresses(getAddrUser(curUser.getIdUtilisateur()));
+				ret.add(curUser);
 			}
 		} catch (Exception e) {
 			return null;
@@ -206,7 +214,7 @@ public class UtilisateurDao implements IUtilisateurDao {
 		try {
 			conn = getConnection();
 			stmt = conn.prepareStatement(
-				"UPDATE Utilisateur SET civilite = ?, prenom = ?, nom = ?, identifiant = ?, motPasse = ?, dateNaissance = ?, dateCreation = ?, dateModification = ?, actif = ?, marquerEffacer = ?, version = ? WHERE idUtilisateur = ?");
+					"UPDATE Utilisateur SET civilite = ?, prenom = ?, nom = ?, identifiant = ?, motPasse = ?, dateNaissance = ?, dateCreation = ?, dateModification = ?, actif = ?, marquerEffacer = ?, version = ? WHERE idUtilisateur = ?");
 
 			stmt.setString(1, user.getCivilite());
 			stmt.setString(2, user.getPrenom());
@@ -275,18 +283,8 @@ public class UtilisateurDao implements IUtilisateurDao {
 		erase = resSet.getBoolean(11);
 		version = resSet.getInt(12);
 
-		ret = new Utilisateur(id,
-							  title,
-							  name,
-							  lastName,
-							  identifier,
-							  pwd,
-							  birthDate,
-							  creationDate,
-							  modificationDate,
-							  active,
-							  erase,
-							  version);
+		ret = new Utilisateur(id, title, name, lastName, identifier, pwd, birthDate, creationDate, modificationDate,
+				active, erase, version);
 
 		return ret;
 	}
@@ -302,8 +300,8 @@ public class UtilisateurDao implements IUtilisateurDao {
 
 		conn = getConnection();
 		stmt = conn.prepareStatement(
-			"INSERT INTO Utilisateur(civilite, prenom, nom, identifiant, motPasse, dateNaissance, dateCreation, dateModification, actif, marquerEffacer, version) VALUES (?,?,?,?,?,?,?,?,?,?,?)",
-			Statement.RETURN_GENERATED_KEYS);
+				"INSERT INTO Utilisateur(civilite, prenom, nom, identifiant, motPasse, dateNaissance, dateCreation, dateModification, actif, marquerEffacer, version) VALUES (?,?,?,?,?,?,?,?,?,?,?)",
+				Statement.RETURN_GENERATED_KEYS);
 
 		stmt.setString(1, user.getCivilite());
 		stmt.setString(2, user.getPrenom());
@@ -339,7 +337,7 @@ public class UtilisateurDao implements IUtilisateurDao {
 
 		conn = getConnection();
 		stmt = conn.prepareStatement(
-			"INSERT INTO Adresse(idUtilisateur, rue, codePostal, ville, pays, principale, version) VALUES (?,?,?,?,?,?,?)");
+				"INSERT INTO Adresse(idUtilisateur, rue, codePostal, ville, pays, principale, version) VALUES (?,?,?,?,?,?,?)");
 
 		stmt.setInt(1, userId);
 		stmt.setString(2, addr.getRue());

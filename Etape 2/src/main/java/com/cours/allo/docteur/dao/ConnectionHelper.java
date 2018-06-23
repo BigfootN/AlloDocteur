@@ -22,4 +22,13 @@ public class ConnectionHelper {
 
     public static void closeSqlResources(Connection connection, PreparedStatement preparedStatement, ResultSet result) {
     }
+
+    public static Connection getConnection() {
+        try {
+            return MySqlSingleton.getInstance().getDataSource().getConnection();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
 }
