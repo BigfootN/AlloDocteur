@@ -21,6 +21,9 @@ public class ConnectionHelper {
     public final static String className = ConnectionHelper.class.getName();
 
     public static void closeSqlResources(Connection connection, PreparedStatement preparedStatement, ResultSet result) {
+        closeConnection(connection);
+        closePreparedStatement(preparedStatement);
+        closeResultSet(result);
     }
 
     public static Connection getConnection() {
@@ -28,6 +31,30 @@ public class ConnectionHelper {
             return MySqlSingleton.getInstance().getDataSource().getConnection();
         } catch (Exception e) {
             return null;
+        }
+    }
+
+    private static void closeResultSet(ResultSet result) {
+        try {
+            if (result != null)
+                result.close();
+        } catch (Exception e) {
+        }
+    }
+
+    private static void closePreparedStatement(PreparedStatement stmt) {
+        try {
+            if (stmt != null)
+                stmt.close();
+        } catch (Exception e) {
+        }
+    }
+
+    private static void closeConnection(Connection conn) {
+        try {
+            if (conn != null)
+                conn.close();
+        } catch (Exception e) {
         }
     }
 

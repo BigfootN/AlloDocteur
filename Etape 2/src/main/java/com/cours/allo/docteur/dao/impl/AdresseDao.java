@@ -5,17 +5,17 @@
  */
 package com.cours.allo.docteur.dao.impl;
 
-import com.cours.allo.docteur.dao.IAdresseDao;
-import com.cours.allo.docteur.dao.MySqlSingleton;
-import com.cours.allo.docteur.dao.entities.Adresse;
-import com.cours.allo.docteur.utils.Constants;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.cours.allo.docteur.dao.ConnectionHelper;
+import com.cours.allo.docteur.dao.IAdresseDao;
+import com.cours.allo.docteur.dao.MySqlSingleton;
+import com.cours.allo.docteur.dao.entities.Adresse;
 
 //import com.cours.allo.docteur.dao.entities.Adresse;
 
@@ -39,6 +39,10 @@ public class AdresseDao implements IAdresseDao {
 		ResultSet resSet;
 		List<Adresse> ret;
 
+		conn = null;
+		stmt = null;
+		resSet = null;
+
 		ret = new ArrayList<>();
 
 		try {
@@ -51,6 +55,8 @@ public class AdresseDao implements IAdresseDao {
 			}
 		} catch (Exception e) {
 			return null;
+		} finally {
+			ConnectionHelper.closeSqlResources(conn, stmt, resSet);
 		}
 
 		if (ret.size() == 0)
@@ -67,6 +73,10 @@ public class AdresseDao implements IAdresseDao {
 		Adresse ret;
 		ResultSet resSet;
 
+		stmt = null;
+		conn = null;
+		resSet = null;
+
 		try {
 			conn = getConnection();
 			stmt = conn.prepareStatement("SELECT * FROM Adresse WHERE idAdresse = ?");
@@ -77,6 +87,8 @@ public class AdresseDao implements IAdresseDao {
 			ret = resultSetToAdresse(resSet);
 		} catch (Exception e) {
 			return null;
+		} finally {
+			ConnectionHelper.closeSqlResources(conn, stmt, resSet);
 		}
 
 		return ret;
@@ -88,6 +100,10 @@ public class AdresseDao implements IAdresseDao {
 		Connection conn;
 		List<Adresse> ret;
 		ResultSet resSet;
+
+		conn = null;
+		resSet = null;
+		stmt = null;
 
 		ret = new ArrayList<>();
 
@@ -102,6 +118,8 @@ public class AdresseDao implements IAdresseDao {
 			}
 		} catch (Exception e) {
 			return null;
+		} finally {
+			ConnectionHelper.closeSqlResources(conn, stmt, resSet);
 		}
 
 		if (ret.size() == 0)
@@ -117,6 +135,10 @@ public class AdresseDao implements IAdresseDao {
 		List<Adresse> ret;
 		ResultSet resSet;
 
+		conn = null;
+		stmt = null;
+		resSet = null;
+
 		ret = new ArrayList<>();
 
 		try {
@@ -130,6 +152,8 @@ public class AdresseDao implements IAdresseDao {
 			}
 		} catch (Exception e) {
 			return null;
+		} finally {
+			ConnectionHelper.closeSqlResources(conn, stmt, resSet);
 		}
 
 		if (ret.size() == 0)
@@ -142,6 +166,12 @@ public class AdresseDao implements IAdresseDao {
 	public Adresse createAdresse(Adresse adresse) {
 		PreparedStatement stmt;
 		Connection conn;
+		ResultSet resSet;
+
+		conn = null;
+		stmt = null;
+		resSet = null;
+
 		try {
 			conn = getConnection();
 			stmt = conn.prepareStatement(
@@ -157,14 +187,16 @@ public class AdresseDao implements IAdresseDao {
 
 			stmt.executeUpdate();
 
-			ResultSet result = stmt.getGeneratedKeys();
+			resSet = stmt.getGeneratedKeys();
 
-			result.next();
+			resSet.next();
 
-			adresse.setIdAdresse(result.getInt(1));
+			adresse.setIdAdresse(resSet.getInt(1));
 
 		} catch (Exception e) {
 			return null;
+		} finally {
+			ConnectionHelper.closeSqlResources(conn, stmt, resSet);
 		}
 
 		return adresse;
@@ -174,6 +206,9 @@ public class AdresseDao implements IAdresseDao {
 	public Adresse updateAdresse(Adresse adresse) {
 		Connection conn;
 		PreparedStatement stmt;
+
+		stmt = null;
+		conn = null;
 
 		adresse.setVersion(adresse.getVersion() + 1);
 
@@ -193,7 +228,10 @@ public class AdresseDao implements IAdresseDao {
 			stmt.executeUpdate();
 		} catch (Exception e) {
 			return null;
+		} finally {
+			ConnectionHelper.closeSqlResources(conn, stmt, null);
 		}
+
 		log.debug(adresse.getCodePostal());
 		return adresse;
 	}
@@ -202,6 +240,9 @@ public class AdresseDao implements IAdresseDao {
 	public boolean deleteAdresse(Adresse adresse) {
 		PreparedStatement stmt;
 		Connection conn;
+
+		conn = null;
+		stmt = null;
 
 		try {
 			conn = getConnection();
@@ -212,6 +253,8 @@ public class AdresseDao implements IAdresseDao {
 			stmt.executeUpdate();
 		} catch (Exception e) {
 			return false;
+		} finally {
+			ConnectionHelper.closeSqlResources(conn, stmt, null);
 		}
 
 		return true;

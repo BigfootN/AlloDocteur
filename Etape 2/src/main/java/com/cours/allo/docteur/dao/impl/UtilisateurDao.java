@@ -42,6 +42,10 @@ public class UtilisateurDao implements IUtilisateurDao {
 		List<Utilisateur> ret;
 		Utilisateur curUser;
 
+		conn = null;
+		stmt = null;
+		resSet = null;
+
 		ret = new ArrayList<>();
 
 		try {
@@ -56,6 +60,8 @@ public class UtilisateurDao implements IUtilisateurDao {
 			}
 		} catch (Exception e) {
 			return null;
+		} finally {
+			ConnectionHelper.closeSqlResources(conn, stmt, resSet);
 		}
 
 		if (ret.size() == 0)
@@ -72,6 +78,10 @@ public class UtilisateurDao implements IUtilisateurDao {
 		Utilisateur ret;
 		ResultSet resSet;
 
+		stmt = null;
+		conn = null;
+		resSet = null;
+
 		try {
 			conn = getConnection();
 			stmt = conn.prepareStatement("SELECT * FROM Utilisateur WHERE idUtilisateur = ?");
@@ -82,6 +92,8 @@ public class UtilisateurDao implements IUtilisateurDao {
 			ret = resultSetToUser(resSet);
 		} catch (Exception e) {
 			return null;
+		} finally {
+			ConnectionHelper.closeSqlResources(conn, stmt, resSet);
 		}
 
 		return ret;
@@ -94,6 +106,10 @@ public class UtilisateurDao implements IUtilisateurDao {
 		ResultSet resSet;
 		List<Utilisateur> ret;
 		Utilisateur curUser;
+
+		stmt = null;
+		resSet = null;
+		conn = null;
 
 		ret = new ArrayList<>();
 
@@ -111,6 +127,8 @@ public class UtilisateurDao implements IUtilisateurDao {
 			}
 		} catch (Exception e) {
 			return null;
+		} finally {
+			ConnectionHelper.closeSqlResources(conn, stmt, resSet);
 		}
 
 		if (ret.size() == 0)
@@ -127,6 +145,10 @@ public class UtilisateurDao implements IUtilisateurDao {
 		List<Utilisateur> ret;
 		Utilisateur curUser;
 
+		stmt = null;
+		resSet = null;
+		conn = null;
+
 		ret = new ArrayList<>();
 
 		try {
@@ -142,6 +164,8 @@ public class UtilisateurDao implements IUtilisateurDao {
 			}
 		} catch (Exception e) {
 			return null;
+		} finally {
+			ConnectionHelper.closeSqlResources(conn, stmt, resSet);
 		}
 
 		if (ret.size() == 0)
@@ -157,6 +181,10 @@ public class UtilisateurDao implements IUtilisateurDao {
 		ResultSet resSet;
 		List<Utilisateur> ret;
 		Utilisateur curUser;
+
+		stmt = null;
+		conn = null;
+		resSet = null;
 
 		ret = new ArrayList<>();
 
@@ -175,6 +203,8 @@ public class UtilisateurDao implements IUtilisateurDao {
 			}
 		} catch (Exception e) {
 			return null;
+		} finally {
+			ConnectionHelper.closeSqlResources(conn, stmt, resSet);
 		}
 
 		if (ret.size() == 0)
@@ -207,9 +237,14 @@ public class UtilisateurDao implements IUtilisateurDao {
 	public Utilisateur updateUtilisateur(Utilisateur user) {
 		Connection conn;
 		PreparedStatement stmt;
+		int newVersion;
 
-		user.setVersion(user.getVersion() + 1);
+		newVersion = findUtilisateurById(user.getIdUtilisateur()).getVersion() + 1;
+		user.setVersion(newVersion);
 		user.setDateModification(new Date());
+
+		stmt = null;
+		conn = null;
 
 		try {
 			conn = getConnection();
@@ -232,6 +267,8 @@ public class UtilisateurDao implements IUtilisateurDao {
 			stmt.executeUpdate();
 		} catch (Exception e) {
 			return null;
+		} finally {
+			ConnectionHelper.closeSqlResources(conn, stmt, null);
 		}
 
 		return user;
@@ -242,6 +279,9 @@ public class UtilisateurDao implements IUtilisateurDao {
 		PreparedStatement stmt;
 		Connection conn;
 
+		conn = null;
+		stmt = null;
+
 		try {
 			conn = getConnection();
 			stmt = conn.prepareStatement("DELETE FROM Utilisateur WHERE idUtilisateur = ?");
@@ -250,6 +290,8 @@ public class UtilisateurDao implements IUtilisateurDao {
 			stmt.executeUpdate();
 		} catch (Exception e) {
 			return false;
+		} finally {
+			ConnectionHelper.closeSqlResources(conn, stmt, null);
 		}
 
 		return true;
@@ -356,6 +398,10 @@ public class UtilisateurDao implements IUtilisateurDao {
 		PreparedStatement stmt;
 		ResultSet resSet;
 
+		resSet = null;
+		conn = null;
+		stmt = null;
+
 		ret = new ArrayList<>();
 
 		try {
@@ -370,6 +416,8 @@ public class UtilisateurDao implements IUtilisateurDao {
 			}
 		} catch (Exception e) {
 			return null;
+		} finally {
+			ConnectionHelper.closeSqlResources(conn, stmt, resSet);
 		}
 
 		if (ret.isEmpty())
@@ -402,6 +450,8 @@ public class UtilisateurDao implements IUtilisateurDao {
 			ret = new Adresse(idAddr, street, postalCode, city, country, main, version, idUser);
 		} catch (Exception e) {
 			return null;
+		} finally {
+			ConnectionHelper.closeSqlResources(null, null, resSet);
 		}
 
 		return ret;
