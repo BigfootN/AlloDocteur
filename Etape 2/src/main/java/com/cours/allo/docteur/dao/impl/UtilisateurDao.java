@@ -191,7 +191,7 @@ public class UtilisateurDao implements IUtilisateurDao {
 		try {
 			conn = getConnection();
 			stmt = conn.prepareStatement(
-					"SELECT Utilisateur.* FROM Utilisateur INNER JOIN Adresse ON (Adresse.idUtilisateur = Utilisateur.idUtilisateur AND Adresse.codePostal = ?)");
+				"SELECT Utilisateur.* FROM Utilisateur INNER JOIN Adresse ON (Adresse.idUtilisateur = Utilisateur.idUtilisateur AND Adresse.codePostal = ?)");
 
 			stmt.setString(1, codePostal);
 
@@ -249,7 +249,7 @@ public class UtilisateurDao implements IUtilisateurDao {
 		try {
 			conn = getConnection();
 			stmt = conn.prepareStatement(
-					"UPDATE Utilisateur SET civilite = ?, prenom = ?, nom = ?, identifiant = ?, motPasse = ?, dateNaissance = ?, dateCreation = ?, dateModification = ?, actif = ?, marquerEffacer = ?, version = ? WHERE idUtilisateur = ?");
+				"UPDATE Utilisateur SET civilite = ?, prenom = ?, nom = ?, identifiant = ?, motPasse = ?, dateNaissance = ?, dateCreation = ?, dateModification = ?, actif = ?, marquerEffacer = ?, version = ? WHERE idUtilisateur = ?");
 
 			stmt.setString(1, user.getCivilite());
 			stmt.setString(2, user.getPrenom());
@@ -325,8 +325,18 @@ public class UtilisateurDao implements IUtilisateurDao {
 		erase = resSet.getBoolean(11);
 		version = resSet.getInt(12);
 
-		ret = new Utilisateur(id, title, name, lastName, identifier, pwd, birthDate, creationDate, modificationDate,
-				active, erase, version);
+		ret = new Utilisateur(id,
+							  title,
+							  name,
+							  lastName,
+							  identifier,
+							  pwd,
+							  birthDate,
+							  creationDate,
+							  modificationDate,
+							  active,
+							  erase,
+							  version);
 
 		return ret;
 	}
@@ -342,8 +352,8 @@ public class UtilisateurDao implements IUtilisateurDao {
 
 		conn = getConnection();
 		stmt = conn.prepareStatement(
-				"INSERT INTO Utilisateur(civilite, prenom, nom, identifiant, motPasse, dateNaissance, dateCreation, dateModification, actif, marquerEffacer, version) VALUES (?,?,?,?,?,?,?,?,?,?,?)",
-				Statement.RETURN_GENERATED_KEYS);
+			"INSERT INTO Utilisateur(civilite, prenom, nom, identifiant, motPasse, dateNaissance, dateCreation, dateModification, actif, marquerEffacer, version) VALUES (?,?,?,?,?,?,?,?,?,?,?)",
+			Statement.RETURN_GENERATED_KEYS);
 
 		stmt.setString(1, user.getCivilite());
 		stmt.setString(2, user.getPrenom());
@@ -379,7 +389,7 @@ public class UtilisateurDao implements IUtilisateurDao {
 
 		conn = getConnection();
 		stmt = conn.prepareStatement(
-				"INSERT INTO Adresse(idUtilisateur, rue, codePostal, ville, pays, principale, version) VALUES (?,?,?,?,?,?,?)");
+			"INSERT INTO Adresse(idUtilisateur, rue, codePostal, ville, pays, principale, version) VALUES (?,?,?,?,?,?,?)");
 
 		stmt.setInt(1, userId);
 		stmt.setString(2, addr.getRue());
@@ -426,7 +436,7 @@ public class UtilisateurDao implements IUtilisateurDao {
 		return ret;
 	}
 
-	private Adresse resultSetToAdresse(ResultSet resSet) {
+	private Adresse resultSetToAdresse(ResultSet resSet) throws Exception {
 		Adresse ret;
 		int idAddr;
 		int idUser;
@@ -437,22 +447,16 @@ public class UtilisateurDao implements IUtilisateurDao {
 		boolean main;
 		int version;
 
-		try {
-			idAddr = resSet.getInt(1);
-			idUser = resSet.getInt(2);
-			street = resSet.getString(3);
-			postalCode = resSet.getString(4);
-			city = resSet.getString(5);
-			country = resSet.getString(6);
-			main = resSet.getBoolean(7);
-			version = resSet.getInt(8);
+		idAddr = resSet.getInt(1);
+		idUser = resSet.getInt(2);
+		street = resSet.getString(3);
+		postalCode = resSet.getString(4);
+		city = resSet.getString(5);
+		country = resSet.getString(6);
+		main = resSet.getBoolean(7);
+		version = resSet.getInt(8);
 
-			ret = new Adresse(idAddr, street, postalCode, city, country, main, version, idUser);
-		} catch (Exception e) {
-			return null;
-		} finally {
-			ConnectionHelper.closeSqlResources(null, null, resSet);
-		}
+		ret = new Adresse(idAddr, street, postalCode, city, country, main, version, idUser);
 
 		return ret;
 	}
