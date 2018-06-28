@@ -6,6 +6,7 @@
 package com.cours.allo.docteur.dao.impl;
 
 import java.sql.Connection;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
@@ -19,7 +20,6 @@ import com.cours.allo.docteur.dao.IUtilisateurDao;
 import com.cours.allo.docteur.dao.MySqlSingleton;
 import com.cours.allo.docteur.dao.entities.Adresse;
 import com.cours.allo.docteur.dao.entities.Utilisateur;
-import com.cours.allo.docteur.utils.Constants;
 import com.mysql.jdbc.Statement;
 
 import org.apache.commons.logging.Log;

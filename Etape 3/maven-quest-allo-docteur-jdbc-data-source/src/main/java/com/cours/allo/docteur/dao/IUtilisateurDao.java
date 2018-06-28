@@ -5,8 +5,9 @@
  */
 package com.cours.allo.docteur.dao;
 
-import com.cours.allo.docteur.dao.entities.Utilisateur;
 import java.util.List;
+
+import com.cours.allo.docteur.dao.entities.Utilisateur;
 
 /**
  *
@@ -14,20 +15,20 @@ import java.util.List;
  */
 public interface IUtilisateurDao {
 
-    public List<Utilisateur> findAllUtilisateurs();
+	public List<Utilisateur> findAllUtilisateurs();
 
-    public Utilisateur findUtilisateurById(int idUtilisateur);
+	public Utilisateur findUtilisateurById(int idUtilisateur);
 
-    public List<Utilisateur> findUtilisateursByPrenom(String prenom);
+	public List<Utilisateur> findUtilisateursByPrenom(String prenom);
 
-    public List<Utilisateur> findUtilisateursByNom(String nom);
+	public List<Utilisateur> findUtilisateursByNom(String nom);
 
-    public List<Utilisateur> findUtilisateursByCodePostal(String codePostal);
+	public List<Utilisateur> findUtilisateursByCodePostal(String codePostal);
 
-    public Utilisateur createUtilisateur(Utilisateur user);
+	public Utilisateur createUtilisateur(Utilisateur user);
 
-    public Utilisateur updateUtilisateur(Utilisateur user);
+	public Utilisateur updateUtilisateur(Utilisateur user);
 
-    public boolean deleteUtilisateur(Utilisateur user);
+	public boolean deleteUtilisateur(Utilisateur user);
 
 }
