@@ -150,7 +150,6 @@
                                                 ${df.format(user.getDateNaissance())}
                                             </td>
                                             <td>
-                                                
                                                 ${df.format(user.getDateCreation())}
                                             </td>
                                             <td>
