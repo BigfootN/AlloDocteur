@@ -129,7 +129,7 @@
                                     %>
                                     <c:forEach var="user" items="${users}">
                                         <%
-                                                    DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+                                                    DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
 
                                                     pageContext.setAttribute("df", df);
                                         %>

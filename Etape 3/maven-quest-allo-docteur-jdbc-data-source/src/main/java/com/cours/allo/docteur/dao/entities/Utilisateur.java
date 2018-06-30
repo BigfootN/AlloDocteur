@@ -5,9 +5,16 @@
  */
 package com.cours.allo.docteur.dao.entities;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonPrimitive;
 
 /**
  *
@@ -30,12 +37,20 @@ public class Utilisateur {
 	private Integer version = 0;
 	private List<Adresse> adresses;
 
-	public Utilisateur() {
-	}
+	public Utilisateur() {}
 
-	public Utilisateur(Integer idUtilisateur, String civilite, String prenom, String nom, String identifiant,
-			String motPasse, Date dateCreation, Date dateModification, Boolean actif, Boolean marquerEffacer,
-			Integer version, List<Adresse> adresses) {
+	public Utilisateur(Integer idUtilisateur,
+					   String civilite,
+					   String prenom,
+					   String nom,
+					   String identifiant,
+					   String motPasse,
+					   Date dateCreation,
+					   Date dateModification,
+					   Boolean actif,
+					   Boolean marquerEffacer,
+					   Integer version,
+					   List<Adresse> adresses) {
 		this.idUtilisateur = idUtilisateur;
 		this.civilite = civilite;
 		this.prenom = prenom;
@@ -51,9 +66,19 @@ public class Utilisateur {
 
 	}
 
-	public Utilisateur(Integer idUtilisateur, String civilite, String prenom, String nom, String identifiant,
-			String motPasse, Date dateNaissance, Date dateCreation, Date dateModification, Boolean actif,
-			Boolean marquerEffacer, Integer version, List<Adresse> adresses) {
+	public Utilisateur(Integer idUtilisateur,
+					   String civilite,
+					   String prenom,
+					   String nom,
+					   String identifiant,
+					   String motPasse,
+					   Date dateNaissance,
+					   Date dateCreation,
+					   Date dateModification,
+					   Boolean actif,
+					   Boolean marquerEffacer,
+					   Integer version,
+					   List<Adresse> adresses) {
 		this.idUtilisateur = idUtilisateur;
 		this.civilite = civilite;
 		this.prenom = prenom;
@@ -71,9 +96,18 @@ public class Utilisateur {
 		Iterator<Adresse> it;
 	}
 
-	public Utilisateur(Integer idUtilisateur, String civilite, String prenom, String nom, String identifiant,
-			String motPasse, Date dateNaissance, Date dateCreation, Date dateModification, Boolean actif,
-			Boolean marquerEffacer, Integer version) {
+	public Utilisateur(Integer idUtilisateur,
+					   String civilite,
+					   String prenom,
+					   String nom,
+					   String identifiant,
+					   String motPasse,
+					   Date dateNaissance,
+					   Date dateCreation,
+					   Date dateModification,
+					   Boolean actif,
+					   Boolean marquerEffacer,
+					   Integer version) {
 		this.idUtilisateur = idUtilisateur;
 		this.civilite = civilite;
 		this.prenom = prenom;
@@ -88,8 +122,12 @@ public class Utilisateur {
 		this.version = version;
 	}
 
-	public Utilisateur(String civilite, String prenom, String nom, String identifiant, String motPasse,
-			Date dateNaissance) {
+	public Utilisateur(String civilite,
+					   String prenom,
+					   String nom,
+					   String identifiant,
+					   String motPasse,
+					   Date dateNaissance) {
 		this.civilite = civilite;
 		this.prenom = prenom;
 		this.nom = nom;
@@ -206,6 +244,27 @@ public class Utilisateur {
 		this.adresses = adresses;
 	}
 
+	public String toJson() {
+		JsonArray array;
+		DateFormat df;
+		Adresse addrMain;
+		Gson gson;
+
+		df = new SimpleDateFormat("dd/MM/yyyy");
+		array = new JsonArray();
+		addrMain = getAdressePrincipale();
+
+		array.add(new JsonPrimitive(nom));
+		array.add(new JsonPrimitive(prenom));
+		array.add(new JsonPrimitive(civilite));
+		array.add(new JsonPrimitive(addrMain.getRue() + "," + addrMain.getCodePostal() + "," +
+									addrMain.getPays()));
+
+		gson = new Gson();
+
+		return gson.toJson(array);
+	}
+
 	@Override
 	public int hashCode() {
 		int hash = 0;
@@ -221,7 +280,7 @@ public class Utilisateur {
 		}
 		Utilisateur other = (Utilisateur) object;
 		if ((this.idUtilisateur == null && other.idUtilisateur != null)
-				|| (this.idUtilisateur != null && !this.idUtilisateur.equals(other.idUtilisateur))) {
+			|| (this.idUtilisateur != null && !this.idUtilisateur.equals(other.idUtilisateur))) {
 			return false;
 		}
 		return true;
@@ -230,9 +289,34 @@ public class Utilisateur {
 	@Override
 	public String toString() {
 		return String.format(
-				"\n[idUtilisateur=%s, civilite=%s, prenom=%s, nom=%s, identifiant=%s, motPasse=%s, dateNaissance=%s, dateCreation=%s, dateModification=%s, actif=%s, marquerEffacer=%s ,version=%s]\n",
-				idUtilisateur, civilite, prenom, nom, identifiant, motPasse, dateNaissance, dateCreation,
-				dateModification, actif, marquerEffacer, version);
+			"\n[idUtilisateur=%s, civilite=%s, prenom=%s, nom=%s, identifiant=%s, motPasse=%s, dateNaissance=%s, dateCreation=%s, dateModification=%s, actif=%s, marquerEffacer=%s ,version=%s]\n",
+			idUtilisateur,
+			civilite,
+			prenom,
+			nom,
+			identifiant,
+			motPasse,
+			dateNaissance,
+			dateCreation,
+			dateModification,
+			actif,
+			marquerEffacer,
+			version);
+	}
+
+	private Adresse getAdressePrincipale() {
+		Iterator<Adresse> it;
+		Adresse curAddr;
+
+		it = adresses.iterator();
+
+		while (it.hasNext()) {
+			curAddr = (Adresse) it;
+			if (curAddr.isPrincipale())
+				return curAddr;
+		}
+
+		return null;
 	}
 
 }
