@@ -11,7 +11,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.cours.allo.docteur.dao.IUtilisateurDao;
 import com.cours.allo.docteur.dao.entities.Utilisateur;
+import com.cours.allo.docteur.dao.impl.UtilisateurDao;
+import com.cours.allo.docteur.factory.ServiceFactory;
+import com.cours.allo.docteur.service.IServiceFacade;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -24,10 +28,11 @@ import org.apache.commons.logging.LogFactory;
 public class LoginServlet extends HttpServlet {
 
     private static final Log log = LogFactory.getLog(LoginServlet.class);
-    // private IServiceFacade serviceFacade = null;
+    private IServiceFacade serviceFacade = null;
 
     @Override
     public void init() throws ServletException {
+        serviceFacade = ServiceFactory.getDefaultServiceFacade();
     }
 
     @Override
@@ -41,6 +46,19 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        Utilisateur user;
+        String pwd;
+        String mail;
+        IUtilisateurDao dao;
+
+        /*
+         * mail = request.getParameter("email"); pwd = request.getParameter("password");
+         * dao = serviceFacade.getUtilisateurDao();
+         * 
+         * user = dao.authenticate(mail, pwd);
+         * 
+         * if (user != null)
+         */
         response.sendRedirect(this.getServletContext().getContextPath() + "/ManageUsersServlet");
     }
 

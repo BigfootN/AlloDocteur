@@ -19,6 +19,8 @@ public interface IUtilisateurDao {
 
 	public Utilisateur findUtilisateurById(int idUtilisateur);
 
+	public Utilisateur authenticate(String identifiant, String pwd);
+
 	public List<Utilisateur> findUtilisateursByPrenom(String prenom);
 
 	public List<Utilisateur> findUtilisateursByNom(String nom);
