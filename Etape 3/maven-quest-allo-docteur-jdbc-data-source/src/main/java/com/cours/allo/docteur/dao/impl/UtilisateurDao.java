@@ -298,6 +298,28 @@ public class UtilisateurDao implements IUtilisateurDao {
 	}
 
 	@Override
+	public void deleteUtilisateur(int id) {
+		PreparedStatement stmt;
+		Connection conn;
+		ResultSet resSet;
+
+		conn = null;
+		stmt = null;
+		resSet = null;
+
+		try {
+			conn = ConnectionHelper.getConnection();
+
+			stmt = conn.prepareStatement("DELETE FROM Utilisateur WHERE id = ?");
+			stmt.setInt(1, id);
+		} catch (Exception e) {
+
+		} finally {
+			ConnectionHelper.closeSqlResources(conn, stmt, resSet);
+		}
+	}
+
+	@Override
 	public Utilisateur authenticate(String identifiant, String pwd) {
 		PreparedStatement stmt;
 		Connection conn;

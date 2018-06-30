@@ -27,46 +27,48 @@ import org.apache.commons.logging.LogFactory;
 // @WebServlet(name = "LoginServlet", urlPatterns = {"/LoginServlet"})
 public class LoginServlet extends HttpServlet {
 
-    private static final Log log = LogFactory.getLog(LoginServlet.class);
-    private IServiceFacade serviceFacade = null;
+	private static final Log log = LogFactory.getLog(LoginServlet.class);
+	private IServiceFacade serviceFacade = null;
 
-    @Override
-    public void init() throws ServletException {
-        serviceFacade = ServiceFactory.getDefaultServiceFacade();
-    }
+	@Override
+	public void init() throws ServletException {
+		serviceFacade = ServiceFactory.getDefaultServiceFacade();
+	}
 
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        Utilisateur user;
+	@Override
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		Utilisateur user;
 
-        this.getServletContext().getRequestDispatcher("/pages/login/login.jsp").forward(request, response);
-    }
+		this.getServletContext().getRequestDispatcher("/pages/login/login.jsp").forward(request, response);
+	}
 
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        Utilisateur user;
-        String pwd;
-        String mail;
-        IUtilisateurDao dao;
+	@Override
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		Utilisateur user;
+		String pwd;
+		String mail;
+		IUtilisateurDao dao;
 
-        /*
-         * mail = request.getParameter("email"); pwd = request.getParameter("password");
-         * dao = serviceFacade.getUtilisateurDao();
-         * 
-         * user = dao.authenticate(mail, pwd);
-         * 
-         * if (user != null)
-         */
-        response.sendRedirect(this.getServletContext().getContextPath() + "/ManageUsersServlet");
-    }
+		mail = request.getParameter("email");
+		pwd = request.getParameter("password");
+		dao = serviceFacade.getUtilisateurDao();
 
-    /**
-     * Méthode appelée lors de la fin de la Servlet
-     */
-    @Override
-    public void destroy() {
-    }
+		user = dao.authenticate(mail, pwd);
+
+		if (true)
+			response.sendRedirect(this.getServletContext().getContextPath() + "/ManageUsersServlet");
+		else {
+			this.getServletContext().getRequestDispatcher("/pages/login/login.jsp").forward(request, response);
+		}
+	}
+
+	/**
+	 * Méthode appelée lors de la fin de la Servlet
+	 */
+	@Override
+	public void destroy() {
+	}
 
 }

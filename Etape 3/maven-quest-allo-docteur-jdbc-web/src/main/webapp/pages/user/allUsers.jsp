@@ -1,5 +1,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@page import="java.util.List,java.text.DateFormat,com.cours.allo.docteur.dao.IUtilisateurDao,com.cours.allo.docteur.dao.impl.UtilisateurDao,com.cours.allo.docteur.dao.impl.AdresseDao,com.cours.allo.docteur.dao.entities.Adresse,java.text.SimpleDateFormat,com.cours.allo.docteur.factory.ServiceFactory,java.util.Iterator,com.cours.allo.docteur.dao.entities.Utilisateur,java.util.List,java.util.Date"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE HTML>
 <html>
     <head>
@@ -115,8 +116,72 @@
                                         <td><a href="#"><i class="fa fa-edit"></i></a>
                                             <button class="no-style-btn"><i class="fa fa-trash-o"></i></button></td>
                                     </tr>
+                                    <%
+                                        IUtilisateurDao dao;
+                                        List<Utilisateur> users;
+                                        List<Adresse> addrs;
+                                        Iterator<Adresse> itAddr;
 
-                                </tbody>
+                                        dao = ServiceFactory.getDefaultServiceFacade().getUtilisateurDao();
+                                        users = dao.findAllUtilisateurs();
+
+                                        pageContext.setAttribute("users", users);
+                                    %>
+                                    <c:forEach var="user" items="${users}">
+                                        <%
+                                                    DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+
+                                                    pageContext.setAttribute("df", df);
+                                        %>
+                                        <tr>
+                                            <td>
+                                                ${user.getPrenom()}
+                                            </td>
+                                            <td>
+                                                ${user.getNom()}
+                                            </td>
+                                            <td>
+                                                ${user.getCivilite()}
+                                            </td>
+                                            <td>
+                                                ${user.getIdentifiant()}
+                                            </td>
+                                            <td>
+                                                ${df.format(user.getDateNaissance())}
+                                            </td>
+                                            <td>
+                                                
+                                                ${df.format(user.getDateCreation())}
+                                            </td>
+                                            <td>
+                                                ${df.format(user.getDateModification())}
+                                            </td>
+                                            <td>
+                                                <%
+                                                    Utilisateur curUser;
+
+                                                    curUser = (Utilisateur) pageContext.getAttribute("user");
+                                                    addrs = curUser.getAdresses();
+                                                    itAddr = addrs.iterator();
+
+                                                    while (itAddr.hasNext()) {
+                                                        Adresse addr = itAddr.next();
+
+                                                        if (addr.isPrincipale()) {
+                                                            pageContext.setAttribute("addr", addr);
+                                                %>
+                                                ${addr.getRue()}
+                                                <%
+                                                        break;
+                                                    }
+                                                }
+                                                %>
+                                            </td>
+                                            <td><a href="#"><i class="fa fa-edit"></i></a>
+                                            <button class="no-style-btn"><i class="fa fa-trash-o"></i></button></td>
+                                        </tr>
+                                        </c:forEach>
+                                </tbody>    
                             </table>
                             <ul class="User">
                                 <li>
