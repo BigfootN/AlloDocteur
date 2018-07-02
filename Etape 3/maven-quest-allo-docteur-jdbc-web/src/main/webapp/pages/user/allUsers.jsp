@@ -56,66 +56,6 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr> 
-                                        <td>John</td>
-                                        <td>Doe</td>
-                                        <td>Mr</td>
-                                        <td>john@mail.com</td>
-                                        <td> 20/10/1990</td>
-                                        <td>15/10/2017</td>
-                                        <td>20/11/2017</td>
-                                        <td>123 Rue la victoire, 75000 Paris, France</td>
-                                        <td><a href="#"><i class="fa fa-edit"></i></a>
-                                            <button class="no-style-btn"><i class="fa fa-trash-o"></i></button></td>
-                                    </tr>
-                                    <tr>
-                                        <td>John</td>
-                                        <td>Doe</td>
-                                        <td>Mr</td>
-                                        <td>john@mail.com</td>
-                                        <td> 20/10/1990</td>
-                                        <td>15/10/2017</td>
-                                        <td>20/11/2017</td>
-                                        <td>123 Rue la victoire, 75000 Paris, France</td>
-                                        <td><a href="#"><i class="fa fa-edit"></i></a>
-                                            <button class="no-style-btn"><i class="fa fa-trash-o"></i></button></td>
-                                    </tr>
-                                    <tr>
-                                        <td>John</td>
-                                        <td>Doe</td>
-                                        <td>Mr</td>
-                                        <td>john@mail.com</td>
-                                        <td> 20/10/1990</td>
-                                        <td>15/10/2017</td>
-                                        <td>20/11/2017</td>
-                                        <td>123 Rue la victoire, 75000 Paris, France</td>
-                                        <td><a href="#"><i class="fa fa-edit"></i></a>
-                                            <button class="no-style-btn"><i class="fa fa-trash-o"></i></button></td>
-                                    </tr>
-                                    <tr>
-                                        <td>John</td>
-                                        <td>Doe</td>
-                                        <td>Mr</td>
-                                        <td>john@mail.com</td>
-                                        <td> 20/10/1990</td>
-                                        <td>15/10/2017</td>
-                                        <td>20/11/2017</td>
-                                        <td>123 Rue la victoire, 75000 Paris, France</td>
-                                        <td><a href="#"><i class="fa fa-edit"></i></a>
-                                            <button class="no-style-btn"><i class="fa fa-trash-o"></i></button></td>
-                                    </tr>
-                                    <tr>
-                                        <td>John</td>
-                                        <td>Doe</td>
-                                        <td>Mr</td>
-                                        <td>john@mail.com</td>
-                                        <td> 20/10/1990</td>
-                                        <td>15/10/2017</td>
-                                        <td>20/11/2017</td>
-                                        <td>123 Rue la victoire, 75000 Paris, France</td>
-                                        <td><a href="#"><i class="fa fa-edit"></i></a>
-                                            <button class="no-style-btn"><i class="fa fa-trash-o"></i></button></td>
-                                    </tr>
                                     <%
                                         IUtilisateurDao dao;
                                         List<Utilisateur> users;
@@ -177,7 +117,7 @@
                                                 %>
                                             </td>
                                             <td><a href="#"><i class="fa fa-edit"></i></a>
-                                            <button class="no-style-btn"><i class="fa fa-trash-o"></i></button></td>
+                                            <button class="no-style-btn"><i class="fa fa-trash-o" id="${user.getIdUtilisateur()}"></i></button></td>
                                         </tr>
                                         </c:forEach>
                                 </tbody>    

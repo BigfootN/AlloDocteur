@@ -33,5 +33,5 @@ public interface IUtilisateurDao {
 
 	public boolean deleteUtilisateur(Utilisateur user);
 
-	public void deleteUtilisateur(int id);
+	public boolean deleteUtilisateur(int id);
 }

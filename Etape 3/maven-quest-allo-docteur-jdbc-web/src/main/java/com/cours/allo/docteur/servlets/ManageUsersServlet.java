@@ -6,6 +6,7 @@
 package com.cours.allo.docteur.servlets;
 
 import java.io.IOException;
+import javax.json.JsonObject;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -15,6 +16,7 @@ import com.cours.allo.docteur.dao.entities.Utilisateur;
 import com.cours.allo.docteur.dao.impl.UtilisateurDao;
 import com.cours.allo.docteur.factory.ServiceFactory;
 import com.cours.allo.docteur.service.IServiceFacade;
+import com.google.gson.Gson;
 
 /**
  *
@@ -62,17 +64,23 @@ public class ManageUsersServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		Object attr;
 		String attrStr;
 		Integer attrInt;
 		UtilisateurDao dao;
 
 		dao = new UtilisateurDao();
 
-		attr = request.getAttribute("delete_id");
-		attrStr = (String) attr;
+		attrStr = (String) request.getParameter("id");
 		attrInt = Integer.parseInt(attrStr);
-		dao.deleteUtilisateur(attrInt);
+		if(dao.deleteUtilisateur(attrInt)){
+			response.setContentType("text/plain");
+			response.setStatus(200);
+			response.getWriter().write("1");
+		}else {
+			response.setContentType("text/plain");
+			response.setStatus(500);
+			response.getWriter().write("0");
+		}
 	}
 
 	/**

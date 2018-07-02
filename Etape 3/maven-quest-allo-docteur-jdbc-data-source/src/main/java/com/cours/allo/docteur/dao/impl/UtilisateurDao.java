@@ -298,7 +298,7 @@ public class UtilisateurDao implements IUtilisateurDao {
 	}
 
 	@Override
-	public void deleteUtilisateur(int id) {
+	public boolean deleteUtilisateur(int id) {
 		PreparedStatement stmt;
 		Connection conn;
 		ResultSet resSet;
@@ -308,13 +308,17 @@ public class UtilisateurDao implements IUtilisateurDao {
 		resSet = null;
 
 		try {
-			conn = ConnectionHelper.getConnection();
-
-			stmt = conn.prepareStatement("DELETE FROM Utilisateur WHERE id = ?");
+			conn = getConnection();
+			stmt = conn.prepareStatement("DELETE FROM Utilisateur WHERE idUtilisateur = ?");
 			stmt.setInt(1, id);
-		} catch (Exception e) {} finally {
-			ConnectionHelper.closeSqlResources(conn, stmt, resSet);
-		}
+			stmt.execute();
+
+        } catch (Exception e) {
+            return false;
+        } finally {
+            ConnectionHelper.closeSqlResources(conn, stmt, null);
+        }
+        return true;
 	}
 
 	@Override
