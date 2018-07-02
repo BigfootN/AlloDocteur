@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.cours.allo.docteur.dao.entities.Utilisateur;
+import com.cours.allo.docteur.dao.impl.UtilisateurDao;
 import com.cours.allo.docteur.factory.ServiceFactory;
 import com.cours.allo.docteur.service.IServiceFacade;
 
@@ -60,7 +62,17 @@ public class ManageUsersServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		Object attr;
+		String attrStr;
+		Integer attrInt;
+		UtilisateurDao dao;
 
+		dao = new UtilisateurDao();
+
+		attr = request.getAttribute("delete_id");
+		attrStr = (String) attr;
+		attrInt = Integer.parseInt(attrStr);
+		dao.deleteUtilisateur(attrInt);
 	}
 
 	/**
