@@ -1,5 +1,7 @@
 /* Base de données: base_quest_allo_docteur */
 
+use base_quest_allo_docteur;
+
 SET FOREIGN_KEY_CHECKS = 0;
 DROP TABLE IF EXISTS Utilisateur;
 DROP TABLE IF EXISTS Adresse;
