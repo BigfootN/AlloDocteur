@@ -66,7 +66,7 @@
                                             <label style="display: block;"> Date de naissance</label>
                                             <input id="dteNaiss" name="dteNaiss" style="width:auto;" data-toggle="datepicker" type="text" value="15/05/1990" name="naissance">
                                         </div>
-                                        
+                                    </div>
                                 </fieldset>
                                 <div class="offset-md-2"></div>
                                 <fieldset class="col-md-4">
