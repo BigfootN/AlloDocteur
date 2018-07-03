@@ -5,25 +5,26 @@
  */
 package com.cours.allo.docteur.servlets;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import javax.json.JsonObject;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.cours.allo.docteur.dao.entities.Adresse;
 import com.cours.allo.docteur.dao.entities.Utilisateur;
+import com.cours.allo.docteur.dao.impl.AdresseDao;
 import com.cours.allo.docteur.dao.impl.UtilisateurDao;
 import com.cours.allo.docteur.factory.ServiceFactory;
 import com.cours.allo.docteur.service.IServiceFacade;
-import com.google.gson.Gson;
 
 /**
  *
@@ -59,8 +60,8 @@ public class ManageUsersServlet extends HttpServlet {
 
 		if (uri != null) {
 			if (uri.equals("user")) {
-				this.getServletContext().getRequestDispatcher("/pages/user/user.jsp").forward(request, response);
-			} else if (uri.startsWith("id=")) {
+				this.getServletContext().getRequestDispatcher("/pages/user/addUser.jsp").forward(request, response);
+			}else if (uri.startsWith("id=")) {
 				int idUser = Integer.parseInt(request.getParameter("id"));
 				RequestDispatcher dispatcher;
 
@@ -86,47 +87,78 @@ public class ManageUsersServlet extends HttpServlet {
 	 * @throws IOException
 	 */
 	@Override
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws IOException, ServletException {
-		String attrStr;
-		Integer attrInt;
-		UtilisateurDao dao;
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException {
 
-		dao = new UtilisateurDao();
+	    if(request.getParameter("_method") != null && request.getParameter("_method").equals("put")){
+	        doPut(request, response);
+	        return;
+        }
 
-		attrStr = (String) request.getParameter("id");
-		attrInt = Integer.parseInt(attrStr);
-		if (dao.deleteUtilisateur(attrInt)) {
-			response.setContentType("text/plain");
-			response.setStatus(200);
-			response.getWriter().write("1");
-		} else {
-			response.setContentType("text/plain");
-			response.setStatus(500);
-			response.getWriter().write("0");
-		}
+        String test = null;
+        Utilisateur utilisateur;
+        UtilisateurDao userDao;
+        Adresse adresse;
+        AdresseDao adresseDao;
+        DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+        utilisateur = new Utilisateur();
+        userDao = new UtilisateurDao();
+        adresse = new Adresse();
+        adresseDao = new AdresseDao();
+
+        utilisateur.setPrenom(request.getParameter("firstname"));
+        utilisateur.setNom(request.getParameter("lastname"));
+        utilisateur.setIdentifiant(request.getParameter("email"));
+        utilisateur.setMotPasse(request.getParameter("password"));
+        if (request.getParameter("sex").equals("male")){
+            utilisateur.setCivilite("Mr");
+        }else {
+            utilisateur.setCivilite("Mme");
+        }
+        try {
+            Date date = format.parse(request.getParameter("dteNaiss"));
+            utilisateur.setDateNaissance(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+
+        adresse.setRue(request.getParameter("street"));
+        adresse.setCodePostal(request.getParameter("postal_code"));
+        adresse.setVille(request.getParameter("select-city"));
+        adresse.setPays(request.getParameter("country"));
+        adresse.setPrincipale(true);
+
+        utilisateur = userDao.createUtilisateur(utilisateur);
+        adresse.setIdUtilisateur(utilisateur.getIdUtilisateur());
+        adresseDao.createAdresse(adresse);
+
+        response.sendRedirect("/maven-quest-allo-docteur-jdbc-web/ManageUsersServlet");
 	}
-
 	@Override
 	protected void doDelete(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		String attrStr;
-		Integer attrInt;
-		UtilisateurDao dao;
+		throws ServletException, IOException {
+			Integer attrInt;
+            String id = null;
+			UtilisateurDao dao;
 
-		dao = new UtilisateurDao();
+            BufferedReader br = new BufferedReader(new InputStreamReader(request.getInputStream()));
+            String json = "";
+            if(br != null){
+                json = br.readLine();
+            }
+            id = json.split("=")[1];
+			dao = new UtilisateurDao();
 
-		attrStr = (String) request.getParameter("id");
-		attrInt = Integer.parseInt(attrStr);
-		if (dao.deleteUtilisateur(attrInt)) {
-			response.setContentType("text/plain");
-			response.setStatus(204);
-			response.getWriter().write("1");
-		} else {
-			response.setContentType("text/plain");
-			response.setStatus(500);
-			response.getWriter().write("0");
-		}
+			attrInt = Integer.parseInt(id);
+			if(dao.deleteUtilisateur(attrInt)){
+				response.setContentType("text/plain");
+				response.setStatus(200);
+				response.getWriter().write("1");
+			}else {
+				response.setContentType("text/plain");
+				response.setStatus(500);
+				response.getWriter().write("0");
+			}
 	}
 
 	/**
@@ -187,7 +219,7 @@ public class ManageUsersServlet extends HttpServlet {
 
 		dao.updateUtilisateur(userUpdated);
 		System.out.println("utilisateur inseree");
-		request.getServletContext().getRequestDispatcher("/pages/user/allUsers.jsp").forward(request, response);
+        response.sendRedirect("/maven-quest-allo-docteur-jdbc-web/ManageUsersServlet");
 	}
 
 	private void saveUserInRequest(HttpServletRequest request, int idUser) {

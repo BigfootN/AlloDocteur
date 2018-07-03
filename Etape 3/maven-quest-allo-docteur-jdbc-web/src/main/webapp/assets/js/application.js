@@ -169,10 +169,12 @@ jQuery.extend(jQuery.validator.messages, {
 
 
                 $.ajax({
-                    type:'POST',
+                    type:'DELETE',
                     url: "ManageUsersServlet",
-                    contentType: "application/x-www-form-urlencoded",
+                    contentType: 'application/json',
                     data: data,
+                    dataType: 'json',
+                    mimeType: 'application/json',
                     success: function(response)
                     {
                         node.closest('tr').remove();

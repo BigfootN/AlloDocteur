@@ -30,13 +30,12 @@
                 <div class="content">
                     <div class="User quest">
                         <h1>Editer un utilisateur</h1>
-                        <form method="POST" id="customer-info-form" class="no-gutters"  action="ManageUsersServlet?id=<%=request.getAttribute("name")%>" enctype="application/x-www-form-urlencoded"
->
-                            <input type="hidden" name="_method" value="PUT" />
+                        <form method="post" id="customer-info-form" class="no-gutters"  action="ManageUsersServlet" enctype="application/x-www-form-urlencoded">
                             <div class="account-container row">
-
+                                <input type="hidden" name="_method" value="put" />
+                                <input type="hidden" name="id" value="<%=request.getAttribute("id")%>" />
                                 <fieldset class=" common-form-controls col-md-4">
-                                    <div >
+                                    <div>
                                         <p>Informations Personnelles</p>
 
                                         <div class="input-wrapper">
@@ -68,7 +67,7 @@
                                             <label style="display: block;"> Date de naissance</label>
                                             <input id="dteNaiss" name="dteNaiss" style="width:auto;" data-toggle="datepicker" type="text" name="naissance">
                                         </div>
-                                        
+                                    </div>
                                 </fieldset>
                                 <div class="offset-md-2"></div>
                                 <fieldset class="col-md-4">
