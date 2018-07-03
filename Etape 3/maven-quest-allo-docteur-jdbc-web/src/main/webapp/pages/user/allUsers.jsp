@@ -116,7 +116,7 @@
                                                 }
                                                 %>
                                             </td>
-                                            <td><a href="#"><i class="fa fa-edit"></i></a>
+                                            <td><a href="?id=${user.getIdUtilisateur()}"><i class="fa fa-edit"></i></a>
                                             <button class="no-style-btn"><i class="fa fa-trash-o" id="${user.getIdUtilisateur()}"></i></button></td>
                                         </tr>
                                         </c:forEach>
