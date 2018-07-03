@@ -124,7 +124,7 @@
                             </table>
                             <ul class="User">
                                 <li>
-                                    <a href="#" role="button">Ajouter Utilisateur</a>
+                                    <a href="?user" role="button">Ajouter Utilisateur</a>
                                 </li>
 
                             </ul>

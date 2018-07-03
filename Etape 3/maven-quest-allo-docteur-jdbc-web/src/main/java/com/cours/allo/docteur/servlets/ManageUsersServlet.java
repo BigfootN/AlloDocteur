@@ -8,6 +8,7 @@ package com.cours.allo.docteur.servlets;
 import java.io.IOException;
 import javax.json.JsonObject;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -22,8 +23,8 @@ import com.google.gson.Gson;
  *
  * @author elhad
  */
-// @WebServlet(name = "ManageUsersServlet", urlPatterns =
-// {"/ManageUsersServlet"})
+ @WebServlet(name = "ManageUsersServlet", urlPatterns =
+ {"/ManageUsersServlet"})
 public class ManageUsersServlet extends HttpServlet {
 	private IServiceFacade service;
 
@@ -48,7 +49,14 @@ public class ManageUsersServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		this.getServletContext().getRequestDispatcher("/pages/user/allUsers.jsp").forward(request, response);
+		String uri = request.getQueryString();
+
+        if (uri != null && uri.equals("user")){
+            this.getServletContext().getRequestDispatcher("/pages/user/user.jsp").forward(request, response);
+        }else{
+            this.getServletContext().getRequestDispatcher("/pages/user/allUsers.jsp").forward(request, response);
+		}
+
 		// this.getServletContext().getRequestDispatcher("/pages/user/user.jsp").forward(request,
 		// response);
 	}
@@ -62,25 +70,30 @@ public class ManageUsersServlet extends HttpServlet {
 	 * @throws IOException
 	 */
 	@Override
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		String attrStr;
-		Integer attrInt;
-		UtilisateurDao dao;
+	protected void doPost(HttpServletRequest request, HttpServletResponse response){
 
-		dao = new UtilisateurDao();
 
-		attrStr = (String) request.getParameter("id");
-		attrInt = Integer.parseInt(attrStr);
-		if(dao.deleteUtilisateur(attrInt)){
-			response.setContentType("text/plain");
-			response.setStatus(200);
-			response.getWriter().write("1");
-		}else {
-			response.setContentType("text/plain");
-			response.setStatus(500);
-			response.getWriter().write("0");
-		}
+	}
+	@Override
+	protected void doDelete(HttpServletRequest request, HttpServletResponse response)
+		throws ServletException, IOException {
+			String attrStr;
+			Integer attrInt;
+			UtilisateurDao dao;
+
+			dao = new UtilisateurDao();
+
+			attrStr = (String) request.getParameter("id");
+			attrInt = Integer.parseInt(attrStr);
+			if(dao.deleteUtilisateur(attrInt)){
+				response.setContentType("text/plain");
+				response.setStatus(200);
+				response.getWriter().write("1");
+			}else {
+				response.setContentType("text/plain");
+				response.setStatus(500);
+				response.getWriter().write("0");
+			}
 	}
 
 	/**
