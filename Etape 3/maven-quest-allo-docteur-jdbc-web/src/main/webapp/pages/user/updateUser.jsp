@@ -53,11 +53,11 @@
                                         <div class="input-wrapper">
                                             <label>Civilité</label>
                                             <div class="gender">
-                                                <input type="radio" id="male" name="sex" checked="checked"/>
+                                                <input type="radio" id="male" value="Mr" name="sex" checked="checked"/>
                                                 <label for="male">
                                                     <i class="fa fa-male" aria-hidden="true"></i>
                                                 </label>
-                                                <input type="radio" id="female" name="sex"/>
+                                                <input type="radio" id="female" value="Mme" name="sex"/>
                                                 <label for="female">
                                                     <i class="fa fa-female" aria-hidden="true"></i>
                                                 </label>
@@ -79,7 +79,7 @@
                                      </div>
                                     <div class="input-wrapper">
                                         <label>Code postal :</label>
-                                        <input type="text"  name="postal_code">
+                                        <input type="text" value="<%=request.getAttribute("codePostal")%>"  name="postal_code">
                                     </div>
                                     <div class="input-wrapper">
                                         <p>Selectionner la ville</p>

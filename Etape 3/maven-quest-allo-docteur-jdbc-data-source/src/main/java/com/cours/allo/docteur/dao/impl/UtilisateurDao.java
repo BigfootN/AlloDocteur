@@ -238,10 +238,14 @@ public class UtilisateurDao implements IUtilisateurDao {
 		Connection conn;
 		PreparedStatement stmt;
 		int newVersion;
+		List<Adresse> addrList;
 
 		newVersion = findUtilisateurById(user.getIdUtilisateur()).getVersion() + 1;
+		addrList = findUtilisateurById(user.getIdUtilisateur()).getAdresses();
+
 		user.setVersion(newVersion);
 		user.setDateModification(new Date());
+		user.setAdresses(addrList);
 
 		stmt = null;
 		conn = null;
@@ -249,7 +253,7 @@ public class UtilisateurDao implements IUtilisateurDao {
 		try {
 			conn = getConnection();
 			stmt = conn.prepareStatement(
-					"UPDATE Utilisateur SET civilite = ?, prenom = ?, nom = ?, identifiant = ?, motPasse = ?, dateNaissance = ?, dateCreation = ?, dateModification = ?, actif = ?, marquerEffacer = ?, version = ? WHERE idUtilisateur = ?");
+					"UPDATE base_quest_allo_docteur.Utilisateur SET civilite = ?, prenom = ?, nom = ?, identifiant = ?, motPasse = ?, dateNaissance = ?, dateCreation = ?, dateModification = ?, actif = ?, marquerEffacer = ?, version = ? WHERE idUtilisateur = ?");
 
 			stmt.setString(1, user.getCivilite());
 			stmt.setString(2, user.getPrenom());
@@ -266,6 +270,7 @@ public class UtilisateurDao implements IUtilisateurDao {
 
 			stmt.executeUpdate();
 		} catch (Exception e) {
+			System.out.println(e.getMessage());
 			return null;
 		} finally {
 			ConnectionHelper.closeSqlResources(conn, stmt, null);
@@ -507,4 +512,5 @@ public class UtilisateurDao implements IUtilisateurDao {
 
 		return ret;
 	}
+
 }

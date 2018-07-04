@@ -11,7 +11,9 @@ import java.io.InputStreamReader;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -61,7 +63,7 @@ public class ManageUsersServlet extends HttpServlet {
 		if (uri != null) {
 			if (uri.equals("user")) {
 				this.getServletContext().getRequestDispatcher("/pages/user/addUser.jsp").forward(request, response);
-			}else if (uri.startsWith("id=")) {
+			} else if (uri.startsWith("id=")) {
 				int idUser = Integer.parseInt(request.getParameter("id"));
 				RequestDispatcher dispatcher;
 
@@ -87,78 +89,80 @@ public class ManageUsersServlet extends HttpServlet {
 	 * @throws IOException
 	 */
 	@Override
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 
-	    if(request.getParameter("_method") != null && request.getParameter("_method").equals("put")){
-	        doPut(request, response);
-	        return;
-        }
+		if (request.getParameter("_method") != null && request.getParameter("_method").equals("put")) {
+			doPut(request, response);
+			return;
+		}
 
-        String test = null;
-        Utilisateur utilisateur;
-        UtilisateurDao userDao;
-        Adresse adresse;
-        AdresseDao adresseDao;
-        DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-        utilisateur = new Utilisateur();
-        userDao = new UtilisateurDao();
-        adresse = new Adresse();
-        adresseDao = new AdresseDao();
+		String test = null;
+		Utilisateur utilisateur;
+		UtilisateurDao userDao;
+		Adresse adresse;
+		AdresseDao adresseDao;
+		DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+		utilisateur = new Utilisateur();
+		userDao = new UtilisateurDao();
+		adresse = new Adresse();
+		adresseDao = new AdresseDao();
 
-        utilisateur.setPrenom(request.getParameter("firstname"));
-        utilisateur.setNom(request.getParameter("lastname"));
-        utilisateur.setIdentifiant(request.getParameter("email"));
-        utilisateur.setMotPasse(request.getParameter("password"));
-        if (request.getParameter("sex").equals("male")){
-            utilisateur.setCivilite("Mr");
-        }else {
-            utilisateur.setCivilite("Mme");
-        }
-        try {
-            Date date = format.parse(request.getParameter("dteNaiss"));
-            utilisateur.setDateNaissance(date);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+		utilisateur.setPrenom(request.getParameter("firstname"));
+		utilisateur.setNom(request.getParameter("lastname"));
+		utilisateur.setIdentifiant(request.getParameter("email"));
+		utilisateur.setMotPasse(request.getParameter("password"));
+		if (request.getParameter("sex").equals("male")) {
+			utilisateur.setCivilite("Mr");
+		} else {
+			utilisateur.setCivilite("Mme");
+		}
+		try {
+			Date date = format.parse(request.getParameter("dteNaiss"));
+			utilisateur.setDateNaissance(date);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
 
+		adresse.setRue(request.getParameter("street"));
+		adresse.setCodePostal(request.getParameter("postal_code"));
+		adresse.setVille(request.getParameter("select-city"));
+		adresse.setPays(request.getParameter("country"));
+		adresse.setPrincipale(true);
 
-        adresse.setRue(request.getParameter("street"));
-        adresse.setCodePostal(request.getParameter("postal_code"));
-        adresse.setVille(request.getParameter("select-city"));
-        adresse.setPays(request.getParameter("country"));
-        adresse.setPrincipale(true);
+		utilisateur = userDao.createUtilisateur(utilisateur);
+		adresse.setIdUtilisateur(utilisateur.getIdUtilisateur());
+		adresseDao.createAdresse(adresse);
 
-        utilisateur = userDao.createUtilisateur(utilisateur);
-        adresse.setIdUtilisateur(utilisateur.getIdUtilisateur());
-        adresseDao.createAdresse(adresse);
-
-        response.sendRedirect("/maven-quest-allo-docteur-jdbc-web/ManageUsersServlet");
+		response.sendRedirect("/maven-quest-allo-docteur-jdbc-web/ManageUsersServlet");
 	}
+
 	@Override
 	protected void doDelete(HttpServletRequest request, HttpServletResponse response)
-		throws ServletException, IOException {
-			Integer attrInt;
-            String id = null;
-			UtilisateurDao dao;
+			throws ServletException, IOException {
+		Integer attrInt;
+		String id = null;
+		UtilisateurDao dao;
+		BufferedReader br = new BufferedReader(new InputStreamReader(request.getInputStream()));
+		String json = "";
 
-            BufferedReader br = new BufferedReader(new InputStreamReader(request.getInputStream()));
-            String json = "";
-            if(br != null){
-                json = br.readLine();
-            }
-            id = json.split("=")[1];
-			dao = new UtilisateurDao();
+		if (br != null) {
+			json = br.readLine();
+		}
 
-			attrInt = Integer.parseInt(id);
-			if(dao.deleteUtilisateur(attrInt)){
-				response.setContentType("text/plain");
-				response.setStatus(200);
-				response.getWriter().write("1");
-			}else {
-				response.setContentType("text/plain");
-				response.setStatus(500);
-				response.getWriter().write("0");
-			}
+		id = json.split("=")[1];
+		dao = new UtilisateurDao();
+
+		attrInt = Integer.parseInt(id);
+		if (dao.deleteUtilisateur(attrInt)) {
+			response.setContentType("text/plain");
+			response.setStatus(200);
+			response.getWriter().write("1");
+		} else {
+			response.setContentType("text/plain");
+			response.setStatus(500);
+			response.getWriter().write("0");
+		}
 	}
 
 	/**
@@ -171,11 +175,11 @@ public class ManageUsersServlet extends HttpServlet {
 	@Override
 	protected void doPut(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		String attrStr;
-		Integer attrInt;
-		UtilisateurDao dao;
+		UtilisateurDao daoUser;
+		AdresseDao daoAddr;
 		Utilisateur userUpdated;
 		Integer idUser;
+		Integer idAddr;
 		DateFormat df;
 		String name;
 		String lastName;
@@ -186,40 +190,63 @@ public class ManageUsersServlet extends HttpServlet {
 		String country;
 		String birthDateStr;
 		Date birthDate;
-
-		System.out.println("SKLADHFKJASHDFKHSKADFHKJASHDFJKAHSDKFJHASKDHF");
-
-		df = new SimpleDateFormat("dd/MM/YYYY");
+		Date creationDate;
+		Date modificationDate;
+		Adresse newAddr;
+		Adresse mainAddr;
+		String civilite;
 
 		name = request.getParameter("firstname");
 		lastName = request.getParameter("lastname");
+		civilite = request.getParameter("sex");
 		email = request.getParameter("email");
 		birthDateStr = request.getParameter("dteNaiss");
 		street = request.getParameter("street");
 		postalCode = request.getParameter("postal_code");
 		city = request.getParameter("select-city");
 		country = request.getParameter("country");
+		creationDate = new Date();
+		modificationDate = new Date();
+
+		idUser = Integer.parseInt(request.getParameter("id"));
 
 		try {
+			df = new SimpleDateFormat("dd/MM/YYYY");
 			birthDate = df.parse(birthDateStr);
 		} catch (Exception e) {
-			birthDate = null;
+			birthDate = new Date();
 		}
 
-		dao = new UtilisateurDao();
-
-		attrStr = (String) request.getParameter("id");
-		idUser = Integer.parseInt(attrStr);
+		daoUser = new UtilisateurDao();
+		daoAddr = new AdresseDao();
 
 		userUpdated = new Utilisateur(idUser);
+
 		userUpdated.setDateNaissance(birthDate);
 		userUpdated.setNom(name);
 		userUpdated.setPrenom(lastName);
 		userUpdated.setIdentifiant(email);
+		userUpdated.setDateCreation(creationDate);
+		userUpdated.setDateModification(modificationDate);
+		userUpdated.setCivilite(civilite);
+		userUpdated.setActif(true);
+		userUpdated.setMarquerEffacer(false);
+		userUpdated.setVersion(1);
 
-		dao.updateUtilisateur(userUpdated);
-		System.out.println("utilisateur inseree");
-        response.sendRedirect("/maven-quest-allo-docteur-jdbc-web/ManageUsersServlet");
+		mainAddr = daoUser.updateUtilisateur(userUpdated).getAdressePrincipale();
+
+		if (mainAddr != null) {
+			idAddr = mainAddr.getIdAdresse();
+			System.out.println("main addr not null");
+		} else {
+			idAddr = 1;
+			System.out.println("main addr is null");
+		}
+
+		newAddr = new Adresse(idAddr, street, postalCode, city, country, true, 1, idUser);
+		daoAddr.updateAdresse(newAddr);
+
+		response.sendRedirect("/maven-quest-allo-docteur-jdbc-web/ManageUsersServlet");
 	}
 
 	private void saveUserInRequest(HttpServletRequest request, int idUser) {
