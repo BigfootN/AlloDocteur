@@ -211,7 +211,7 @@ public class ManageUsersServlet extends HttpServlet {
 		idUser = Integer.parseInt(request.getParameter("id"));
 
 		try {
-			df = new SimpleDateFormat("dd/MM/YYYY");
+			df = new SimpleDateFormat("dd/MM/yyyy");
 			birthDate = df.parse(birthDateStr);
 		} catch (Exception e) {
 			birthDate = new Date();
@@ -253,7 +253,9 @@ public class ManageUsersServlet extends HttpServlet {
 		Utilisateur user;
 		UtilisateurDao dao;
 		Adresse addr;
+		DateFormat df;
 
+		df = new SimpleDateFormat("dd/MM/yyyy");
 		dao = new UtilisateurDao();
 		user = dao.findUtilisateurById(idUser);
 		addr = user.getAdressePrincipale();
@@ -262,6 +264,7 @@ public class ManageUsersServlet extends HttpServlet {
 		request.setAttribute("name", user.getPrenom());
 		request.setAttribute("lastName", user.getNom());
 		request.setAttribute("email", user.getIdentifiant());
+		request.setAttribute("dteNaissance", df.format(user.getDateNaissance()));
 
 		if (addr != null) {
 			request.setAttribute("rue", addr.getRue());

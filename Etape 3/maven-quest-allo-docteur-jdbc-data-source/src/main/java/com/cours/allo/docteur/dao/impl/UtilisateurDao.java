@@ -89,7 +89,9 @@ public class UtilisateurDao implements IUtilisateurDao {
 			stmt.setInt(1, idUtilisateur);
 			resSet = stmt.executeQuery();
 			resSet.next();
+
 			ret = resultSetToUser(resSet);
+			ret.setAdresses(getAddrUser(idUtilisateur));
 		} catch (Exception e) {
 			return null;
 		} finally {
@@ -241,7 +243,7 @@ public class UtilisateurDao implements IUtilisateurDao {
 		List<Adresse> addrList;
 
 		newVersion = findUtilisateurById(user.getIdUtilisateur()).getVersion() + 1;
-		addrList = findUtilisateurById(user.getIdUtilisateur()).getAdresses();
+		addrList = getAddrUser(user.getIdUtilisateur());
 
 		user.setVersion(newVersion);
 		user.setDateModification(new Date());

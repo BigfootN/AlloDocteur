@@ -65,7 +65,7 @@
                                         </div>
                                         <div class="input-wrapper">
                                             <label style="display: block;"> Date de naissance</label>
-                                            <input id="dteNaiss" name="dteNaiss" style="width:auto;" data-toggle="datepicker" type="text" name="naissance">
+                                            <input id="dteNaiss" name="dteNaiss" style="width:auto;" value="<%=request.getAttribute("dteNaissance")%>" data-toggle="datepicker" type="text" name="naissance">
                                         </div>
                                     </div>
                                 </fieldset>
@@ -75,7 +75,7 @@
                                     <p> Adresse Principale :</p>
                                     <div class="input-wrapper">
                                         <label>Rue :</label>
-                                         <input type="text"  name="street">
+                                         <input type="text"  name="street" value="<%=request.getAttribute("rue")%>">
                                      </div>
                                     <div class="input-wrapper">
                                         <label>Code postal :</label>
