@@ -5,13 +5,15 @@
  */
 package com.cours.allo.docteur.servlets;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -56,14 +58,12 @@ public class ManageUsersServlet extends HttpServlet {
 	 */
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-	throws ServletException, IOException {
+			throws ServletException, IOException {
 		String uri = request.getQueryString();
 
 		if (uri != null) {
 			if (uri.equals("user")) {
-				this.getServletContext().getRequestDispatcher("/pages/user/addUser.jsp").forward(
-					request,
-					response);
+				this.getServletContext().getRequestDispatcher("/pages/user/addUser.jsp").forward(request, response);
 			} else if (uri.startsWith("id=")) {
 				int idUser = Integer.parseInt(request.getParameter("id"));
 				RequestDispatcher dispatcher;
@@ -73,30 +73,25 @@ public class ManageUsersServlet extends HttpServlet {
 
 				dispatcher.forward(request, response);
 			} else if (uri.startsWith("json")) {
-			    UtilisateurDao utilisateurDao = new UtilisateurDao();
+				UtilisateurDao utilisateurDao = new UtilisateurDao();
 
-                Json json = new Json(utilisateurDao.findAllUtilisateurs());
-                response.setContentType("Json");
-                response.setHeader("Content-disposition","attachment; filename=file.json");
+				Json json = new Json(utilisateurDao.findAllUtilisateurs());
+				response.setContentType("Json");
+				response.setHeader("Content-disposition", "attachment;filename=file.json");
 
-                OutputStream out = response.getOutputStream();
-                FileInputStream in = new FileInputStream(json.writeJson());
-                byte[] buffer = new byte[4096];
-                int length;
-                while ((length = in.read(buffer)) > 0){
-                    out.write(buffer, 0, length);
-                }
-                in.close();
-                out.flush();
-            }
+				OutputStream out = response.getOutputStream();
+				FileInputStream in = new FileInputStream(json.writeJson());
+				byte[] buffer = new byte[4096];
+				int length;
+				while ((length = in.read(buffer)) > 0) {
+					out.write(buffer, 0, length);
+				}
+				in.close();
+				out.flush();
+			}
 		} else {
-			this.getServletContext().getRequestDispatcher("/pages/user/allUsers.jsp").forward(
-				request,
-				response);
+			this.getServletContext().getRequestDispatcher("/pages/user/allUsers.jsp").forward(request, response);
 		}
-
-		// this.getServletContext().getRequestDispatcher("/pages/user/user.jsp").forward(request,
-		// response);
 	}
 
 	/**
@@ -109,10 +104,9 @@ public class ManageUsersServlet extends HttpServlet {
 	 */
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-	throws ServletException, IOException {
+			throws ServletException, IOException {
 
-		if (request.getParameter("_method") != null &&
-			request.getParameter("_method").equals("put")) {
+		if (request.getParameter("_method") != null && request.getParameter("_method").equals("put")) {
 			doPut(request, response);
 			return;
 		}
@@ -159,7 +153,7 @@ public class ManageUsersServlet extends HttpServlet {
 
 	@Override
 	protected void doDelete(HttpServletRequest request, HttpServletResponse response)
-	throws ServletException, IOException {
+			throws ServletException, IOException {
 		Integer attrInt;
 		String id = null;
 		UtilisateurDao dao;
@@ -189,11 +183,12 @@ public class ManageUsersServlet extends HttpServlet {
 	 * Méthode appelée lors de la fin de la Servlet
 	 */
 	@Override
-	public void destroy() {}
+	public void destroy() {
+	}
 
 	@Override
 	protected void doPut(HttpServletRequest request, HttpServletResponse response)
-	throws ServletException, IOException {
+			throws ServletException, IOException {
 		UtilisateurDao daoUser;
 		AdresseDao daoAddr;
 		Utilisateur userUpdated;

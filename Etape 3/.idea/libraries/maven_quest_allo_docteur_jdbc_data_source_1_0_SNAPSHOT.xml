@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="maven-quest-allo-docteur-jdbc-data-source-1.0-SNAPSHOT">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/maven-quest-allo-docteur-jdbc-data-source/target/maven-quest-allo-docteur-jdbc-data-source-1.0-SNAPSHOT.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

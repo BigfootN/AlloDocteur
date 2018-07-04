@@ -1,0 +1,15 @@
+<component name="libraryTable">
+  <library name="lib">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/maven-quest-allo-docteur-jdbc-web/target/maven-quest-allo-docteur-jdbc-web-1.0-SNAPSHOT/WEB-INF/lib/mysql-connector-java-5.1.41.jar!/" />
+      <root url="jar://$PROJECT_DIR$/maven-quest-allo-docteur-jdbc-web/target/maven-quest-allo-docteur-jdbc-web-1.0-SNAPSHOT/WEB-INF/lib/apache-log4j-extras-1.2.17.jar!/" />
+      <root url="jar://$PROJECT_DIR$/maven-quest-allo-docteur-jdbc-web/target/maven-quest-allo-docteur-jdbc-web-1.0-SNAPSHOT/WEB-INF/lib/commons-logging-1.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/maven-quest-allo-docteur-jdbc-web/target/maven-quest-allo-docteur-jdbc-web-1.0-SNAPSHOT/WEB-INF/lib/jstl-api-1.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/maven-quest-allo-docteur-jdbc-web/target/maven-quest-allo-docteur-jdbc-web-1.0-SNAPSHOT/WEB-INF/lib/log4j-1.2.17.jar!/" />
+      <root url="jar://$PROJECT_DIR$/maven-quest-allo-docteur-jdbc-web/target/maven-quest-allo-docteur-jdbc-web-1.0-SNAPSHOT/WEB-INF/lib/maven-quest-allo-docteur-jdbc-data-source-1.0-SNAPSHOT.jar!/" />
+      <root url="jar://$PROJECT_DIR$/maven-quest-allo-docteur-jdbc-web/target/maven-quest-allo-docteur-jdbc-web-1.0-SNAPSHOT/WEB-INF/lib/jstl-impl-1.2.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
