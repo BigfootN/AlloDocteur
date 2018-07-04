@@ -36,7 +36,7 @@
                         <ul class="User f-left">
 
                             <li>
-                                <a href="#" role="button">Export des Utilisateurs au format Json</a>
+                                <a href="?json" role="button">Export des Utilisateurs au format Json</a>
                             </li>
                         </ul>
                         <h1 class="clearfix">liste des utilisateurs</h1>

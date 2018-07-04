@@ -5,9 +5,7 @@
  */
 package com.cours.allo.docteur.servlets;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -27,6 +25,7 @@ import com.cours.allo.docteur.dao.impl.AdresseDao;
 import com.cours.allo.docteur.dao.impl.UtilisateurDao;
 import com.cours.allo.docteur.factory.ServiceFactory;
 import com.cours.allo.docteur.service.IServiceFacade;
+import com.cours.allo.docteur.utils.Json;
 
 /**
  *
@@ -73,7 +72,23 @@ public class ManageUsersServlet extends HttpServlet {
 				saveUserInRequest(request, idUser);
 
 				dispatcher.forward(request, response);
-			}
+			} else if (uri.startsWith("json")) {
+			    UtilisateurDao utilisateurDao = new UtilisateurDao();
+
+                Json json = new Json(utilisateurDao.findAllUtilisateurs());
+                response.setContentType("Json");
+                response.setHeader("Content-disposition","attachment; filename=file.json");
+
+                OutputStream out = response.getOutputStream();
+                FileInputStream in = new FileInputStream(json.writeJson());
+                byte[] buffer = new byte[4096];
+                int length;
+                while ((length = in.read(buffer)) > 0){
+                    out.write(buffer, 0, length);
+                }
+                in.close();
+                out.flush();
+            }
 		} else {
 			this.getServletContext().getRequestDispatcher("/pages/user/allUsers.jsp").forward(
 				request,
