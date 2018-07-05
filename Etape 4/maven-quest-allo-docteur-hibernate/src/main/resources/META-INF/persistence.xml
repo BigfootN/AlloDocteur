@@ -3,5 +3,11 @@
   <persistence-unit name="QuestAlloDocteurPU" transaction-type="RESOURCE_LOCAL">
     <class>com.cours.allo.docteur.dao.entities.Utilisateur</class>
     <class>com.cours.allo.docteur.dao.entities.Adresse</class>
+    <properties>
+		<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/base_quest_allo_docteur" />
+		<property name="javax.persistence.jdbc.user" value="application" /> 	
+		<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
+		<property name="javax.persistence.jdbc.password" value="passw0rd" />
+    </properties>
   </persistence-unit>
 </persistence>

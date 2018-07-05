@@ -5,8 +5,16 @@
  */
 package com.cours.allo.docteur.main;
 
+import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import com.cours.allo.docteur.dao.entities.Utilisateur;
 
 /**
  *
@@ -15,12 +23,20 @@ import org.apache.commons.logging.LogFactory;
 public class Main {
 
     private static final Log log = LogFactory.getLog(Main.class);
+    private static final String persistenceUnitName = "QuestAlloDocteurPU";
 
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
-        // TODO code application logic here
-
+    @SuppressWarnings("unchecked")
+	public static void main(String[] args) {
+    	List<Utilisateur> listUser;
+    	EntityManager em;
+    	EntityManagerFactory emf;
+    	
+    	emf = Persistence.createEntityManagerFactory(persistenceUnitName);
+    	em = emf.createEntityManager();
+    	
+    	listUser = em.createNamedQuery("Utilisateur.findAll").getResultList();
     }
 }
