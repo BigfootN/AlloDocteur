@@ -6,17 +6,21 @@
 package com.cours.allo.docteur.dao.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.persistence.Version;
@@ -44,7 +48,7 @@ public class Utilisateur implements Serializable {
 
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    @Basic(optional=false)
+    //@Basic(optional=false)
     @Column(name="idUtilisateur")
     private Integer idUtilisateur;
 
@@ -82,8 +86,8 @@ public class Utilisateur implements Serializable {
     @Version
     private Integer version;
 
-    @Transient
-    private List<Adresse> adresses;
+    @OneToMany(mappedBy = "addrOwner", cascade = CascadeType.ALL, orphanRemoval=true, fetch = FetchType.EAGER)
+    private List<Adresse> adresses = new ArrayList<>();
 
     public Utilisateur() {
     }

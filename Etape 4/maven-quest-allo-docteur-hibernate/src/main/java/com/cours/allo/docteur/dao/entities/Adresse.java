@@ -30,6 +30,7 @@ public class Adresse implements Serializable {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name="idAdresse")
+    //@Basic(optional=false)
     private Integer idAdresse;
 
     @Column(name="rue")
@@ -44,15 +45,16 @@ public class Adresse implements Serializable {
     @Column(name="pays")
     private String pays;
 
-    @Column(name="idUtilisateur")
-    private Integer idUtilisateur;
-
     @Column(name="principale")
     private boolean principale;
 
     @Column(name="version")
     @Version
     private Integer version;
+    
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(referencedColumnName="idUtilisateur", name="idUtilisateur")
+    private Utilisateur addrOwner;
 
     public Adresse() {
     }
@@ -62,7 +64,6 @@ public class Adresse implements Serializable {
         this.codePostal = codePostal;
         this.ville = ville;
         this.pays = pays;
-        this.idUtilisateur = idUtilisateur;
     }
 
     public Adresse(String rue, String codePostal, String ville, String pays) {
@@ -84,7 +85,19 @@ public class Adresse implements Serializable {
         this.idAdresse = idAdresse;
     }
 
-    public Integer getIdAdresse() {
+    public Adresse(String rue, String codePostal, String ville, String pays, Utilisateur userCRUD) {
+		this.rue = rue;
+		this.codePostal = codePostal;
+		this.ville = ville;
+		this.pays = pays;
+		this.addrOwner = userCRUD;
+	}
+    
+    public void setIdUtilisateur(int idUtilisateur) {
+    	addrOwner.setIdUtilisateur(idUtilisateur);
+    }
+
+	public Integer getIdAdresse() {
         return idAdresse;
     }
 
@@ -139,14 +152,10 @@ public class Adresse implements Serializable {
     public void setVersion(Integer version) {
         this.version = version;
     }
-
-    public Integer getIdUtilisateur() {
-        return idUtilisateur;
-    }
-
-    public void setIdUtilisateur(Integer idUtilisateur) {
-        this.idUtilisateur = idUtilisateur;
-    }
+    
+    public Utilisateur getAddrOwner() {
+		return addrOwner;
+	}
 
     @Override
     public int hashCode() {
@@ -170,7 +179,7 @@ public class Adresse implements Serializable {
 
     @Override
     public String toString() {
-        return String.format("[idAdresse=%s , rue=%s , ville=%s , codePostal=%s , pays=%s , principale=%s , version=%s, idUtilisateur=%s]\n", idAdresse, rue, ville, codePostal, pays, principale, version, idUtilisateur);
+        return String.format("[idAdresse=%s , rue=%s , ville=%s , codePostal=%s , pays=%s , principale=%s , version=%s, idUtilisateur=%s]\n", idAdresse, rue, ville, codePostal, pays, principale, version);
     }
 
 }

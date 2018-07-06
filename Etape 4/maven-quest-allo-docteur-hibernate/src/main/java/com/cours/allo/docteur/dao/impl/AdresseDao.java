@@ -5,10 +5,13 @@
  */
 package com.cours.allo.docteur.dao.impl;
 
+import com.cours.allo.docteur.dao.ConnectionHelper;
 import com.cours.allo.docteur.dao.IAdresseDao;
 import com.cours.allo.docteur.dao.entities.Adresse;
 import com.cours.allo.docteur.utils.Constants;
 import java.util.List;
+
+import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import org.apache.commons.logging.Log;
@@ -26,55 +29,105 @@ public class AdresseDao implements IAdresseDao {
     @Override
     public List<Adresse> findAllAdresses() {
         log.debug("Entree de la methode");
+        EntityManager em;
+        List<Adresse> ret;
+        
+        em = emf.createEntityManager();
+        ret = em.createNamedQuery("Adresse.findAll").getResultList();
+        ConnectionHelper.closeSqlResources(em);
 
+        
         log.debug("Sortie de la methode");
-        return null;
+        return ret;
     }
 
     @Override
     public Adresse findAdresseById(int idAdresse) {
-        log.debug("Entree de la methode");
+    	log.debug("Entree de la methode");
+        EntityManager em;
+        List<Adresse> ret;
+        
+        em = emf.createEntityManager();
+        ret = em.createNamedQuery("Adresse.findById").setParameter("idAdresse", idAdresse).getResultList();
+        ConnectionHelper.closeSqlResources(em);
 
+        
         log.debug("Sortie de la methode");
-        return null;
+        return ret.get(0);
     }
 
     @Override
     public List<Adresse> findAdressesByVille(String ville) {
-        log.debug("Entree de la methode");
+    	log.debug("Entree de la methode");
+        EntityManager em;
+        List<Adresse> ret;
+        
+        em = emf.createEntityManager();
+        ret = em.createNamedQuery("Adresse.findByVille").setParameter("ville", ville).getResultList();
+        ConnectionHelper.closeSqlResources(em);
 
+        
         log.debug("Sortie de la methode");
-        return null;
+        return ret;
     }
 
     @Override
     public List<Adresse> findAdressesByCodePostal(String codePostal) {
-        log.debug("Entree de la methode");
+    	log.debug("Entree de la methode");
+        EntityManager em;
+        List<Adresse> ret;
+        
+        em = emf.createEntityManager();
+        ret = em.createNamedQuery("Adresse.findByCodePostal").setParameter("codePostal", codePostal).getResultList();
+        ConnectionHelper.closeSqlResources(em);
 
+        
         log.debug("Sortie de la methode");
-        return null;
+        return ret;
     }
 
     @Override
     public Adresse createAdresse(Adresse adresse) {
-        log.debug("Entree de la methode");
+    	log.debug("Entree de la methode");
+        EntityManager em;
+        
+        em = emf.createEntityManager();
+        em.getTransaction().begin();
+        em.persist(adresse);
+        em.getTransaction().commit();
 
         log.debug("Sortie de la methode");
-        return null;
+        return adresse;
     }
 
     @Override
     public Adresse updateAdresse(Adresse adresse) {
+    	Adresse oldAddr;
+    	EntityManager em;
+    	
         log.debug("Entree de la methode");
-
+        em = emf.createEntityManager();
+        oldAddr = em.find(Adresse.class, adresse.getIdAdresse());
+        em.getTransaction().begin();
+        oldAddr.setCodePostal(adresse.getCodePostal());
+        oldAddr.setPays(adresse.getPays());
+        oldAddr.setRue(adresse.getRue());
+        oldAddr.setVille(adresse.getVille());
+        oldAddr.setVersion(oldAddr.getVersion() + 1);
+        em.getTransaction().commit();
         log.debug("Sortie de la methode");
-        return null;
+        
+        return oldAddr;
     }
 
     @Override
     public boolean deleteAdresse(Adresse adresse) {
-        log.debug("Entree de la methode");
-
+    	EntityManager em;
+        
+    	log.debug("Entree de la methode");
+        em = emf.createEntityManager();
+        em.remove(em.find(Adresse.class, adresse.getIdAdresse()));
+        
         log.debug("Sortie de la methode");
         return false;
     }
