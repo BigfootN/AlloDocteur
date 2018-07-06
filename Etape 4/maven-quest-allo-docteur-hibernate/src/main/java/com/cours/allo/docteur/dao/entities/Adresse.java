@@ -92,10 +92,6 @@ public class Adresse implements Serializable {
 		this.pays = pays;
 		this.addrOwner = userCRUD;
 	}
-    
-    public void setIdUtilisateur(int idUtilisateur) {
-    	addrOwner.setIdUtilisateur(idUtilisateur);
-    }
 
 	public Integer getIdAdresse() {
         return idAdresse;
