@@ -8,14 +8,27 @@ package com.dao.test;
 import com.cours.allo.docteur.dao.entities.Adresse;
 import com.cours.allo.docteur.dao.entities.Utilisateur;
 import com.cours.allo.docteur.service.IServiceFacade;
+
+import java.io.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
+
+import com.cours.allo.docteur.service.ServiceFacade;
+import com.cours.allo.docteur.utils.Constants;
+import com.ibatis.common.jdbc.ScriptRunner;
+import com.ibatis.common.resources.Resources;
+import com.sun.xml.internal.bind.v2.util.DataSourceSource;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
+
+import javax.sql.DataSource;
 
 public class JUnitQuestAlloDocteur {
 
@@ -44,13 +57,51 @@ public class JUnitQuestAlloDocteur {
 	public static void init() throws Exception {
 		// configuration de l'application
 		log.debug("Entree de la methode");
+        serviceFacade = new ServiceFacade();
+		initDataBase();
+        adresses = serviceFacade.getAdresseDao().findAllAdresses();
+        utilisateurs = serviceFacade.getUtilisateurDao().findAllUtilisateurs();
 		log.debug("Sortie de la methode");
 	}
 
 	public static void initDataBase() {
 		// Initialiser les données de la base de données
-		log.debug("Entree de la methode");
-		log.debug("Sortie de la methode");
+        String scriptFilePath = "e:/script.sql";
+        Reader reader = null;
+        Connection con = null;
+        try {
+            // load driver class for mysql
+            Class.forName("com.mysql.jdbc.Driver");
+            // create connection
+            con = DriverManager.getConnection(Constants.DATABASE_URL,
+                    Constants.DATABASE_USER, Constants.DATABASE_PASSWORD);
+            // create ScripRunner object
+            ScriptRunner scriptExecutor = new ScriptRunner(con, false, false);
+            // initialize file reader
+            reader = new BufferedReader(new FileReader(Constants.SQL_JUNIT_PATH_FILE));
+            // execute script with file reader as input
+            scriptExecutor.runScript(reader);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            // close file reader
+            if (reader != null) {
+                try {
+                    reader.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            // close db connection
+            if (con != null) {
+                try {
+                    con.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        log.debug("Sortie de la methode");
 	}
 
 	public void testFindAllUtilisateurs() {
@@ -145,8 +196,10 @@ public class JUnitQuestAlloDocteur {
 	@Test
 	public void testCreateUpdateDeleteUtilisateur() {
 		log.debug("Entree de la methode");
+        System.out.println(serviceFacade.getUtilisateurDao().findAllUtilisateurs().size());
 		Utilisateur userCRUD = new Utilisateur("Mr", "Jean", "Paul", "jean.paul@gmail.com", "passw0rd", new Date(System.currentTimeMillis()));
 		userCRUD = serviceFacade.getUtilisateurDao().createUtilisateur(userCRUD);
+        System.out.println(serviceFacade.getUtilisateurDao().findAllUtilisateurs().size());
 		Assert.assertNotNull(userCRUD);
 		Assert.assertNotNull(userCRUD.getIdUtilisateur());
 		Assert.assertNotNull(userCRUD.getPrenom());
@@ -160,9 +213,11 @@ public class JUnitQuestAlloDocteur {
 		Assert.assertNotNull(userCRUD);
 		userCRUD = serviceFacade.getUtilisateurDao().findUtilisateurById(userCRUD.getIdUtilisateur());
 		log.debug("Updated userCRUD : " + userCRUD);
+
 		Assert.assertEquals("Jean Bis", userCRUD.getPrenom());
 		Assert.assertEquals("Paul Bis", userCRUD.getNom());
 		Assert.assertTrue(serviceFacade.getUtilisateurDao().deleteUtilisateur(userCRUD));
+        System.out.println(serviceFacade.getUtilisateurDao().findAllUtilisateurs().size());
 		List<Utilisateur> utilisateursFinal = serviceFacade.getUtilisateurDao().findAllUtilisateurs();
 		if (utilisateursFinal != null) {
 			Assert.assertEquals(NB_UTILISATEURS_LIST, utilisateursFinal.size());

@@ -13,9 +13,8 @@ import com.cours.allo.docteur.utils.Constants;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
+import javax.persistence.*;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -46,12 +45,14 @@ public class UtilisateurDao implements IUtilisateurDao {
     public Utilisateur findUtilisateurById(int idUtilisateur) {
         String methodName = "findUtilisateurById";
         EntityManager em;
-        List<Utilisateur> ret;
-        
+        List<Utilisateur> ret = null;
+        Utilisateur user = null;
+
         em = emf.createEntityManager();
         ret = em.createNamedQuery("Utilisateur.findById").setParameter("idUtilisateur", idUtilisateur).getResultList();
         ConnectionHelper.closeSqlResources(em);
         
+        ret.size();
         return ret.get(0);
     }
 
@@ -99,74 +100,65 @@ public class UtilisateurDao implements IUtilisateurDao {
 
     @Override
     public Utilisateur createUtilisateur(Utilisateur user) {
-        Utilisateur oldUser;
+
+        log.debug("Entree de la methode");
         EntityManager em;
-    	
-    	log.debug("Entree de la methode");
-    	em = emf.createEntityManager();
-    	oldUser = em.find(Utilisateur.class, user.getIdUtilisateur());
-    	
-    	em.getTransaction().begin();
-    	em.persist(user);
-    	em.getTransaction().commit();
-    	
+        EntityTransaction tx;
+
+
+
+        em = emf.createEntityManager();
+        tx = em.getTransaction();
+        tx.begin();
+        em.persist(user);
+        tx.commit();
+
+        log.debug("Sortie de la methode");
         return user;
     }
 
     @Override
     public Utilisateur updateUtilisateur(Utilisateur user) {
-    	Utilisateur ret;
-    	EntityManager em;
+
     	
     	log.debug("Entree de la methode");
-    	em = emf.createEntityManager();
-    	ret = em.find(Utilisateur.class, user.getIdUtilisateur());
+
+            Utilisateur ret;
+            EntityManager em;
+            EntityTransaction tx;
+            em = emf.createEntityManager();
+
+
+            tx = em.getTransaction();
+            tx.begin();
+
+            em.merge(user);
+
+            tx.commit();
+            em.close();
+
+
+            return user;
+
+    	//em.close();
     	
-    	em.getTransaction().begin();
-    	ret.setAdresseSet(user.getAdresses());
-    	ret.setCivilite(user.getCivilite());
-    	ret.setDateCreation(user.getDateCreation());
-    	ret.setDateModification(new Date());
-    	ret.setActif(user.getActif());
-    	ret.setMarquerEffacer(user.getMarquerEffacer());
-    	ret.setNom(user.getNom());
-    	ret.setPrenom(user.getPrenom());
-    	ret.setMotPasse(user.getMotPasse());
-    	em.getTransaction().commit();
+
     	
-    	ConnectionHelper.closeSqlResources(em);
-    	
-        log.debug("Sortie de la methode");
-        return ret;
+
+
     }
 
     @Override
     public boolean deleteUtilisateur(Utilisateur user) {
-    	Utilisateur ret;
     	EntityManager em;
     	
     	log.debug("Entree de la methode");
-    	em = emf.createEntityManager();
-    	ret = em.find(Utilisateur.class, user.getIdUtilisateur());
-    	
-    	try {
-    		em.getTransaction().begin();
-        	ret.setAdresseSet(user.getAdresses());
-        	ret.setCivilite(user.getCivilite());
-        	ret.setDateCreation(user.getDateCreation());
-        	ret.setDateModification(new Date());
-        	ret.setActif(user.getActif());
-        	ret.setMarquerEffacer(user.getMarquerEffacer());
-        	ret.setNom(user.getNom());
-        	ret.setPrenom(user.getPrenom());
-        	ret.setMotPasse(user.getMotPasse());
-        	em.getTransaction().commit();
-    	} catch (Exception e) {
-    		return false;
-    	} finally {
-    		ConnectionHelper.closeSqlResources(em);
-    	}
-    	
+        em = emf.createEntityManager();
+
+        em.getTransaction().begin();
+        em.remove(em.merge(user));
+        em.getTransaction().commit();
+
         log.debug("Sortie de la methode");
         
         return true;

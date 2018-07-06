@@ -52,7 +52,7 @@ public class Adresse implements Serializable {
     @Version
     private Integer version;
     
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(referencedColumnName="idUtilisateur", name="idUtilisateur")
     private Utilisateur addrOwner;
 
@@ -64,6 +64,7 @@ public class Adresse implements Serializable {
         this.codePostal = codePostal;
         this.ville = ville;
         this.pays = pays;
+        //this.idUtilisateur = idUtilisateur;
     }
 
     public Adresse(String rue, String codePostal, String ville, String pays) {
@@ -175,7 +176,7 @@ public class Adresse implements Serializable {
 
     @Override
     public String toString() {
-        return String.format("[idAdresse=%s , rue=%s , ville=%s , codePostal=%s , pays=%s , principale=%s , version=%s, idUtilisateur=%s]\n", idAdresse, rue, ville, codePostal, pays, principale, version);
+        return String.format("\n[idAdresse=%s , rue=%s , ville=%s , codePostal=%s , pays=%s , principale=%s , version=%s, idUtilisateur=%s]\n", idAdresse, rue, ville, codePostal, pays, principale, version, addrOwner.getIdUtilisateur());
     }
 
 }

@@ -37,6 +37,18 @@ public abstract class AbstractDaoFactory {
     public static AbstractDaoFactory getFactory(FactoryDaoType daoType) {
         String methodName = "getFactory";
         AbstractDaoFactory factory = null;
+        switch (daoType){
+            case MANUAL_LIST_DAO_FACTORY:
+                break;
+            case JDBC_DAO_FACTORY:
+                break;
+            case MANUAL_MAP_DAO_FACTORY:
+                break;
+            case JPA_DAO_FACTORY:
+                factory = new DaoFactory();
+                break;
+        }
+
         log.debug("daoType: " + daoType);
         return factory;
     }

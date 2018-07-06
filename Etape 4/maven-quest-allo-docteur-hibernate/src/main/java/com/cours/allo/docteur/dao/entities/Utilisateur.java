@@ -40,7 +40,9 @@ import javax.xml.bind.annotation.XmlTransient;
 		@NamedQuery(name="Utilisateur.findByNom", query="SELECT u FROM Utilisateur u WHERE u.nom = :nom"),
 		@NamedQuery(name="Utilisateur.findByPrenom", query="SELECT u FROM Utilisateur u WHERE u.prenom = :prenom"),
 		@NamedQuery(name="Utilisateur.findByIdentifiant", query="SELECT u FROM Utilisateur u WHERE u.identifiant = :identifiant"),
-		@NamedQuery(name="Utilisateur.findByDateNaissance", query="SELECT u FROM Utilisateur u WHERE u.dateNaissance = :dateNaissance")
+		@NamedQuery(name="Utilisateur.findByDateNaissance", query="SELECT u FROM Utilisateur u WHERE u.dateNaissance = :dateNaissance"),
+		@NamedQuery(name="Utilisateur.findByCodePostal", query="SELECT u FROM Utilisateur u LEFT JOIN u.adresses a WHERE a.codePostal = :codePostal")
+
 })
 public class Utilisateur implements Serializable {
 
@@ -86,7 +88,7 @@ public class Utilisateur implements Serializable {
     @Version
     private Integer version;
 
-    @OneToMany(mappedBy = "addrOwner", cascade = CascadeType.ALL, orphanRemoval=true, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "addrOwner", cascade = CascadeType.MERGE, orphanRemoval=true, fetch = FetchType.EAGER)
     private List<Adresse> adresses = new ArrayList<>();
 
     public Utilisateur() {
