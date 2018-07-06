@@ -6,19 +6,19 @@
 package com.cours.allo.docteur.servlets;
 
 import java.io.IOException;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.cours.allo.docteur.dao.IUtilisateurDao;
-import com.cours.allo.docteur.dao.entities.Utilisateur;
-import com.cours.allo.docteur.dao.impl.UtilisateurDao;
-import com.cours.allo.docteur.factory.ServiceFactory;
-import com.cours.allo.docteur.service.IServiceFacade;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import com.cours.allo.docteur.dao.IUtilisateurDao;
+import com.cours.allo.docteur.dao.entities.Utilisateur;
+import com.cours.allo.docteur.factory.ServiceFactory;
+import com.cours.allo.docteur.service.IServiceFacade;
 
 /**
  *

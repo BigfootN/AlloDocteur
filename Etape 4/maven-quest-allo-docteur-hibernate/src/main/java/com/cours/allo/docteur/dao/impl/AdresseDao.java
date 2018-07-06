@@ -126,9 +126,16 @@ public class AdresseDao implements IAdresseDao {
         
     	log.debug("Entree de la methode");
         em = emf.createEntityManager();
-        em.remove(em.find(Adresse.class, adresse.getIdAdresse()));
+        
+        try {
+            em.remove(em.find(Adresse.class, adresse.getIdAdresse()));
+        } catch (Exception e) {
+        	return false;
+        } finally {
+        	ConnectionHelper.closeSqlResources(em);
+        }
         
         log.debug("Sortie de la methode");
-        return false;
+        return true;
     }
 }
