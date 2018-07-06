@@ -5,36 +5,59 @@
  */
 package com.cours.allo.docteur.dao.entities;
 
+import javax.persistence.*;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 
 /**
  *
  * @author elhad
  */
+
+@Entity
+@Table(name="Adresse")
+@XmlRootElement
+@NamedQueries({
+        @NamedQuery(name="Adresse.findAll", query="SELECT u FROM Adresse u"),
+        @NamedQuery(name="Adresse.findById", query="SELECT u FROM Adresse u WHERE u.idAdresse = :idAdresse"),
+        @NamedQuery(name="Adresse.findByVille", query="SELECT u FROM Adresse u WHERE u.ville = :ville"),
+        @NamedQuery(name="Adresse.findByCodePostal", query="SELECT u FROM Adresse u WHERE u.codePostal = :codePostal"),
+})
 public class Adresse implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @Column(name="idAdresse")
     private Integer idAdresse;
 
+    @Column(name="rue")
     private String rue;
 
+    @Column(name="codePostal")
     private String codePostal;
 
+    @Column(name="ville")
     private String ville;
 
+    @Column(name="pays")
     private String pays;
 
-    private Boolean principale;
+    @Column(name="idUtilisateur")
+    private Integer idUtilisateur;
 
+    @Column(name="principale")
+    private boolean principale;
+
+    @Column(name="version")
+    @Version
     private Integer version;
-
-    private Utilisateur idUtilisateur;
 
     public Adresse() {
     }
 
-    public Adresse(String rue, String codePostal, String ville, String pays, Utilisateur idUtilisateur) {
+    public Adresse(String rue, String codePostal, String ville, String pays, Integer idUtilisateur) {
         this.rue = rue;
         this.codePostal = codePostal;
         this.ville = ville;
@@ -117,11 +140,11 @@ public class Adresse implements Serializable {
         this.version = version;
     }
 
-    public Utilisateur getIdUtilisateur() {
+    public Integer getIdUtilisateur() {
         return idUtilisateur;
     }
 
-    public void setIdUtilisateur(Utilisateur idUtilisateur) {
+    public void setIdUtilisateur(Integer idUtilisateur) {
         this.idUtilisateur = idUtilisateur;
     }
 

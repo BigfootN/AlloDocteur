@@ -18,5 +18,6 @@ public class ConnectionHelper {
     private static final Log log = LogFactory.getLog(ConnectionHelper.class);
 
     public static void closeSqlResources(EntityManager em) {
+
     }
 }
