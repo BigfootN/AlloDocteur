@@ -58,12 +58,20 @@ public class ManageUsersServlet extends HttpServlet {
 	 */
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	throws ServletException, IOException {
 		String uri = request.getQueryString();
 
+		System.out.println("get");
+
+		if (uri == null)
+			System.out.println("this est null");
+
 		if (uri != null) {
+			System.out.println("uri est pas null");
 			if (uri.equals("user")) {
-				this.getServletContext().getRequestDispatcher("/pages/user/addUser.jsp").forward(request, response);
+				this.getServletContext().getRequestDispatcher("/pages/user/addUser.jsp").forward(
+					request,
+					response);
 			} else if (uri.startsWith("id=")) {
 				int idUser = Integer.parseInt(request.getParameter("id"));
 				RequestDispatcher dispatcher;
@@ -90,7 +98,11 @@ public class ManageUsersServlet extends HttpServlet {
 				out.flush();
 			}
 		} else {
-			this.getServletContext().getRequestDispatcher("/pages/user/allUsers.jsp").forward(request, response);
+			if (this.getServletContext().getRequestDispatcher("/pages/user/allUsers.jsp") == null)
+				System.out.println("servlet est null");
+			this.getServletContext().getRequestDispatcher("/pages/user/allUsers.jsp").forward(
+				request,
+				response);
 		}
 	}
 
@@ -104,9 +116,12 @@ public class ManageUsersServlet extends HttpServlet {
 	 */
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	throws ServletException, IOException {
 
-		if (request.getParameter("_method") != null && request.getParameter("_method").equals("put")) {
+		System.out.println("post");
+
+		if (request.getParameter("_method") != null &&
+			request.getParameter("_method").equals("put")) {
 			doPut(request, response);
 			return;
 		}
@@ -153,12 +168,14 @@ public class ManageUsersServlet extends HttpServlet {
 
 	@Override
 	protected void doDelete(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	throws ServletException, IOException {
 		Integer attrInt;
 		String id = null;
 		UtilisateurDao dao;
 		BufferedReader br = new BufferedReader(new InputStreamReader(request.getInputStream()));
 		String json = "";
+
+		System.out.println("delete");
 
 		if (br != null) {
 			json = br.readLine();
@@ -183,12 +200,11 @@ public class ManageUsersServlet extends HttpServlet {
 	 * Méthode appelée lors de la fin de la Servlet
 	 */
 	@Override
-	public void destroy() {
-	}
+	public void destroy() {}
 
 	@Override
 	protected void doPut(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	throws ServletException, IOException {
 		UtilisateurDao daoUser;
 		AdresseDao daoAddr;
 		Utilisateur userUpdated;
