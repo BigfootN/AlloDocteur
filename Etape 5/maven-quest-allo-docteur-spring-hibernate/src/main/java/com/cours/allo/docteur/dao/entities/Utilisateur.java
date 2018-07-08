@@ -6,43 +6,78 @@
 package com.cours.allo.docteur.dao.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import javax.persistence.*;
+import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author elhad
  */
+
+@Entity
+@Table(name="Utilisateur")
+@XmlRootElement
+@NamedQueries({
+        @NamedQuery(name="Utilisateur.findAll", query="SELECT u FROM Utilisateur u"),
+        @NamedQuery(name="Utilisateur.findById", query="SELECT u FROM Utilisateur u WHERE u.idUtilisateur = :idUtilisateur"),
+        @NamedQuery(name="Utilisateur.findByNom", query="SELECT u FROM Utilisateur u WHERE u.nom = :nom"),
+        @NamedQuery(name="Utilisateur.findByPrenom", query="SELECT u FROM Utilisateur u WHERE u.prenom = :prenom"),
+        @NamedQuery(name="Utilisateur.findByIdentifiant", query="SELECT u FROM Utilisateur u WHERE u.identifiant = :identifiant"),
+        @NamedQuery(name="Utilisateur.findByDateNaissance", query="SELECT u FROM Utilisateur u WHERE u.dateNaissance = :dateNaissance"),
+        @NamedQuery(name="Utilisateur.findByCodePostal", query="SELECT u FROM Utilisateur u LEFT JOIN u.adresses a WHERE a.codePostal = :codePostal")
+
+})
+
 public class Utilisateur implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    //@Basic(optional=false)
+    @Column(name="idUtilisateur")
     private Integer idUtilisateur;
 
+    @Column(name="civilite")
     private String civilite;
 
+    @Column(name="prenom")
     private String prenom;
 
+    @Column(name="nom")
     private String nom;
 
+    @Column(name="identifiant")
     private String identifiant;
 
+    @Column(name="motPasse")
     private String motPasse;
 
+    @Column(name="dateNaissance")
     private Date dateNaissance;
 
+    @Column(name="dateCreation")
     private Date dateCreation;
 
+    @Column(name="dateModification")
     private Date dateModification;
 
+    @Column(name="actif")
     private Boolean actif;
 
+    @Column(name="marquerEffacer")
     private Boolean marquerEffacer;
 
+    @Column(name="version")
+    @Version
     private Integer version;
 
-    private List<Adresse> adresses;
+    @OneToMany(mappedBy = "addrOwner", cascade = CascadeType.MERGE, orphanRemoval=true, fetch = FetchType.EAGER)
+    private List<Adresse> adresses = new ArrayList<>();
 
     public Utilisateur() {
     }

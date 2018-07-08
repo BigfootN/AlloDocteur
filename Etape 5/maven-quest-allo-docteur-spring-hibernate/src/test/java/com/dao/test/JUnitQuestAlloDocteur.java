@@ -5,17 +5,32 @@ package com.dao.test;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+import com.cours.allo.docteur.dao.IUtilisateurDao;
 import com.cours.allo.docteur.dao.entities.Adresse;
 import com.cours.allo.docteur.dao.entities.Utilisateur;
 import com.cours.allo.docteur.service.IServiceFacade;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.Reader;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
+
+import com.cours.allo.docteur.service.ServiceFacade;
+import com.cours.allo.docteur.utils.Constants;
+import com.ibatis.common.jdbc.ScriptRunner;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class JUnitQuestAlloDocteur {
 
@@ -46,12 +61,50 @@ public class JUnitQuestAlloDocteur {
     public static void init() throws Exception {
         // configuration de l'application
         log.debug("Entree de la methode");
+        serviceFacade = new ServiceFacade();
+        initDataBase();
+        utilisateurs = serviceFacade.getUtilisateurDao().findAllUtilisateurs();
+        adresses = serviceFacade.getAdresseDao().findAllAdresses();
         log.debug("Sortie de la methode");
     }
 
     public static void initDataBase() {
         // Initialiser les données de la base de données
         log.debug("Entree de la methode");
+        Reader reader = null;
+        Connection con = null;
+        try {
+            // load driver class for mysql
+            Class.forName("com.mysql.jdbc.Driver");
+            // create connection
+            con = DriverManager.getConnection(Constants.DATABASE_URL,
+                    Constants.DATABASE_USER, Constants.DATABASE_PASSWORD);
+            // create ScripRunner object
+            ScriptRunner scriptExecutor = new ScriptRunner(con, false, false);
+            // initialize file reader
+            reader = new BufferedReader(new FileReader(Constants.SQL_JUNIT_PATH_FILE));
+            // execute script with file reader as input
+            scriptExecutor.runScript(reader);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            // close file reader
+            if (reader != null) {
+                try {
+                    reader.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            // close db connection
+            if (con != null) {
+                try {
+                    con.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
         log.debug("Sortie de la methode");
     }
 

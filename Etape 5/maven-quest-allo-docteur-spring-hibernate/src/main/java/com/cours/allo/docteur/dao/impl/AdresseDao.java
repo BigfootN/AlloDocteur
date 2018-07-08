@@ -10,68 +10,105 @@ import com.cours.allo.docteur.dao.entities.Adresse;
 import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.transaction.annotation.Transactional;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 /**
  *
  * @author ElHadji
  */
+@Transactional
 public class AdresseDao implements IAdresseDao {
 
     private static final Log log = LogFactory.getLog(AdresseDao.class);
 
+    @PersistenceContext
+    private EntityManager em;
+
     @Override
     public List<Adresse> findAllAdresses() {
         log.debug("Entree de la methode");
+        List<Adresse> ret;
+
+        ret = em.createNamedQuery("Adresse.findAll").getResultList();
 
         log.debug("Sortie de la methode");
-        return null;
+        return ret;
     }
 
     @Override
     public Adresse findAdresseById(int idAdresse) {
         log.debug("Entree de la methode");
+        List<Adresse> ret;
+
+        ret = em.createNamedQuery("Adresse.findById").setParameter("idAdresse", idAdresse).getResultList();
 
         log.debug("Sortie de la methode");
-        return null;
+        return ret.get(0);
     }
 
     @Override
     public List<Adresse> findAdressesByVille(String ville) {
         log.debug("Entree de la methode");
+        List<Adresse> ret;
+
+        ret = em.createNamedQuery("Adresse.findByVille").setParameter("ville", ville).getResultList();
 
         log.debug("Sortie de la methode");
-        return null;
+        return ret;
     }
 
     @Override
     public List<Adresse> findAdressesByCodePostal(String codePostal) {
         log.debug("Entree de la methode");
+        List<Adresse> ret;
+
+        ret = em.createNamedQuery("Adresse.findByCodePostal").setParameter("codePostal", codePostal).getResultList();
 
         log.debug("Sortie de la methode");
-        return null;
+        return ret;
     }
 
     @Override
     public Adresse createAdresse(Adresse adresse) {
         log.debug("Entree de la methode");
 
+        em.persist(adresse);
+
         log.debug("Sortie de la methode");
-        return null;
+        return adresse;
     }
 
     @Override
     public Adresse updateAdresse(Adresse adresse) {
         log.debug("Entree de la methode");
+        Adresse oldAddr;
+
+        oldAddr = em.find(Adresse.class, adresse.getIdAdresse());
+        oldAddr.setCodePostal(adresse.getCodePostal());
+        oldAddr.setPays(adresse.getPays());
+        oldAddr.setRue(adresse.getRue());
+        oldAddr.setVille(adresse.getVille());
+        oldAddr.setVersion(oldAddr.getVersion() + 1);
 
         log.debug("Sortie de la methode");
-        return null;
+        return oldAddr;
     }
 
     @Override
     public boolean deleteAdresse(Adresse adresse) {
+
         log.debug("Entree de la methode");
 
+        try {
+            em.remove(em.find(Adresse.class, adresse.getIdAdresse()));
+        } catch (Exception e) {
+            return false;
+        }
+
         log.debug("Sortie de la methode");
-        return false;
+        return true;
     }
 }

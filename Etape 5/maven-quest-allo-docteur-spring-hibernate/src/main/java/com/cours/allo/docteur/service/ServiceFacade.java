@@ -31,10 +31,10 @@ public class ServiceFacade implements IServiceFacade {
 
         ctx = new ClassPathXmlApplicationContext("file:src/main/resources/applicationContext.xml");
 
-        utilisateurDao = (IUtilisateurDao) ctx.getBean("userDao");
-        adresseDao = (IAdresseDao) ctx.getBean("addrDao");
+        utilisateurDao = (IUtilisateurDao) ctx.getBean("UtilisateurDao");
+        adresseDao = (IAdresseDao) ctx.getBean("AdresseDao");
 
-        ((ConfigurableApplicationContext) ctx).close();
+        //((ConfigurableApplicationContext) ctx).close();
     }
 
     @Override

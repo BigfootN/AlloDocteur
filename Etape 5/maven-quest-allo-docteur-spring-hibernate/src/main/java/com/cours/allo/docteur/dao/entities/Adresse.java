@@ -5,31 +5,55 @@
  */
 package com.cours.allo.docteur.dao.entities;
 
+import javax.persistence.*;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 
 /**
  *
  * @author elhad
  */
+@Entity
+@Table(name="Adresse")
+@XmlRootElement
+@NamedQueries({
+        @NamedQuery(name="Adresse.findAll", query="SELECT u FROM Adresse u"),
+        @NamedQuery(name="Adresse.findById", query="SELECT u FROM Adresse u WHERE u.idAdresse = :idAdresse"),
+        @NamedQuery(name="Adresse.findByVille", query="SELECT u FROM Adresse u WHERE u.ville = :ville"),
+        @NamedQuery(name="Adresse.findByCodePostal", query="SELECT u FROM Adresse u WHERE u.codePostal = :codePostal"),
+})
 public class Adresse implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @Column(name="idAdresse")
+    //@Basic(optional=false)
     private Integer idAdresse;
 
+    @Column(name="rue")
     private String rue;
 
+    @Column(name="codePostal")
     private String codePostal;
 
+    @Column(name="ville")
     private String ville;
 
+    @Column(name="pays")
     private String pays;
 
-    private Boolean principale;
+    @Column(name="principale")
+    private boolean principale;
 
+    @Column(name="version")
+    @Version
     private Integer version;
 
-    private Utilisateur idUtilisateur;
+    @ManyToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(referencedColumnName="idUtilisateur", name="idUtilisateur")
+    private Utilisateur addrOwner;
 
     public Adresse() {
     }
@@ -39,7 +63,7 @@ public class Adresse implements Serializable {
         this.codePostal = codePostal;
         this.ville = ville;
         this.pays = pays;
-        this.idUtilisateur = idUtilisateur;
+        this.addrOwner = idUtilisateur;
     }
 
     public Adresse(String rue, String codePostal, String ville, String pays) {
@@ -118,11 +142,11 @@ public class Adresse implements Serializable {
     }
 
     public Utilisateur getIdUtilisateur() {
-        return idUtilisateur;
+        return addrOwner;
     }
 
     public void setIdUtilisateur(Utilisateur idUtilisateur) {
-        this.idUtilisateur = idUtilisateur;
+        this.addrOwner.setIdUtilisateur(idUtilisateur.getIdUtilisateur());
     }
 
     @Override
@@ -147,7 +171,7 @@ public class Adresse implements Serializable {
 
     @Override
     public String toString() {
-        return String.format("[idAdresse=%s , rue=%s , ville=%s , codePostal=%s , pays=%s , principale=%s , version=%s, idUtilisateur=%s]\n", idAdresse, rue, ville, codePostal, pays, principale, version, idUtilisateur);
+        return String.format("[idAdresse=%s , rue=%s , ville=%s , codePostal=%s , pays=%s , principale=%s , version=%s, idUtilisateur=%s]\n", idAdresse, rue, ville, codePostal, pays, principale, version, addrOwner.getIdUtilisateur());
     }
 
 }
