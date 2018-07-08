@@ -30,8 +30,8 @@
         <property name="entityManagerFactory" ref="entityManagerFactory" />
     </bean>
 
-    <bean id="userDao" class="com.cours.allo.docteur.dao.impl.UtilisateurDao"/>
-    <bean id="addrDao" class="com.cours.allo.docteur.dao.impl.AdresseDao"/>
+    <bean id="UtilisateurDao" class="com.cours.allo.docteur.dao.impl.UtilisateurDao"/>
+    <bean id="AdresseDao" class="com.cours.allo.docteur.dao.impl.AdresseDao"/>
 </beans>
 
 
