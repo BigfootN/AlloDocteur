@@ -15,20 +15,23 @@
 
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="com.mysql.jdbc.Driver" />
-        <property name="url" value="jdbc:mysql://localhost:3306/base_personnes_jpa" />
+        <property name="url" value="jdbc:mysql://localhost:3306/base_quest_allo_docteur" />
         <property name="username" value="application" />
         <property name="password" value="passw0rd" />
     </bean>
 
-    <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalEntityManagerFactoryBean">
-        <property name="dataSource" ref="dataSource">
-        <property name="persitanceUnitName" value="QuestAlloDocteurPU">
+    <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="dataSource" ref="dataSource" />
+        <property name="persistenceUnitName" value="QuestAlloDocteurPU" />
     </bean>
 
     <tx:annotation-driven transaction-manager="transactionManager"/>
     <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
-        <property name="entityManagerFactory" ref="entityManagerFactory">
+        <property name="entityManagerFactory" ref="entityManagerFactory" />
     </bean>
+
+    <bean id="userDao" class="com.cours.allo.docteur.dao.impl.UtilisateurDao"/>
+    <bean id="addrDao" class="com.cours.allo.docteur.dao.impl.AdresseDao"/>
 </beans>
 
 
