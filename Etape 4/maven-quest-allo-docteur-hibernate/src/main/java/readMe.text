@@ -1,0 +1,16 @@
+Question 1
+
+ACID (atomicité, cohérence, isolation, durabilité) est un ensemble de proprietes
+de transactions de base de donnees qui permet de garantir la validite des donnees
+meme en cas d'erreurs (panne, coupure de courants, ...)
+
+Question 2
+
+Une transaction est une tache effectue sur une base de donnees, et independante
+d'autres transactions. Une transaction doit, par definition, etre ACID.
+
+Question 3
+
+Un ORM une technique de programmation permettant de convertir des donnees entre des
+systemes incompatibles au travers d'objets. De cela decoule une base de donnees d'objets
+virtuelle.
