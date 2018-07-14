@@ -24,6 +24,11 @@ public class ServiceFacade implements IServiceFacade {
     private static final Log log = LogFactory.getLog(ServiceFacade.class);
     // On liste toutes les DAO : un DAO pour chaque entité (Utilisateur,Adresse ect
     // ....)
+
+    public ServiceFacade() {
+        System.out.println("servicefacade cree Youpi!!!");
+    }
+
     @Autowired
     @Qualifier("UtilisateurDao")
     private IUtilisateurDao utilisateurDao;
