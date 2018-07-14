@@ -32,6 +32,7 @@
 
     <bean id="UtilisateurDao" class="com.cours.allo.docteur.dao.impl.UtilisateurDao"/>
     <bean id="AdresseDao" class="com.cours.allo.docteur.dao.impl.AdresseDao"/>
+    <bean id="serviceFacade" class="com.cours.allo.docteur.service.ServiceFacade"/>
 </beans>
 
 

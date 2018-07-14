@@ -15,9 +15,11 @@ import org.apache.commons.logging.LogFactory;
  */
 public class ConnectionHelper {
 
-    private static final Log log = LogFactory.getLog(ConnectionHelper.class);
+	private static final Log log = LogFactory.getLog(ConnectionHelper.class);
 
-    public static void closeSqlResources(EntityManager em) {
-    	em.close();
-    }
+	public static void closeSqlResources(EntityManager em) {
+		if (em.isOpen())
+			em.close();
+	}
+
 }

@@ -160,8 +160,30 @@ jQuery.extend(jQuery.validator.messages, {
         $('.fa-trash,.fa-trash-o').each(function (index, el) {
             $(this).click(function (event) {
                 event.preventDefault();
-                $(this).closest('tr').remove();
-                $(this).closest('.product').remove();
+                var node = $(this);
+                var id = $(this).attr('id');
+
+                var data = {
+                    id: id,
+                };
+
+
+                $.ajax({
+                    type:'DELETE',
+                    url: "ManageUsersServlet",
+                    contentType: 'application/json',
+                    data: data,
+                    dataType: 'json',
+                    mimeType: 'application/json',
+                    success: function(response)
+                    {
+                        node.closest('tr').remove();
+                        node.closest('.product').remove();
+                    },
+                    error: function () {
+
+                    }
+                });
 
             });
         });

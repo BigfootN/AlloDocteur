@@ -30,33 +30,34 @@
                 <div class="content">
                     <div class="User quest">
                         <h1>Editer un utilisateur</h1>
-                        <form method="post" id="customer-info-form" class="no-gutters" action="ManageUsersServlet" enctype="application/x-www-form-urlencoded">>
+                        <form method="post" id="customer-info-form" class="no-gutters"  action="ManageUsersServlet" enctype="application/x-www-form-urlencoded">
                             <div class="account-container row">
-
+                                <input type="hidden" name="_method" value="put" />
+                                <input type="hidden" name="id" value="<%=request.getAttribute("id")%>" />
                                 <fieldset class=" common-form-controls col-md-4">
-                                    <div >
+                                    <div>
                                         <p>Informations Personnelles</p>
 
                                         <div class="input-wrapper">
                                             <label for="firstname">Prénom</label>
-                                            <input value="John"  name="firstname" id="firstname" type="text">
+                                            <input value="<%=request.getAttribute("name")%>" name="firstname" id="firstname" type="text">
                                         </div>
                                         <div class="input-wrapper">
                                             <label for="lastname">Nom</label>
-                                            <input value="Doe"  name="lastname" id="lastname" type="text">
+                                            <input value="<%=request.getAttribute("lastName")%>" name="lastname" id="lastname" type="text">
                                         </div>
                                         <div class="input-wrapper">
                                             <label for="email">Identifiant</label>
-                                            <input name="email" value="john@mail.com" id="email" type="email">
+                                            <input name="email" value="<%=request.getAttribute("email")%>" id="email" type="email">
                                         </div>
                                         <div class="input-wrapper">
                                             <label>Civilité</label>
                                             <div class="gender">
-                                                <input type="radio" id="male" name="sex" checked="checked"/>
+                                                <input type="radio" id="male" value="Mr" name="sex" checked="checked"/>
                                                 <label for="male">
                                                     <i class="fa fa-male" aria-hidden="true"></i>
                                                 </label>
-                                                <input type="radio" id="female" name="sex"/>
+                                                <input type="radio" id="female" value="Mme" name="sex"/>
                                                 <label for="female">
                                                     <i class="fa fa-female" aria-hidden="true"></i>
                                                 </label>
@@ -64,7 +65,7 @@
                                         </div>
                                         <div class="input-wrapper">
                                             <label style="display: block;"> Date de naissance</label>
-                                            <input id="dteNaiss" name="dteNaiss" style="width:auto;" data-toggle="datepicker" type="text" value="15/05/1990" name="naissance">
+                                            <input id="dteNaiss" name="dteNaiss" style="width:auto;" value="<%=request.getAttribute("dteNaissance")%>" data-toggle="datepicker" type="text" name="naissance">
                                         </div>
                                     </div>
                                 </fieldset>
@@ -74,11 +75,11 @@
                                     <p> Adresse Principale :</p>
                                     <div class="input-wrapper">
                                         <label>Rue :</label>
-                                         <input type="text" value="Rue la victoire"  name="street">
+                                         <input type="text"  name="street" value="<%=request.getAttribute("rue")%>">
                                      </div>
                                     <div class="input-wrapper">
                                         <label>Code postal :</label>
-                                        <input type="text" value="75000"  name="postal_code">
+                                        <input type="text" value="<%=request.getAttribute("codePostal")%>"  name="postal_code">
                                     </div>
                                     <div class="input-wrapper">
                                         <p>Selectionner la ville</p>
@@ -86,7 +87,7 @@
                                             <div class="sel">
                                                 <select  class="required" name="select-city" id="select-city"> 
                                                     <option value="Ville" disabled>Ville</option>
-                                                    <option value="Laval " selected>Laval </option>
+                                                    <option value="Laval ">Laval </option>
                                                     <option value="Paris ">Paris </option>
                                                     <option value="Lyon ">Lyon </option>
                                                     <option value="Nante ">Nante </option>
@@ -97,7 +98,7 @@
                                     </div>
                                     <div class="input-wrapper">
                                         <label>Pays :</label>
-                                        <input type="text" value="France"  name="country">
+                                        <input value="<%=request.getAttribute("pays")%>" type="text" name="country">
                                     </div>
                                 </fieldset>
                             </div>

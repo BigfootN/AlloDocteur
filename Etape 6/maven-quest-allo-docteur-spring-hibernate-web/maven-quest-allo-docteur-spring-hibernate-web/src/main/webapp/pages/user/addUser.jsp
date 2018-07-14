@@ -29,8 +29,8 @@
             <section>
                 <div class="content">
                     <div class="User quest">
-                        <h1>Editer un utilisateur</h1>
-                        <form method="post" id="customer-info-form" class="no-gutters" action="ManageUsersServlet" enctype="application/x-www-form-urlencoded">>
+                        <h1>Créer un utilisateur</h1>
+                        <form method="post" id="customer-info-form" class="no-gutters" action="ManageUsersServlet" enctype="application/x-www-form-urlencoded">
                             <div class="account-container row">
 
                                 <fieldset class=" common-form-controls col-md-4">
@@ -39,24 +39,28 @@
 
                                         <div class="input-wrapper">
                                             <label for="firstname">Prénom</label>
-                                            <input value="John"  name="firstname" id="firstname" type="text">
+                                            <input name="firstname" id="firstname" type="text">
                                         </div>
                                         <div class="input-wrapper">
                                             <label for="lastname">Nom</label>
-                                            <input value="Doe"  name="lastname" id="lastname" type="text">
+                                            <input name="lastname" id="lastname" type="text">
                                         </div>
                                         <div class="input-wrapper">
                                             <label for="email">Identifiant</label>
-                                            <input name="email" value="john@mail.com" id="email" type="email">
+                                            <input name="email" id="email" type="email">
+                                        </div>
+                                        <div class="input-wrapper">
+                                            <label for="password">Mot de passe</label>
+                                            <input name="password" id="password" type="password">
                                         </div>
                                         <div class="input-wrapper">
                                             <label>Civilité</label>
                                             <div class="gender">
-                                                <input type="radio" id="male" name="sex" checked="checked"/>
+                                                <input type="radio" id="male" name="sex" checked="checked" value="male"/>
                                                 <label for="male">
                                                     <i class="fa fa-male" aria-hidden="true"></i>
                                                 </label>
-                                                <input type="radio" id="female" name="sex"/>
+                                                <input type="radio" id="female" name="sex" value="female"/>
                                                 <label for="female">
                                                     <i class="fa fa-female" aria-hidden="true"></i>
                                                 </label>
@@ -64,9 +68,9 @@
                                         </div>
                                         <div class="input-wrapper">
                                             <label style="display: block;"> Date de naissance</label>
-                                            <input id="dteNaiss" name="dteNaiss" style="width:auto;" data-toggle="datepicker" type="text" value="15/05/1990" name="naissance">
+                                            <input id="dteNaiss" name="dteNaiss" style="width:auto;" data-toggle="datepicker" type="text" name="naissance">
                                         </div>
-                                    </div>
+                                        
                                 </fieldset>
                                 <div class="offset-md-2"></div>
                                 <fieldset class="col-md-4">
@@ -74,11 +78,11 @@
                                     <p> Adresse Principale :</p>
                                     <div class="input-wrapper">
                                         <label>Rue :</label>
-                                         <input type="text" value="Rue la victoire"  name="street">
+                                         <input type="text" name="street">
                                      </div>
                                     <div class="input-wrapper">
                                         <label>Code postal :</label>
-                                        <input type="text" value="75000"  name="postal_code">
+                                        <input type="text" name="postal_code">
                                     </div>
                                     <div class="input-wrapper">
                                         <p>Selectionner la ville</p>
@@ -97,7 +101,7 @@
                                     </div>
                                     <div class="input-wrapper">
                                         <label>Pays :</label>
-                                        <input type="text" value="France"  name="country">
+                                        <input type="text" name="country">
                                     </div>
                                 </fieldset>
                             </div>

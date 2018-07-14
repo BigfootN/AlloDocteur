@@ -6,12 +6,19 @@
 package com.cours.allo.docteur.servlets;
 
 import java.io.IOException;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import com.cours.allo.docteur.dao.IUtilisateurDao;
+import com.cours.allo.docteur.dao.entities.Utilisateur;
+import com.cours.allo.docteur.factory.ServiceFactory;
+import com.cours.allo.docteur.service.IServiceFacade;
 
 /**
  *
@@ -20,30 +27,48 @@ import org.apache.commons.logging.LogFactory;
 // @WebServlet(name = "LoginServlet", urlPatterns = {"/LoginServlet"})
 public class LoginServlet extends HttpServlet {
 
-    private static final Log log = LogFactory.getLog(LoginServlet.class);
-    // private IServiceFacade serviceFacade = null;
+	private static final Log log = LogFactory.getLog(LoginServlet.class);
+	private IServiceFacade serviceFacade = null;
 
-    @Override
-    public void init() throws ServletException {
-        
-    }
+	@Override
+	public void init() throws ServletException {
+		serviceFacade = ServiceFactory.getDefaultServiceFacade();
+	}
 
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        this.getServletContext().getRequestDispatcher("/pages/login/login.jsp").forward(request, response);
-    }
+	@Override
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		Utilisateur user;
 
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.sendRedirect(this.getServletContext().getContextPath() + "/ManageUsersServlet");
-    }
+		this.getServletContext().getRequestDispatcher("/pages/login/login.jsp").forward(request, response);
+	}
 
-    /**
-     * Méthode appelée lors de la fin de la Servlet
-     */
-    @Override
-    public void destroy() {
-    }
+	@Override
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		Utilisateur user;
+		String pwd;
+		String mail;
+		IUtilisateurDao dao;
+
+		mail = request.getParameter("email");
+		pwd = request.getParameter("password");
+		dao = serviceFacade.getUtilisateurDao();
+
+		user = dao.authenticate(mail, pwd);
+
+		if (true)
+			response.sendRedirect(this.getServletContext().getContextPath() + "/ManageUsersServlet");
+		else {
+			this.getServletContext().getRequestDispatcher("/pages/login/login.jsp").forward(request, response);
+		}
+	}
+
+	/**
+	 * Méthode appelée lors de la fin de la Servlet
+	 */
+	@Override
+	public void destroy() {
+	}
+
 }

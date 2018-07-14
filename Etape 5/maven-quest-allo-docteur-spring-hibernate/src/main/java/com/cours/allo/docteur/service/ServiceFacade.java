@@ -10,34 +10,31 @@ import com.cours.allo.docteur.dao.IUtilisateurDao;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
 
 /**
  *
  * @author ElHadji
  */
+@Service
 public class ServiceFacade implements IServiceFacade {
 
     private static final Log log = LogFactory.getLog(ServiceFacade.class);
     // On liste toutes les DAO : un DAO pour chaque entité (Utilisateur,Adresse ect
     // ....)
-    private IUtilisateurDao utilisateurDao = null;
-    private IAdresseDao adresseDao = null;
+    @Autowired
+    @Qualifier("UtilisateurDao")
+    private IUtilisateurDao utilisateurDao;
 
-    public ServiceFacade() {
-        ApplicationContext ctx;
-
-        ctx = new ClassPathXmlApplicationContext("file:src/main/resources/applicationContext.xml");
-
-        utilisateurDao = (IUtilisateurDao) ctx.getBean("UtilisateurDao");
-        adresseDao = (IAdresseDao) ctx.getBean("AdresseDao");
-
-        //((ConfigurableApplicationContext) ctx).close();
-    }
+    @Autowired
+    @Qualifier("AdresseDao")
+    private IAdresseDao adresseDao;
 
     @Override
+    @Autowired
+    @Qualifier("UtilisateurDao")
     public IUtilisateurDao getUtilisateurDao() {
         return utilisateurDao;
     }

@@ -24,143 +24,201 @@ import org.apache.commons.logging.LogFactory;
  */
 public class UtilisateurDao implements IUtilisateurDao {
 
-    private static final Log log = LogFactory.getLog(UtilisateurDao.class);
-    public static final EntityManagerFactory emf = Persistence.createEntityManagerFactory(Constants.PERSISTANCE_UNIT);
+	private static final Log log = LogFactory.getLog(UtilisateurDao.class);
+	public static final EntityManagerFactory emf = Persistence.createEntityManagerFactory(
+		Constants.PERSISTANCE_UNIT);
 
-    @Override
-    public List<Utilisateur> findAllUtilisateurs() {
-        EntityManager em;
-    	List<Utilisateur> ret;
-        
-    	log.debug("Entree de la methode");
-        em = emf.createEntityManager();
-        ret = em.createNamedQuery("Utilisateur.findAll").getResultList();
-        ConnectionHelper.closeSqlResources(em);
-        log.debug("Sortie de la methode");
-        
-        return ret;
-    }
+	@Override
+	public List<Utilisateur> findAllUtilisateurs() {
+		EntityManager em;
+		List<Utilisateur> ret;
 
-    @Override
-    public Utilisateur findUtilisateurById(int idUtilisateur) {
-        String methodName = "findUtilisateurById";
-        EntityManager em;
-        List<Utilisateur> ret = null;
-        Utilisateur user = null;
+		log.debug("Entree de la methode");
 
-        em = emf.createEntityManager();
-        ret = em.createNamedQuery("Utilisateur.findById").setParameter("idUtilisateur", idUtilisateur).getResultList();
-        ConnectionHelper.closeSqlResources(em);
-        
-        ret.size();
-        return ret.get(0);
-    }
+		em = emf.createEntityManager();
+		try {
+			ret = em.createNamedQuery("Utilisateur.findAll").getResultList();
+		} catch (Exception e) {
+			ret = null;
+			em.getTransaction().rollback();
+		}
 
-    @Override
-    public List<Utilisateur> findUtilisateursByPrenom(String prenom) {
-        List<Utilisateur> ret;
-    	EntityManager em;
-        
-    	log.debug("Entree de la methode");
-    	em = emf.createEntityManager();
-    	ret = em.createNamedQuery("Utilisateur.findByPrenom").setParameter("prenom", prenom).getResultList();
-    	ConnectionHelper.closeSqlResources(em);
-    	
-        log.debug("Sortie de la methode");
-        return ret;
-    }
+		ConnectionHelper.closeSqlResources(em);
 
-    @Override
-    public List<Utilisateur> findUtilisateursByNom(String nom) {
-    	List<Utilisateur> ret;
-    	EntityManager em;
-        
-    	log.debug("Entree de la methode");
-    	em = emf.createEntityManager();
-    	ret = em.createNamedQuery("Utilisateur.findByNom").setParameter("nom", nom).getResultList();
-    	ConnectionHelper.closeSqlResources(em);
-    	
-        log.debug("Sortie de la methode");
-        return ret;
-    }
+		log.debug("Sortie de la methode");
 
-    @Override
-    public List<Utilisateur> findUtilisateursByCodePostal(String codePostal) {
-    	List<Utilisateur> ret;
-    	EntityManager em;
-        
-    	log.debug("Entree de la methode");
-    	em = emf.createEntityManager();
-    	ret = em.createNamedQuery("Utilisateur.findByCodePostal").setParameter("codePostal", codePostal).getResultList();
-    	ConnectionHelper.closeSqlResources(em);
-    	
-        log.debug("Sortie de la methode");
-        return ret;
-    }
+		return ret;
+	}
 
-    @Override
-    public Utilisateur createUtilisateur(Utilisateur user) {
+	@Override
+	public Utilisateur findUtilisateurById(int idUtilisateur) {
+		String methodName = "findUtilisateurById";
+		EntityManager em;
+		List<Utilisateur> ret = null;
+		Utilisateur user = null;
 
-        log.debug("Entree de la methode");
-        EntityManager em;
-        EntityTransaction tx;
+		em = emf.createEntityManager();
+		try {
+			ret = em.createNamedQuery("Utilisateur.findById").setParameter("idUtilisateur",
+																		   idUtilisateur).
+				  getResultList();
+		} catch (Exception e) {
+			em.getTransaction().rollback();
+			return null;
+		} finally {
+			ConnectionHelper.closeSqlResources(em);
+		}
 
+		return ret.get(0);
+	}
 
+	@Override
+	public List<Utilisateur> findUtilisateursByPrenom(String prenom) {
+		List<Utilisateur> ret;
+		EntityManager em;
 
-        em = emf.createEntityManager();
-        tx = em.getTransaction();
-        tx.begin();
-        em.persist(user);
-        tx.commit();
+		log.debug("Entree de la methode");
+		em = emf.createEntityManager();
 
-        log.debug("Sortie de la methode");
-        return user;
-    }
+		try {
+			ret =
+				em.createNamedQuery("Utilisateur.findByPrenom").setParameter("prenom",
+																			 prenom).getResultList();
+		} catch (Exception e) {
+			ret = null;
+			em.getTransaction().rollback();
+		}
 
-    @Override
-    public Utilisateur updateUtilisateur(Utilisateur user) {
+		ConnectionHelper.closeSqlResources(em);
 
-    	
-    	log.debug("Entree de la methode");
+		log.debug("Sortie de la methode");
+		return ret;
+	}
 
-            Utilisateur ret;
-            EntityManager em;
-            EntityTransaction tx;
-            em = emf.createEntityManager();
+	@Override
+	public List<Utilisateur> findUtilisateursByNom(String nom) {
+		List<Utilisateur> ret;
+		EntityManager em;
 
+		log.debug("Entree de la methode");
 
-            tx = em.getTransaction();
-            tx.begin();
+		em = emf.createEntityManager();
+		try {
+			ret =
+				em.createNamedQuery("Utilisateur.findByNom").setParameter("nom",
+																		  nom).getResultList();
+		} catch (Exception e) {
+			em.getTransaction().rollback();
+			ret = null;
+		}
 
-            em.merge(user);
+		ConnectionHelper.closeSqlResources(em);
 
-            tx.commit();
-            em.close();
+		log.debug("Sortie de la methode");
+		return ret;
+	}
 
+	@Override
+	public List<Utilisateur> findUtilisateursByCodePostal(String codePostal) {
+		List<Utilisateur> ret;
+		EntityManager em;
 
-            return user;
+		log.debug("Entree de la methode");
 
-    	//em.close();
-    	
+		em = emf.createEntityManager();
+		try {
 
-    	
+			ret = em.createNamedQuery("Utilisateur.findByCodePostal").setParameter("codePostal",
+																				   codePostal).
+				  getResultList();
+		} catch (Exception e) {
+			ret = null;
+			em.getTransaction().rollback();
+		}
 
+		ConnectionHelper.closeSqlResources(em);
 
-    }
+		log.debug("Sortie de la methode");
+		return ret;
+	}
 
-    @Override
-    public boolean deleteUtilisateur(Utilisateur user) {
-    	EntityManager em;
-    	
-    	log.debug("Entree de la methode");
-        em = emf.createEntityManager();
+	@Override
+	public Utilisateur createUtilisateur(Utilisateur user) {
 
-        em.getTransaction().begin();
-        em.remove(em.merge(user));
-        em.getTransaction().commit();
+		log.debug("Entree de la methode");
+		EntityManager em;
+		EntityTransaction tx;
 
-        log.debug("Sortie de la methode");
-        
-        return true;
-    }
+		user.setDateModification(new Date());
+		user.setDateCreation(new Date());
+		em = emf.createEntityManager();
+
+		try {
+			tx = em.getTransaction();
+			tx.begin();
+			em.persist(user);
+			tx.commit();
+		} catch (Exception e) {
+			user = null;
+			em.getTransaction().rollback();
+		}
+
+		ConnectionHelper.closeSqlResources(em);
+
+		log.debug("Sortie de la methode");
+		return user;
+	}
+
+	@Override
+	public Utilisateur updateUtilisateur(Utilisateur user) {
+
+		log.debug("Entree de la methode");
+
+		Utilisateur ret;
+		EntityManager em;
+		EntityTransaction tx;
+
+		user.setDateModification(new Date());
+
+		em = emf.createEntityManager();
+
+		try {
+			tx = em.getTransaction();
+			tx.begin();
+			ret = em.merge(user);
+			tx.commit();
+			em.close();
+		} catch (Exception e) {
+			ret = null;
+			em.getTransaction().rollback();
+		}
+
+		ConnectionHelper.closeSqlResources(em);
+
+		return ret;
+	}
+
+	@Override
+	public boolean deleteUtilisateur(Utilisateur user) {
+		EntityManager em;
+
+		log.debug("Entree de la methode");
+		em = emf.createEntityManager();
+
+		try {
+			em.getTransaction().begin();
+			em.remove(em.merge(user));
+			em.getTransaction().commit();
+		} catch (Exception e) {
+			em.getTransaction().rollback();
+			return false;
+		} finally {
+			ConnectionHelper.closeSqlResources(em);
+		}
+
+		log.debug("Sortie de la methode");
+
+		return true;
+	}
+
 }

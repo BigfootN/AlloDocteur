@@ -5,16 +5,19 @@
  */
 package com.cours.allo.docteur.dao.impl;
 
-import com.cours.allo.docteur.dao.IUtilisateurDao;
-import com.cours.allo.docteur.dao.entities.Utilisateur;
+import java.util.Date;
 import java.util.List;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceContext;
+
+import com.cours.allo.docteur.dao.IUtilisateurDao;
+import com.cours.allo.docteur.dao.entities.Utilisateur;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
@@ -27,12 +30,23 @@ public class UtilisateurDao implements IUtilisateurDao {
     private EntityManager em;
     private static final Log log = LogFactory.getLog(UtilisateurDao.class);
 
+    public UtilisateurDao() {
+        System.out.println("est dans le ctr");
+    }
+
     @Override
     public List<Utilisateur> findAllUtilisateurs() {
         List<Utilisateur> ret;
 
         log.debug("Entree de la methode");
-        ret = em.createNamedQuery("Utilisateur.findAll").getResultList();
+
+        ret = null;
+
+        try {
+            ret = em.createNamedQuery("Utilisateur.findAll").getResultList();
+        } catch (Exception e) {
+        }
+
         log.debug("Sortie de la methode");
 
         return ret;
@@ -40,12 +54,15 @@ public class UtilisateurDao implements IUtilisateurDao {
 
     @Override
     public Utilisateur findUtilisateurById(int idUtilisateur) {
+        List<Utilisateur> ret;
 
-        List<Utilisateur> ret = null;
-        Utilisateur user = null;
+        try {
 
-
-        ret = em.createNamedQuery("Utilisateur.findById").setParameter("idUtilisateur", idUtilisateur).getResultList();
+            ret = em.createNamedQuery("Utilisateur.findById").setParameter("idUtilisateur", idUtilisateur)
+                    .getResultList();
+        } catch (Exception e) {
+            return null;
+        }
 
         return ret.get(0);
     }
@@ -55,8 +72,15 @@ public class UtilisateurDao implements IUtilisateurDao {
         List<Utilisateur> ret;
 
         log.debug("Entree de la methode");
-        ret = em.createNamedQuery("Utilisateur.findByPrenom").setParameter("prenom", prenom).getResultList();
+
+        ret = null;
+
+        try {
+            ret = em.createNamedQuery("Utilisateur.findByPrenom").setParameter("prenom", prenom).getResultList();
+        } catch (Exception e) {
+        }
         log.debug("Sortie de la methode");
+
         return ret;
     }
 
@@ -65,9 +89,16 @@ public class UtilisateurDao implements IUtilisateurDao {
         List<Utilisateur> ret;
 
         log.debug("Entree de la methode");
-        ret = em.createNamedQuery("Utilisateur.findByNom").setParameter("nom", nom).getResultList();
+
+        ret = null;
+
+        try {
+            ret = em.createNamedQuery("Utilisateur.findByNom").setParameter("nom", nom).getResultList();
+        } catch (Exception e) {
+        }
 
         log.debug("Sortie de la methode");
+
         return ret;
     }
 
@@ -75,43 +106,66 @@ public class UtilisateurDao implements IUtilisateurDao {
     public List<Utilisateur> findUtilisateursByCodePostal(String codePostal) {
         List<Utilisateur> ret;
         log.debug("Entree de la methode");
-        ret = em.createNamedQuery("Utilisateur.findByCodePostal").setParameter("codePostal", codePostal).getResultList();
+
+        ret = null;
+
+        try {
+            ret = em.createNamedQuery("Utilisateur.findByCodePostal").setParameter("codePostal", codePostal)
+                    .getResultList();
+        } catch (Exception e) {
+        }
 
         log.debug("Sortie de la methode");
         return ret;
     }
 
-
     @Override
     public Utilisateur createUtilisateur(Utilisateur user) {
 
         log.debug("Entree de la methode");
-        em.persist(user);
+
+        user.setDateCreation(new Date());
+        user.setDateModification(new Date());
+
+        try {
+            em.persist(user);
+        } catch (Exception e) {
+        }
         log.debug("Sortie de la methode");
         return user;
     }
-
 
     @Override
     public Utilisateur updateUtilisateur(Utilisateur user) {
         log.debug("Entree de la methode");
 
         Utilisateur ret;
-        em.merge(user);
+
+        ret = null;
+        user.setDateModification(new Date());
+
+        try {
+            ret = em.merge(user);
+        } catch (Exception e) {
+        }
+
         log.debug("Sortie de la methode");
-        return user;
+        return ret;
 
     }
-
 
     @Override
     public boolean deleteUtilisateur(Utilisateur user) {
         log.debug("Entree de la methode");
 
-        em.remove(em.merge(user));
+        try {
+            em.remove(em.merge(user));
+        } catch (Exception e) {
+        }
 
         log.debug("Sortie de la methode");
 
         return true;
     }
+
 }
