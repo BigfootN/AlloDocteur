@@ -17,7 +17,6 @@ import org.apache.commons.logging.LogFactory;
 
 import com.cours.allo.docteur.dao.IUtilisateurDao;
 import com.cours.allo.docteur.dao.entities.Utilisateur;
-import com.cours.allo.docteur.factory.ServiceFactory;
 import com.cours.allo.docteur.service.IServiceFacade;
 
 /**
@@ -32,7 +31,6 @@ public class LoginServlet extends HttpServlet {
 
 	@Override
 	public void init() throws ServletException {
-		serviceFacade = ServiceFactory.getDefaultServiceFacade();
 	}
 
 	@Override
@@ -55,7 +53,7 @@ public class LoginServlet extends HttpServlet {
 		pwd = request.getParameter("password");
 		dao = serviceFacade.getUtilisateurDao();
 
-		user = dao.authenticate(mail, pwd);
+		// user = dao.authenticate(mail, pwd);
 
 		if (true)
 			response.sendRedirect(this.getServletContext().getContextPath() + "/ManageUsersServlet");

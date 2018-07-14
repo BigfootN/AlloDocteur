@@ -16,7 +16,6 @@ import com.cours.allo.docteur.dao.entities.Utilisateur;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -26,146 +25,145 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class UtilisateurDao implements IUtilisateurDao {
 
-    @PersistenceContext
-    private EntityManager em;
-    private static final Log log = LogFactory.getLog(UtilisateurDao.class);
+	@PersistenceContext
+	private EntityManager em;
+	private static final Log log = LogFactory.getLog(UtilisateurDao.class);
 
-    public UtilisateurDao() {
-        System.out.println("est dans le ctr");
-    }
+	public UtilisateurDao() {
+		System.out.println("est dans le ctr");
+	}
 
-    @Override
-    public List<Utilisateur> findAllUtilisateurs() {
-        List<Utilisateur> ret;
+	@Override
+	public List<Utilisateur> findAllUtilisateurs() {
+		List<Utilisateur> ret;
 
-        log.debug("Entree de la methode");
+		log.debug("Entree de la methode");
 
-        ret = null;
+		ret = null;
 
-        try {
-            ret = em.createNamedQuery("Utilisateur.findAll").getResultList();
-        } catch (Exception e) {
-        }
+		try {
+			ret = em.createNamedQuery("Utilisateur.findAll").getResultList();
+		} catch (Exception e) {}
 
-        log.debug("Sortie de la methode");
+		log.debug("Sortie de la methode");
 
-        return ret;
-    }
+		return ret;
+	}
 
-    @Override
-    public Utilisateur findUtilisateurById(int idUtilisateur) {
-        List<Utilisateur> ret;
+	@Override
+	public Utilisateur findUtilisateurById(int idUtilisateur) {
+		List<Utilisateur> ret;
 
-        try {
+		try {
 
-            ret = em.createNamedQuery("Utilisateur.findById").setParameter("idUtilisateur", idUtilisateur)
-                    .getResultList();
-        } catch (Exception e) {
-            return null;
-        }
+			ret = em.createNamedQuery("Utilisateur.findById").setParameter("idUtilisateur",
+																		   idUtilisateur)
+				  .getResultList();
+		} catch (Exception e) {
+			return null;
+		}
 
-        return ret.get(0);
-    }
+		return ret.get(0);
+	}
 
-    @Override
-    public List<Utilisateur> findUtilisateursByPrenom(String prenom) {
-        List<Utilisateur> ret;
+	@Override
+	public List<Utilisateur> findUtilisateursByPrenom(String prenom) {
+		List<Utilisateur> ret;
 
-        log.debug("Entree de la methode");
+		log.debug("Entree de la methode");
 
-        ret = null;
+		ret = null;
 
-        try {
-            ret = em.createNamedQuery("Utilisateur.findByPrenom").setParameter("prenom", prenom).getResultList();
-        } catch (Exception e) {
-        }
-        log.debug("Sortie de la methode");
+		try {
+			ret =
+				em.createNamedQuery("Utilisateur.findByPrenom").setParameter("prenom",
+																			 prenom).getResultList();
+		} catch (Exception e) {}
+		log.debug("Sortie de la methode");
 
-        return ret;
-    }
+		return ret;
+	}
 
-    @Override
-    public List<Utilisateur> findUtilisateursByNom(String nom) {
-        List<Utilisateur> ret;
+	@Override
+	public List<Utilisateur> findUtilisateursByNom(String nom) {
+		List<Utilisateur> ret;
 
-        log.debug("Entree de la methode");
+		log.debug("Entree de la methode");
 
-        ret = null;
+		ret = null;
 
-        try {
-            ret = em.createNamedQuery("Utilisateur.findByNom").setParameter("nom", nom).getResultList();
-        } catch (Exception e) {
-        }
+		try {
+			ret =
+				em.createNamedQuery("Utilisateur.findByNom").setParameter("nom",
+																		  nom).getResultList();
+		} catch (Exception e) {}
 
-        log.debug("Sortie de la methode");
+		log.debug("Sortie de la methode");
 
-        return ret;
-    }
+		return ret;
+	}
 
-    @Override
-    public List<Utilisateur> findUtilisateursByCodePostal(String codePostal) {
-        List<Utilisateur> ret;
-        log.debug("Entree de la methode");
+	@Override
+	public List<Utilisateur> findUtilisateursByCodePostal(String codePostal) {
+		List<Utilisateur> ret;
+		log.debug("Entree de la methode");
 
-        ret = null;
+		ret = null;
 
-        try {
-            ret = em.createNamedQuery("Utilisateur.findByCodePostal").setParameter("codePostal", codePostal)
-                    .getResultList();
-        } catch (Exception e) {
-        }
+		try {
+			ret = em.createNamedQuery("Utilisateur.findByCodePostal").setParameter("codePostal",
+																				   codePostal)
+				  .getResultList();
+		} catch (Exception e) {}
 
-        log.debug("Sortie de la methode");
-        return ret;
-    }
+		log.debug("Sortie de la methode");
+		return ret;
+	}
 
-    @Override
-    public Utilisateur createUtilisateur(Utilisateur user) {
+	@Override
+	public Utilisateur createUtilisateur(Utilisateur user) {
 
-        log.debug("Entree de la methode");
+		log.debug("Entree de la methode");
 
-        user.setDateCreation(new Date());
-        user.setDateModification(new Date());
+		user.setDateCreation(new Date());
+		user.setDateModification(new Date());
 
-        try {
-            em.persist(user);
-        } catch (Exception e) {
-        }
-        log.debug("Sortie de la methode");
-        return user;
-    }
+		try {
+			em.persist(user);
+		} catch (Exception e) {}
+		log.debug("Sortie de la methode");
+		return user;
+	}
 
-    @Override
-    public Utilisateur updateUtilisateur(Utilisateur user) {
-        log.debug("Entree de la methode");
+	@Override
+	public Utilisateur updateUtilisateur(Utilisateur user) {
+		log.debug("Entree de la methode");
 
-        Utilisateur ret;
+		Utilisateur ret;
 
-        ret = null;
-        user.setDateModification(new Date());
+		ret = null;
+		user.setDateModification(new Date());
 
-        try {
-            ret = em.merge(user);
-        } catch (Exception e) {
-        }
+		try {
+			ret = em.merge(user);
+		} catch (Exception e) {}
 
-        log.debug("Sortie de la methode");
-        return ret;
+		log.debug("Sortie de la methode");
+		return ret;
 
-    }
+	}
 
-    @Override
-    public boolean deleteUtilisateur(Utilisateur user) {
-        log.debug("Entree de la methode");
+	@Override
+	public boolean deleteUtilisateur(Utilisateur user) {
+		log.debug("Entree de la methode");
 
-        try {
-            em.remove(em.merge(user));
-        } catch (Exception e) {
-        }
+		try {
+			em.remove(em.merge(user));
+		} catch (Exception e) {}
 
-        log.debug("Sortie de la methode");
+		log.debug("Sortie de la methode");
 
-        return true;
-    }
+		return true;
+	}
 
 }
