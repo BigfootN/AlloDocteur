@@ -7,6 +7,7 @@ package com.cours.allo.docteur.servlets;
 
 import java.io.IOException;
 
+import javax.faces.application.Application;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -17,12 +18,12 @@ import javax.websocket.Session;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.event.ApplicationContextEvent;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.cours.allo.docteur.dao.IUtilisateurDao;
 import com.cours.allo.docteur.dao.entities.Utilisateur;
-import com.cours.allo.docteur.listener.SessionListener;
 import com.cours.allo.docteur.service.IServiceFacade;
 import com.cours.allo.docteur.service.ServiceFacade;
 
@@ -30,20 +31,17 @@ import com.cours.allo.docteur.service.ServiceFacade;
  *
  * @author elhad
  */
-@WebServlet(name = "LoginServlet", urlPatterns = { "/LoginServlet" })
 public class LoginServlet extends HttpServlet {
 
 	private static final Log log = LogFactory.getLog(LoginServlet.class);
 	private IServiceFacade serviceFacade = null;
+	private ApplicationContext ctx;
 
 	@Override
 	public void init() throws ServletException {
 		try {
-			serviceFacade = (ServiceFacade) SessionListener.getServiceFacade();
-			if (serviceFacade != null)
-				System.out.println("Service created");
-			else
-				System.out.println("Service not created");
+			ctx = WebApplicationContextUtils.getWebApplicationContext(this.getServletContext());
+			serviceFacade = (ServiceFacade) ctx.getBean("serviceFacade");
 		} catch (Exception e) {
 			serviceFacade = null;
 			System.out.println(e.getMessage());
@@ -56,11 +54,10 @@ public class LoginServlet extends HttpServlet {
 		Utilisateur user;
 
 		try {
-			serviceFacade = (ServiceFacade) SessionListener.getServiceFacade();
 			if (serviceFacade != null)
-				System.out.println("Service created");
+				System.out.println("Service created (get)");
 			else
-				System.out.println("Service not created");
+				System.out.println("Service not created (get)");
 		} catch (Exception e) {
 			serviceFacade = null;
 			System.out.println(e.getMessage());

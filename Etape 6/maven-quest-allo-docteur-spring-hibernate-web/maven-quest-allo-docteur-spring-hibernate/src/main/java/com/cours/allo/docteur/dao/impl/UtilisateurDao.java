@@ -5,13 +5,16 @@
  */
 package com.cours.allo.docteur.dao.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import com.cours.allo.docteur.dao.IUtilisateurDao;
+import com.cours.allo.docteur.dao.entities.Adresse;
 import com.cours.allo.docteur.dao.entities.Utilisateur;
 
 import org.apache.commons.logging.Log;
@@ -43,7 +46,8 @@ public class UtilisateurDao implements IUtilisateurDao {
 
 		try {
 			ret = em.createNamedQuery("Utilisateur.findAll").getResultList();
-		} catch (Exception e) {}
+		} catch (Exception e) {
+		}
 
 		log.debug("Sortie de la methode");
 
@@ -56,9 +60,8 @@ public class UtilisateurDao implements IUtilisateurDao {
 
 		try {
 
-			ret = em.createNamedQuery("Utilisateur.findById").setParameter("idUtilisateur",
-																		   idUtilisateur)
-				  .getResultList();
+			ret = em.createNamedQuery("Utilisateur.findById").setParameter("idUtilisateur", idUtilisateur)
+					.getResultList();
 		} catch (Exception e) {
 			return null;
 		}
@@ -75,10 +78,9 @@ public class UtilisateurDao implements IUtilisateurDao {
 		ret = null;
 
 		try {
-			ret =
-				em.createNamedQuery("Utilisateur.findByPrenom").setParameter("prenom",
-																			 prenom).getResultList();
-		} catch (Exception e) {}
+			ret = em.createNamedQuery("Utilisateur.findByPrenom").setParameter("prenom", prenom).getResultList();
+		} catch (Exception e) {
+		}
 		log.debug("Sortie de la methode");
 
 		return ret;
@@ -93,10 +95,9 @@ public class UtilisateurDao implements IUtilisateurDao {
 		ret = null;
 
 		try {
-			ret =
-				em.createNamedQuery("Utilisateur.findByNom").setParameter("nom",
-																		  nom).getResultList();
-		} catch (Exception e) {}
+			ret = em.createNamedQuery("Utilisateur.findByNom").setParameter("nom", nom).getResultList();
+		} catch (Exception e) {
+		}
 
 		log.debug("Sortie de la methode");
 
@@ -111,10 +112,10 @@ public class UtilisateurDao implements IUtilisateurDao {
 		ret = null;
 
 		try {
-			ret = em.createNamedQuery("Utilisateur.findByCodePostal").setParameter("codePostal",
-																				   codePostal)
-				  .getResultList();
-		} catch (Exception e) {}
+			ret = em.createNamedQuery("Utilisateur.findByCodePostal").setParameter("codePostal", codePostal)
+					.getResultList();
+		} catch (Exception e) {
+		}
 
 		log.debug("Sortie de la methode");
 		return ret;
@@ -130,7 +131,8 @@ public class UtilisateurDao implements IUtilisateurDao {
 
 		try {
 			em.persist(user);
-		} catch (Exception e) {}
+		} catch (Exception e) {
+		}
 		log.debug("Sortie de la methode");
 		return user;
 	}
@@ -146,7 +148,8 @@ public class UtilisateurDao implements IUtilisateurDao {
 
 		try {
 			ret = em.merge(user);
-		} catch (Exception e) {}
+		} catch (Exception e) {
+		}
 
 		log.debug("Sortie de la methode");
 		return ret;
@@ -159,11 +162,53 @@ public class UtilisateurDao implements IUtilisateurDao {
 
 		try {
 			em.remove(em.merge(user));
-		} catch (Exception e) {}
+		} catch (Exception e) {
+		}
 
 		log.debug("Sortie de la methode");
 
 		return true;
+	}
+
+	public List<Utilisateur> findUtilisateursWithAdressePrincipal() {
+		List<Utilisateur> ret;
+		List<Utilisateur> allUsers;
+		Iterator<Utilisateur> it;
+
+		ret = new ArrayList<>();
+		allUsers = findAllUtilisateurs();
+		it = allUsers.iterator();
+
+		while (it.hasNext()) {
+			ret.add(userWithMainAddr(it.next()));
+		}
+
+		return ret;
+	}
+
+	private Utilisateur userWithMainAddr(Utilisateur user) {
+		Utilisateur ret;
+		List<Adresse> addr;
+
+		ret = new Utilisateur();
+
+		addr = new ArrayList<>();
+		addr.add(user.getMainAddress());
+
+		ret.setIdUtilisateur(user.getIdUtilisateur());
+		ret.setActif(user.getActif());
+		ret.setAdresses(addr);
+		ret.setCivilite(user.getCivilite());
+		ret.setDateCreation(user.getDateCreation());
+		ret.setIdentifiant(user.getIdentifiant());
+		ret.setDateModification(user.getDateModification());
+		ret.setVersion(user.getVersion());
+		ret.setDateNaissance(user.getDateNaissance());
+		ret.setNom(user.getNom());
+		ret.setPrenom(user.getPrenom());
+		ret.setMotPasse(user.getMotPasse());
+
+		return ret;
 	}
 
 }

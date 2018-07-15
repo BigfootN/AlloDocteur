@@ -14,18 +14,28 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
+import javax.faces.application.Application;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.cours.allo.docteur.dao.IAdresseDao;
+import com.cours.allo.docteur.dao.IUtilisateurDao;
 import com.cours.allo.docteur.dao.entities.Adresse;
 import com.cours.allo.docteur.dao.entities.Utilisateur;
 import com.cours.allo.docteur.dao.impl.AdresseDao;
 import com.cours.allo.docteur.dao.impl.UtilisateurDao;
 import com.cours.allo.docteur.service.IServiceFacade;
+import com.cours.allo.docteur.utils.Json;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
+import com.cours.allo.docteur.service.ServiceFacade;
 
 /**
  *
@@ -35,6 +45,8 @@ import com.cours.allo.docteur.service.IServiceFacade;
 // {"/ManageUsersServlet"})
 public class ManageUsersServlet extends HttpServlet {
 	private IServiceFacade service;
+	private ApplicationContext ctx;
+	private IServiceFacade serviceFacade;
 
 	/**
 	 * Méthode d'initialisation de la Servlet
@@ -43,6 +55,11 @@ public class ManageUsersServlet extends HttpServlet {
 	 */
 	@Override
 	public void init() throws ServletException {
+		ctx = (ApplicationContext) WebApplicationContextUtils.getWebApplicationContext(
+			this.getServletContext());
+		serviceFacade = (ServiceFacade) ctx.getBean("serviceFacade");
+		if (serviceFacade == null)
+			System.out.println("servicefacade est null");
 	}
 
 	/**
@@ -55,18 +72,16 @@ public class ManageUsersServlet extends HttpServlet {
 	 */
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	throws ServletException, IOException {
 		String uri = request.getQueryString();
 
-		System.out.println("get");
-
-		if (uri == null)
-			System.out.println("this est null");
+		saveUsersInRequestWithMainAddr(request);
 
 		if (uri != null) {
-			System.out.println("uri est pas null");
 			if (uri.equals("user")) {
-				this.getServletContext().getRequestDispatcher("/pages/user/addUser.jsp").forward(request, response);
+				this.getServletContext().getRequestDispatcher("/pages/user/addUser.jsp").forward(
+					request,
+					response);
 			} else if (uri.startsWith("id=")) {
 				int idUser = Integer.parseInt(request.getParameter("id"));
 				RequestDispatcher dispatcher;
@@ -76,25 +91,24 @@ public class ManageUsersServlet extends HttpServlet {
 
 				dispatcher.forward(request, response);
 			} else if (uri.startsWith("json")) {
-				UtilisateurDao utilisateurDao = new UtilisateurDao();
+				IUtilisateurDao utilisateurDao = serviceFacade.getUtilisateurDao();
 
+				Json json = new Json(utilisateurDao.findAllUtilisateurs());
 				response.setContentType("Json");
 				response.setHeader("Content-disposition", "attachment;filename=file.json");
 
 				OutputStream out = response.getOutputStream();
-				// FileInputStream in = new FileInputStream(json.writeJson());
+				FileInputStream in = new FileInputStream(json.writeJson());
 				byte[] buffer = new byte[4096];
 				int length;
-				/*
-				 * while ((length = in.read(buffer)) > 0) { out.write(buffer, 0, length); }
-				 * in.close()
-				 */;
+				while ((length = in.read(buffer)) > 0) {
+					out.write(buffer, 0, length);
+				}
+				in.close();
 				out.flush();
 			}
 		} else {
-			if (this.getServletContext().getRequestDispatcher("/pages/user/allUsers.jsp") == null)
-				System.out.println("servlet est null");
-			this.getServletContext().getRequestDispatcher("/pages/user/allUsers.jsp").forward(request, response);
+			request.getRequestDispatcher("/pages/user/allUsers.jsp").forward(request, response);
 		}
 	}
 
@@ -108,25 +122,26 @@ public class ManageUsersServlet extends HttpServlet {
 	 */
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	throws ServletException, IOException {
 
 		System.out.println("post");
 
-		if (request.getParameter("_method") != null && request.getParameter("_method").equals("put")) {
+		if (request.getParameter("_method") != null &&
+			request.getParameter("_method").equals("put")) {
 			doPut(request, response);
 			return;
 		}
 
-		String test = null;
 		Utilisateur utilisateur;
-		UtilisateurDao userDao;
+		IUtilisateurDao userDao;
 		Adresse adresse;
-		AdresseDao adresseDao;
+		IAdresseDao adresseDao;
 		DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 		utilisateur = new Utilisateur();
-		userDao = new UtilisateurDao();
+
+		userDao = serviceFacade.getUtilisateurDao();
 		adresse = new Adresse();
-		adresseDao = new AdresseDao();
+		adresseDao = serviceFacade.getAdresseDao();
 
 		utilisateur.setPrenom(request.getParameter("firstname"));
 		utilisateur.setNom(request.getParameter("lastname"));
@@ -151,6 +166,7 @@ public class ManageUsersServlet extends HttpServlet {
 		adresse.setPrincipale(true);
 
 		utilisateur = userDao.createUtilisateur(utilisateur);
+		adresse.setIdUtilisateur(utilisateur);
 		adresseDao.createAdresse(adresse);
 
 		response.sendRedirect("/maven-quest-allo-docteur-jdbc-web/ManageUsersServlet");
@@ -158,14 +174,12 @@ public class ManageUsersServlet extends HttpServlet {
 
 	@Override
 	protected void doDelete(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	throws ServletException, IOException {
 		Integer attrInt;
 		String id = null;
 		UtilisateurDao dao;
 		BufferedReader br = new BufferedReader(new InputStreamReader(request.getInputStream()));
 		String json = "";
-
-		System.out.println("delete");
 
 		if (br != null) {
 			json = br.readLine();
@@ -175,24 +189,26 @@ public class ManageUsersServlet extends HttpServlet {
 		dao = new UtilisateurDao();
 
 		attrInt = Integer.parseInt(id);
-		/*
-		 * if (dao.deleteUtilisateur(attrInt)) { response.setContentType("text/plain");
-		 * response.setStatus(200); response.getWriter().write("1"); } else {
-		 * response.setContentType("text/plain"); response.setStatus(500);
-		 * response.getWriter().write("0"); }
-		 */
+		if (dao.deleteUtilisateur(new Utilisateur(attrInt))) {
+			response.setContentType("text/plain");
+			response.setStatus(200);
+			response.getWriter().write("1");
+		} else {
+			response.setContentType("text/plain");
+			response.setStatus(500);
+			response.getWriter().write("0");
+		}
 	}
 
 	/**
 	 * Méthode appelée lors de la fin de la Servlet
 	 */
 	@Override
-	public void destroy() {
-	}
+	public void destroy() {}
 
 	@Override
 	protected void doPut(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	throws ServletException, IOException {
 		UtilisateurDao daoUser;
 		AdresseDao daoAddr;
 		Utilisateur userUpdated;
@@ -251,16 +267,16 @@ public class ManageUsersServlet extends HttpServlet {
 		userUpdated.setMarquerEffacer(false);
 		userUpdated.setVersion(1);
 
-		// mainAddr = daoUser.updateUtilisateur(userUpdated).getAdressePrincipale();
+		mainAddr = daoUser.updateUtilisateur(userUpdated).getMainAddress();
 
-		/*
-		 * if (mainAddr != null) { idAddr = mainAddr.getIdAdresse(); } else { idAddr =
-		 * 1; }
-		 */
+		if (mainAddr != null) {
+			idAddr = mainAddr.getIdAdresse();
+		} else {
+			idAddr = 1;
+		}
 
-		// newAddr = new Adresse(idAddr, street, postalCode, city, country, true, 1,
-		// idUser);
-		// daoAddr.updateAdresse(newAddr);
+		newAddr = new Adresse(street, postalCode, city, country, true, idUser);
+		daoAddr.updateAdresse(newAddr);
 
 		response.sendRedirect("/maven-quest-allo-docteur-jdbc-web/ManageUsersServlet");
 	}
@@ -274,7 +290,7 @@ public class ManageUsersServlet extends HttpServlet {
 		df = new SimpleDateFormat("dd/MM/yyyy");
 		dao = new UtilisateurDao();
 		user = dao.findUtilisateurById(idUser);
-		// addr = user.getAdressePrincipale();
+		addr = user.getMainAddress();
 
 		request.setAttribute("id", idUser);
 		request.setAttribute("name", user.getPrenom());
@@ -282,14 +298,25 @@ public class ManageUsersServlet extends HttpServlet {
 		request.setAttribute("email", user.getIdentifiant());
 		request.setAttribute("dteNaissance", df.format(user.getDateNaissance()));
 
-		/*
-		 * if (addr != null) { request.setAttribute("rue", addr.getRue());
-		 * request.setAttribute("codePostal", addr.getCodePostal());
-		 * request.setAttribute("pays", addr.getPays()); } else {
-		 * request.setAttribute("rue", ""); request.setAttribute("codePostal", "");
-		 * request.setAttribute("pays", ""); }
-		 */
+		if (addr != null) {
+			request.setAttribute("rue", addr.getRue());
+			request.setAttribute("codePostal", addr.getCodePostal());
+			request.setAttribute("pays", addr.getPays());
+		} else {
+			request.setAttribute("rue", "");
+			request.setAttribute("codePostal", "");
+			request.setAttribute("pays", "");
+		}
 
+	}
+
+	private void saveUsersInRequestWithMainAddr(HttpServletRequest request) {
+		List<Utilisateur> users;
+		UtilisateurDao dao;
+
+		dao = new UtilisateurDao();
+		users = dao.findUtilisateursWithAdressePrincipal();
+		request.setAttribute("usersWithMainAddr", users);
 	}
 
 }

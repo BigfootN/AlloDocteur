@@ -30,12 +30,6 @@
             org.springframework.web.context.ContextLoaderListener
         </listener-class>
     </listener>
-
-    <listener>
-        <listener-class>
-            com.cours.allo.docteur.listener.SessionListener
-        </listener-class>
-    </listener>
     
     <context-param>
         <param-name>contextConfigLocation</param-name>

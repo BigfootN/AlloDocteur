@@ -56,18 +56,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <%
-                                        IUtilisateurDao dao;
-                                        List<Utilisateur> users;
-                                        List<Adresse> addrs;
-                                        Iterator<Adresse> itAddr;
-
-                                        dao = ServiceFactory.getDefaultServiceFacade().getUtilisateurDao();
-                                        users = dao.findAllUtilisateurs();
-
-                                        pageContext.setAttribute("users", users);
-                                    %>
-                                    <c:forEach var="user" items="${users}">
+                                    <c:forEach var="user" items="${usersWithMainAddr}">
                                         <%
                                                     DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
 
@@ -96,28 +85,11 @@
                                                 ${df.format(user.getDateModification())}
                                             </td>
                                             <td>
-                                                <%
-                                                    Utilisateur curUser;
-
-                                                    curUser = (Utilisateur) pageContext.getAttribute("user");
-                                                    addrs = curUser.getAdresses();
-                                                    itAddr = addrs.iterator();
-
-                                                    while (itAddr.hasNext()) {
-                                                        Adresse addr = itAddr.next();
-
-                                                        if (addr.isPrincipale()) {
-                                                            pageContext.setAttribute("addr", addr);
-                                                %>
-                                                ${addr.getRue()}
-                                                <%
-                                                        break;
-                                                    }
-                                                }
-                                                %>
+                                                ${user.getAdresses().get(0).getRue()}
                                             </td>
                                             <td><a href="?id=${user.getIdUtilisateur()}"><i class="fa fa-edit"></i></a>
-                                            <button href="?id=${user.getIdUtilisateur()}" class="no-style-btn"><i class="fa fa-trash-o" id="${user.getIdUtilisateur()}"></i></button></td>
+                                            <a href="#" class="no-style-btn"><i class="fa fa-trash-o" id="${user.getIdUtilisateur()}"></i></a>
+                                            </td>
                                         </tr>
                                         </c:forEach>
                                 </tbody>    

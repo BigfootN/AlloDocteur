@@ -14,48 +14,56 @@ import java.io.Serializable;
  * @author elhad
  */
 @Entity
-@Table(name="Adresse")
+@Table(name = "Adresse")
 @XmlRootElement
-@NamedQueries({
-        @NamedQuery(name="Adresse.findAll", query="SELECT u FROM Adresse u"),
-        @NamedQuery(name="Adresse.findById", query="SELECT u FROM Adresse u WHERE u.idAdresse = :idAdresse"),
-        @NamedQuery(name="Adresse.findByVille", query="SELECT u FROM Adresse u WHERE u.ville = :ville"),
-        @NamedQuery(name="Adresse.findByCodePostal", query="SELECT u FROM Adresse u WHERE u.codePostal = :codePostal"),
-})
+@NamedQueries({ @NamedQuery(name = "Adresse.findAll", query = "SELECT u FROM Adresse u"),
+        @NamedQuery(name = "Adresse.findById", query = "SELECT u FROM Adresse u WHERE u.idAdresse = :idAdresse"),
+        @NamedQuery(name = "Adresse.findByVille", query = "SELECT u FROM Adresse u WHERE u.ville = :ville"),
+        @NamedQuery(name = "Adresse.findByCodePostal", query = "SELECT u FROM Adresse u WHERE u.codePostal = :codePostal"), })
 public class Adresse implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
-    @Column(name="idAdresse")
-    //@Basic(optional=false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "idAdresse")
+    // @Basic(optional=false)
     private Integer idAdresse;
 
-    @Column(name="rue")
+    @Column(name = "rue")
     private String rue;
 
-    @Column(name="codePostal")
+    @Column(name = "codePostal")
     private String codePostal;
 
-    @Column(name="ville")
+    @Column(name = "ville")
     private String ville;
 
-    @Column(name="pays")
+    @Column(name = "pays")
     private String pays;
 
-    @Column(name="principale")
+    @Column(name = "principale")
     private boolean principale;
 
-    @Column(name="version")
+    @Column(name = "version")
     @Version
     private Integer version;
 
     @ManyToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(referencedColumnName="idUtilisateur", name="idUtilisateur")
+    @JoinColumn(referencedColumnName = "idUtilisateur", name = "idUtilisateur")
     private Utilisateur addrOwner;
 
     public Adresse() {
+    }
+
+    public Adresse(String rue, String codePostal, String ville, String pays, Boolean principale,
+            Integer idUtilisateur) {
+        this.rue = rue;
+        this.codePostal = codePostal;
+        this.ville = ville;
+        this.pays = pays;
+        this.principale = principale;
+        this.addrOwner.setIdUtilisateur(idUtilisateur);
     }
 
     public Adresse(String rue, String codePostal, String ville, String pays, Utilisateur idUtilisateur) {
@@ -163,7 +171,8 @@ public class Adresse implements Serializable {
             return false;
         }
         Adresse other = (Adresse) object;
-        if ((this.idAdresse == null && other.idAdresse != null) || (this.idAdresse != null && !this.idAdresse.equals(other.idAdresse))) {
+        if ((this.idAdresse == null && other.idAdresse != null)
+                || (this.idAdresse != null && !this.idAdresse.equals(other.idAdresse))) {
             return false;
         }
         return true;
@@ -171,7 +180,9 @@ public class Adresse implements Serializable {
 
     @Override
     public String toString() {
-        return String.format("[idAdresse=%s , rue=%s , ville=%s , codePostal=%s , pays=%s , principale=%s , version=%s, idUtilisateur=%s]\n", idAdresse, rue, ville, codePostal, pays, principale, version, addrOwner.getIdUtilisateur());
+        return String.format(
+                "[idAdresse=%s , rue=%s , ville=%s , codePostal=%s , pays=%s , principale=%s , version=%s, idUtilisateur=%s]\n",
+                idAdresse, rue, ville, codePostal, pays, principale, version, addrOwner.getIdUtilisateur());
     }
 
 }
