@@ -26,10 +26,14 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "Creneau")
 @XmlRootElement
 @NamedQueries({ @NamedQuery(name = "Creneau.findAll", query = "SELECT c FROM Creneau c"),
-		@NamedQuery(name = "Creneau.findByHeureDebut", query = "SELECT c FROM Creneau c WHERE c.heureDebut = :heureDebut"),
-		@NamedQuery(name = "Creneau.findByMinuteDebut", query = "SELECT c FROM Creneau c WHERE c.minuteDebut = :minuteDebut"),
-		@NamedQuery(name = "Creneau.findByHeureFin", query = "SELECT c FROM Creneau c WHERE c.heureFin = :heureFin"),
-		@NamedQuery(name = "Creneau.findByMinuteFin", query = "SELECT c FROM Creneau c WHERE c.minuteFin = :minuteFin") })
+				@NamedQuery(name = "Creneau.findByHeureDebut",
+							query = "SELECT c FROM Creneau c WHERE c.heureDebut = :heureDebut"),
+				@NamedQuery(name = "Creneau.findByMinuteDebut",
+							query = "SELECT c FROM Creneau c WHERE c.minuteDebut = :minuteDebut"),
+				@NamedQuery(name = "Creneau.findByHeureFin",
+							query = "SELECT c FROM Creneau c WHERE c.heureFin = :heureFin"),
+				@NamedQuery(name = "Creneau.findByMinuteFin",
+							query = "SELECT c FROM Creneau c WHERE c.minuteFin = :minuteFin") })
 public class Creneau {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -56,6 +60,7 @@ public class Creneau {
 	@JoinColumn(referencedColumnName = "idMedecin", name = "idMedecin")
 	private Medecin doctorCreneau;
 
-	@OneToMany(mappedBy = "creneauRdv", cascade = CascadeType.MERGE, orphanRemoval = true, fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "creneauRdv", cascade = CascadeType.MERGE, orphanRemoval = true,
+			   fetch = FetchType.EAGER)
 	private List<RendezVous> creneaux = new ArrayList<>();
 }

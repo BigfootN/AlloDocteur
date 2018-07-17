@@ -10,15 +10,15 @@ import com.cours.allo.docteur.dao.entities.Creneau;
 public interface ICreneauDao {
 	public List<Creneau> findAll();
 
-	public Creneau findCreneauByHeureDebut(Integer heureDebut);
+	public List<Creneau> findCreneauxByHeureDebut(Integer heureDebut);
 
-	public Creneau findCreneauByHeureFin(Integer heureFin);
+	public List<Creneau> findCreneauxByHeureFin(Integer heureFin);
 
-	public Creneau findCreneauByMinuteDebut(Integer minuteDebut);
+	public List<Creneau> findCreneauxByMinuteDebut(Integer minuteDebut);
 
-	public Creneau findCreneauByMinuteFin(Integer minuteFin);
+	public List<Creneau> findCreneauxByMinuteFin(Integer minuteFin);
 
-	public Creneau createCreateCreneau(Creneau creneau);
+	public Creneau createCreneau(Creneau creneau);
 
 	public boolean deleteCreneau(Creneau creneau);
 
