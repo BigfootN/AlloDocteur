@@ -1,8 +1,12 @@
 package com.cours.allo.docteur.dao.entities;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -10,6 +14,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Version;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -21,14 +26,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "Creneau")
 @XmlRootElement
 @NamedQueries({ @NamedQuery(name = "Creneau.findAll", query = "SELECT c FROM Creneau c"),
-				@NamedQuery(name = "Creneau.findByHeureDebut",
-							query = "SELECT c FROM Creneau c WHERE c.heureDebut = :heureDebut"),
-				@NamedQuery(name = "Creneau.findByMinuteDebut",
-							query = "SELECT c FROM Creneau c WHERE c.minuteDebut = :minuteDebut"),
-				@NamedQuery(name = "Creneau.findByHeureFin",
-							query = "SELECT c FROM Creneau c WHERE c.heureFin = :heureFin"),
-				@NamedQuery(name = "Creneau.findByMinuteFin",
-							query = "SELECT c FROM Creneau c WHERE c.minuteFin = :minuteFin") })
+		@NamedQuery(name = "Creneau.findByHeureDebut", query = "SELECT c FROM Creneau c WHERE c.heureDebut = :heureDebut"),
+		@NamedQuery(name = "Creneau.findByMinuteDebut", query = "SELECT c FROM Creneau c WHERE c.minuteDebut = :minuteDebut"),
+		@NamedQuery(name = "Creneau.findByHeureFin", query = "SELECT c FROM Creneau c WHERE c.heureFin = :heureFin"),
+		@NamedQuery(name = "Creneau.findByMinuteFin", query = "SELECT c FROM Creneau c WHERE c.minuteFin = :minuteFin") })
 public class Creneau {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -53,5 +54,8 @@ public class Creneau {
 
 	@ManyToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(referencedColumnName = "idMedecin", name = "idMedecin")
-	private Medecin doctor;
+	private Medecin doctorCreneau;
+
+	@OneToMany(mappedBy = "creneauRdv", cascade = CascadeType.MERGE, orphanRemoval = true, fetch = FetchType.EAGER)
+	private List<RendezVous> creneaux = new ArrayList<>();
 }

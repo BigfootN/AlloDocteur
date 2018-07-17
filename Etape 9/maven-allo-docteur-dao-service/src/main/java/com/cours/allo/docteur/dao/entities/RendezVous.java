@@ -20,32 +20,34 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "RendezVous")
 @XmlRootElement
 @NamedQueries({ @NamedQuery(name = "RendezVous.findAll", query = "SELECT r FROM RendezVous r"),
-        @NamedQuery(name = "RendezVous.findById", query = "SELECT r FROM RendezVous r.idRendezVous = :idRendezVous"),
-        @NamedQuery(name = "RendezVous.findByJour", query = "SELECT r FROM RendezVous r WHERE r.jour = :jour") })
+				@NamedQuery(name = "RendezVous.findById",
+							query = "SELECT r FROM RendezVous r.idRendezVous = :idRendezVous"),
+				@NamedQuery(name = "RendezVous.findByJour",
+							query = "SELECT r FROM RendezVous r WHERE r.jour = :jour") })
 public class RendezVous {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idRendezVous")
-    private Integer idRendezVous;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "idRendezVous")
+	private Integer idRendezVous;
 
-    @Column(name = "jour")
-    private LocalTime jour;
+	@Column(name = "jour")
+	private LocalTime jour;
 
-    @Column(name = "prixConsultationDouble")
-    private Double prixConsultationDouble;
+	@Column(name = "prixConsultationDouble")
+	private Double prixConsultationDouble;
 
-    @Column(name = "present")
-    private Boolean present;
+	@Column(name = "present")
+	private Boolean present;
 
-    @Version
-    @Column(name = "version")
-    private Integer version;
+	@Version
+	@Column(name = "version")
+	private Integer version;
 
-    @ManyToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(referencedColumnName = "idPatient", name = "idPatient")
-    private Patient rdvPatient;
+	@ManyToOne(cascade = CascadeType.MERGE)
+	@JoinColumn(referencedColumnName = "idPatient", name = "idPatient")
+	private Patient patientRdv;
 
-    @ManyToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(referencedColumnName = "idCreneau", name = "idCreneau")
-    private Creneau rdvCreneau;
+	@ManyToOne(cascade = CascadeType.MERGE)
+	@JoinColumn(referencedColumnName = "idCreneau", name = "idCreneau")
+	private Creneau creneauRdv;
 }
