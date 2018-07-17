@@ -10,18 +10,18 @@ import java.util.List;
 
 public interface IAdresseDao {
 
-    public List<Adresse> findAllAdresses();
+	public List<Adresse> findAllAdresses();
 
-    public Adresse findAdresseById(int idAdresse);
+	public Adresse findAdresseById(int idAdresse);
 
-    public List<Adresse> findAdressesByVille(String ville);
+	public List<Adresse> findAdressesByVille(String ville);
 
-    public List<Adresse> findAdressesByCodePostal(String codePostal);
+	public List<Adresse> findAdressesByCodePostal(String codePostal);
 
-    public Adresse createAdresse(Adresse adresse);
+	public Adresse createAdresse(Adresse adresse);
 
-    public Adresse updateAdresse(Adresse adresse);
+	public Adresse updateAdresse(Adresse adresse);
 
-    public boolean deleteAdresse(Adresse adresse);
+	public boolean deleteAdresse(Adresse adresse);
 
 }

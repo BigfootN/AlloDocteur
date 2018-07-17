@@ -13,12 +13,9 @@ import java.io.Serializable;
 @Table(name = "Adresse")
 @XmlRootElement
 @NamedQueries({ @NamedQuery(name = "Adresse.findAll", query = "SELECT u FROM Adresse u"),
-				@NamedQuery(name = "Adresse.findById",
-							query = "SELECT u FROM Adresse u WHERE u.idAdresse = :idAdresse"),
-				@NamedQuery(name = "Adresse.findByVille",
-							query = "SELECT u FROM Adresse u WHERE u.ville = :ville"),
-				@NamedQuery(name = "Adresse.findByCodePostal",
-							query = "SELECT u FROM Adresse u WHERE u.codePostal = :codePostal"), })
+		@NamedQuery(name = "Adresse.findById", query = "SELECT u FROM Adresse u WHERE u.idAdresse = :idAdresse"),
+		@NamedQuery(name = "Adresse.findByVille", query = "SELECT u FROM Adresse u WHERE u.ville = :ville"),
+		@NamedQuery(name = "Adresse.findByCodePostal", query = "SELECT u FROM Adresse u WHERE u.codePostal = :codePostal"), })
 public class Adresse implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -26,7 +23,6 @@ public class Adresse implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "idAdresse")
-	// @Basic(optional=false)
 	private Integer idAdresse;
 
 	@Column(name = "rue")
@@ -52,13 +48,10 @@ public class Adresse implements Serializable {
 	@JoinColumn(referencedColumnName = "idUtilisateur", name = "idUtilisateur")
 	private Utilisateur addrOwner;
 
-	public Adresse() {}
+	public Adresse() {
+	}
 
-	public Adresse(String rue,
-				   String codePostal,
-				   String ville,
-				   String pays,
-				   Utilisateur idUtilisateur) {
+	public Adresse(String rue, String codePostal, String ville, String pays, Utilisateur idUtilisateur) {
 		this.rue = rue;
 		this.codePostal = codePostal;
 		this.ville = ville;
@@ -163,7 +156,7 @@ public class Adresse implements Serializable {
 		}
 		Adresse other = (Adresse) object;
 		if ((this.idAdresse == null && other.idAdresse != null)
-			|| (this.idAdresse != null && !this.idAdresse.equals(other.idAdresse))) {
+				|| (this.idAdresse != null && !this.idAdresse.equals(other.idAdresse))) {
 			return false;
 		}
 		return true;
@@ -172,15 +165,8 @@ public class Adresse implements Serializable {
 	@Override
 	public String toString() {
 		return String.format(
-			"[idAdresse=%s , rue=%s , ville=%s , codePostal=%s , pays=%s , principale=%s , version=%s, idUtilisateur=%s]\n",
-			idAdresse,
-			rue,
-			ville,
-			codePostal,
-			pays,
-			principale,
-			version,
-			addrOwner.getIdUtilisateur());
+				"[idAdresse=%s , rue=%s , ville=%s , codePostal=%s , pays=%s , principale=%s , version=%s, idUtilisateur=%s]\n",
+				idAdresse, rue, ville, codePostal, pays, principale, version, addrOwner.getIdUtilisateur());
 	}
 
 }
