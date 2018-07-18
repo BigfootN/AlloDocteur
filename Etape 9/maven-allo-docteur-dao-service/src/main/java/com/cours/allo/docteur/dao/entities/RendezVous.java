@@ -20,10 +20,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "RendezVous")
 @XmlRootElement
 @NamedQueries({ @NamedQuery(name = "RendezVous.findAll", query = "SELECT r FROM RendezVous r"),
-				@NamedQuery(name = "RendezVous.findById",
-							query = "SELECT r FROM RendezVous r.idRendezVous = :idRendezVous"),
-				@NamedQuery(name = "RendezVous.findByJour",
-							query = "SELECT r FROM RendezVous r WHERE r.jour = :jour") })
+		@NamedQuery(name = "RendezVous.findById", query = "SELECT r FROM RendezVous r WHERE r.idRendezVous = :idRendezVous"),
+		@NamedQuery(name = "RendezVous.findByJour", query = "SELECT r FROM RendezVous r WHERE r.jour = :jour") })
 public class RendezVous {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

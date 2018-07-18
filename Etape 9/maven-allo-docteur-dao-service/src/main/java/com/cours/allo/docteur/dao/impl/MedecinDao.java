@@ -30,7 +30,9 @@ public class MedecinDao implements IMedecinDao {
 
 		try {
 			ret = em.createNamedQuery("Medecin.findAll").getResultList();
-		} catch (Exception e) {}
+		} catch (Exception e) {
+			log.error(e.getMessage());
+		}
 
 		log.debug("Sortie de la methode");
 
@@ -47,8 +49,10 @@ public class MedecinDao implements IMedecinDao {
 
 		try {
 			ret = (Medecin) em.createNamedQuery("Medecin.findByNumeroAccreditation")
-				  .setParameter("numeroAccreditation", numeroAccreditation).getResultList().get(0);
-		} catch (Exception e) {}
+					.setParameter("numeroAccreditation", numeroAccreditation).getResultList().get(0);
+		} catch (Exception e) {
+			log.error(e.getMessage());
+		}
 
 		log.debug("Sortie de la methode");
 
@@ -65,9 +69,10 @@ public class MedecinDao implements IMedecinDao {
 
 		try {
 			ret = (Medecin) em.createNamedQuery("Medecin.findByNumeroSecuriteSociale")
-				  .setParameter("numeroSecuriteSociale", numeroSecuriteSociale).getResultList().get(
-				0);
-		} catch (Exception e) {}
+					.setParameter("numeroSecuriteSociale", numeroSecuriteSociale).getResultList().get(0);
+		} catch (Exception e) {
+			log.error(e.getMessage());
+		}
 
 		log.debug("Sortie de la methode");
 
@@ -84,8 +89,10 @@ public class MedecinDao implements IMedecinDao {
 
 		try {
 			ret = (Medecin) em.createNamedQuery("Medecin.findByNumeroTelephone")
-				  .setParameter("numeroTelephone", numeroTelephone).getResultList().get(0);
-		} catch (Exception e) {}
+					.setParameter("numeroTelephone", numeroTelephone).getResultList().get(0);
+		} catch (Exception e) {
+			log.error(e.getMessage());
+		}
 
 		log.debug("Sortie de la methode");
 
@@ -98,7 +105,9 @@ public class MedecinDao implements IMedecinDao {
 
 		try {
 			em.persist(doctor);
-		} catch (Exception e) {}
+		} catch (Exception e) {
+			log.error(e.getMessage());
+		}
 
 		log.debug("Sortie de la methode");
 
@@ -115,7 +124,9 @@ public class MedecinDao implements IMedecinDao {
 
 		try {
 			ret = em.merge(doctor);
-		} catch (Exception e) {}
+		} catch (Exception e) {
+			log.error(e.getMessage());
+		}
 
 		log.debug("Sortie de la methode");
 		return ret;
@@ -127,7 +138,9 @@ public class MedecinDao implements IMedecinDao {
 
 		try {
 			em.remove(em.merge(doctor));
-		} catch (Exception e) {}
+		} catch (Exception e) {
+			log.error(e.getMessage());
+		}
 
 		log.debug("Sortie de la methode");
 

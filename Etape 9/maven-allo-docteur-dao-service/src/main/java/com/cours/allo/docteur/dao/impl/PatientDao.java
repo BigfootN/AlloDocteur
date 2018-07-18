@@ -31,6 +31,7 @@ public class PatientDao implements IPatientDao {
         try {
             ret = em.createNamedQuery("Patient.findAll").getResultList();
         } catch (Exception e) {
+            log.error(e.getMessage());
         }
 
         log.debug("Sortie de la methode");
@@ -50,6 +51,7 @@ public class PatientDao implements IPatientDao {
             ret = (Patient) em.createNamedQuery("Patient.findById").setParameter("idPatient", idPatient).getResultList()
                     .get(0);
         } catch (Exception e) {
+            log.error(e.getMessage());
         }
 
         log.debug("Sortie de la methode");
@@ -69,6 +71,7 @@ public class PatientDao implements IPatientDao {
             ret = (Patient) em.createNamedQuery("Patient.findByNumeroSecuriteSociale")
                     .setParameter("numeroSecuriteSociale", numeroSecuriteSocial).getResultList().get(0);
         } catch (Exception e) {
+            log.error(e.getMessage());
         }
 
         log.debug("Sortie de la methode");
@@ -88,6 +91,7 @@ public class PatientDao implements IPatientDao {
             ret = (Patient) em.createNamedQuery("Patient.findByNumeroTelephone")
                     .setParameter("numeroTelephone", numeroTelephone).getResultList().get(0);
         } catch (Exception e) {
+            log.error(e.getMessage());
         }
 
         log.debug("Sortie de la methode");
@@ -102,6 +106,7 @@ public class PatientDao implements IPatientDao {
         try {
             em.persist(patient);
         } catch (Exception e) {
+            log.error(e.getMessage());
         }
 
         log.debug("Sortie de la methode");
@@ -130,6 +135,7 @@ public class PatientDao implements IPatientDao {
         try {
             em.remove(em.merge(patient));
         } catch (Exception e) {
+            log.error(e.getMessage());
             return false;
         }
 

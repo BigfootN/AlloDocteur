@@ -36,7 +36,9 @@ public class AdresseDao implements IAdresseDao {
 
 		try {
 			ret = em.createNamedQuery("Adresse.findAll").getResultList();
-		} catch (Exception e) {}
+		} catch (Exception e) {
+			log.error(e.getMessage());
+		}
 
 		log.debug("Sortie de la methode");
 		return ret;
@@ -51,11 +53,11 @@ public class AdresseDao implements IAdresseDao {
 		ret = null;
 
 		try {
-			listAddr =
-				em.createNamedQuery("Adresse.findById").setParameter("idAdresse",
-																	 idAdresse).getResultList();
+			listAddr = em.createNamedQuery("Adresse.findById").setParameter("idAdresse", idAdresse).getResultList();
 			ret = listAddr.get(0);
-		} catch (Exception e) {}
+		} catch (Exception e) {
+			log.error(e.getMessage());
+		}
 
 		log.debug("Sortie de la methode");
 		return ret;
@@ -69,10 +71,10 @@ public class AdresseDao implements IAdresseDao {
 		ret = null;
 
 		try {
-			ret =
-				em.createNamedQuery("Adresse.findByVille").setParameter("ville",
-																		ville).getResultList();
-		} catch (Exception e) {}
+			ret = em.createNamedQuery("Adresse.findByVille").setParameter("ville", ville).getResultList();
+		} catch (Exception e) {
+			log.error(e.getMessage());
+		}
 
 		log.debug("Sortie de la methode");
 		return ret;
@@ -86,10 +88,11 @@ public class AdresseDao implements IAdresseDao {
 		ret = null;
 
 		try {
-			ret = em.createNamedQuery("Adresse.findByCodePostal").setParameter("codePostal",
-																			   codePostal)
-				  .getResultList();
-		} catch (Exception e) {}
+			ret = em.createNamedQuery("Adresse.findByCodePostal").setParameter("codePostal", codePostal)
+					.getResultList();
+		} catch (Exception e) {
+			log.error(e.getMessage());
+		}
 
 		log.debug("Sortie de la methode");
 		return ret;
@@ -101,7 +104,9 @@ public class AdresseDao implements IAdresseDao {
 
 		try {
 			em.persist(adresse);
-		} catch (Exception e) {}
+		} catch (Exception e) {
+			log.error(e.getMessage());
+		}
 
 		log.debug("Sortie de la methode");
 		return adresse;
@@ -121,7 +126,9 @@ public class AdresseDao implements IAdresseDao {
 			oldAddr.setRue(adresse.getRue());
 			oldAddr.setVille(adresse.getVille());
 			oldAddr.setVersion(oldAddr.getVersion() + 1);
-		} catch (Exception e) {}
+		} catch (Exception e) {
+			log.error(e.getMessage());
+		}
 
 		log.debug("Sortie de la methode");
 		return oldAddr;
@@ -135,6 +142,7 @@ public class AdresseDao implements IAdresseDao {
 		try {
 			em.remove(em.find(Adresse.class, adresse.getIdAdresse()));
 		} catch (Exception e) {
+			log.error(e.getMessage());
 			return false;
 		}
 

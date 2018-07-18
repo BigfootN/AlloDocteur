@@ -17,109 +17,119 @@ import org.apache.commons.logging.LogFactory;
  */
 public class RendezVousDao implements IRendezVousDao {
 
-    @PersistenceContext
-    private EntityManager em;
-    private static final Log log = LogFactory.getLog(UtilisateurDao.class);
+	@PersistenceContext
+	private EntityManager em;
+	private static final Log log = LogFactory.getLog(UtilisateurDao.class);
 
-    @Override
-    public List<RendezVous> findAll() {
-        List<RendezVous> ret;
+	@Override
+	public List<RendezVous> findAll() {
+		List<RendezVous> ret;
 
-        log.debug("Entree de la methode");
+		log.debug("Entree de la methode");
 
-        ret = null;
+		ret = null;
 
-        try {
-            ret = em.createNamedQuery("RendezVous.findAll").getResultList();
-        } catch (Exception e) {
-        }
+		try {
+			ret = em.createNamedQuery("RendezVous.findAll").getResultList();
+		} catch (Exception e) {
+			log.error(e.getMessage());
+		}
 
-        log.debug("Sortie de la methode");
+		log.debug("Sortie de la methode");
 
-        return ret;
-    }
+		return ret;
+	}
 
-    @Override
-    public RendezVous findRendezVousById(Integer idRendezVous) {
-        RendezVous ret;
+	@Override
+	public RendezVous findRendezVousById(Integer idRendezVous) {
+		RendezVous ret;
 
-        log.debug("Entree de la methode");
+		log.debug("Entree de la methode");
 
-        ret = null;
+		ret = null;
 
-        try {
-            ret = (RendezVous) em.createNamedQuery("RendezVous.findById").setParameter("idRendezVous", idRendezVous)
-                    .getResultList().get(0);
-        } catch (Exception e) {
-        }
+		try {
+			ret = (RendezVous) em.createNamedQuery("RendezVous.findById").setParameter(
+				"idRendezVous",
+				idRendezVous)
+				  .getResultList().get(0);
+		} catch (Exception e) {
+			log.error(e.getMessage());
+		}
 
-        log.debug("Sortie de la methode");
+		log.debug("Sortie de la methode");
 
-        return ret;
-    }
+		return ret;
+	}
 
-    @Override
-    public List<RendezVous> findRendezVousByJour(LocalTime time) {
-        List<RendezVous> ret;
+	@Override
+	public List<RendezVous> findRendezVousByJour(LocalTime time) {
+		List<RendezVous> ret;
 
-        log.debug("Entree de la methode");
+		log.debug("Entree de la methode");
 
-        ret = null;
+		ret = null;
 
-        try {
-            ret = em.createNamedQuery("RendezVous.findByJour").setParameter("jour", time).getResultList();
-        } catch (Exception e) {
-        }
+		try {
+			ret =
+				em.createNamedQuery("RendezVous.findByJour").setParameter("jour",
+																		  time).getResultList();
+		} catch (Exception e) {
+			log.error(e.getMessage());
+		}
 
-        log.debug("Sortie de la methode");
+		log.debug("Sortie de la methode");
 
-        return ret;
-    }
+		return ret;
+	}
 
-    @Override
-    public boolean deleteRendezVous(RendezVous appt) {
-        log.debug("Entree de la methode");
+	@Override
+	public boolean deleteRendezVous(RendezVous appt) {
+		log.debug("Entree de la methode");
 
-        try {
-            em.remove(em.merge(appt));
-        } catch (Exception e) {
-            return false;
-        }
+		try {
+			em.remove(em.merge(appt));
+		} catch (Exception e) {
+			log.error(e.getMessage());
+			return false;
+		}
 
-        log.debug("Sortie de la methode");
+		log.debug("Sortie de la methode");
 
-        return true;
-    }
+		return true;
+	}
 
-    @Override
-    public RendezVous updateRendezVous(RendezVous appt) {
-        log.debug("Entree de la methode");
+	@Override
+	public RendezVous updateRendezVous(RendezVous appt) {
+		log.debug("Entree de la methode");
 
-        RendezVous ret;
+		RendezVous ret;
 
-        ret = null;
+		ret = null;
 
-        try {
-            ret = em.merge(appt);
-        } catch (Exception e) {
-        }
+		try {
+			ret = em.merge(appt);
+		} catch (Exception e) {
+			log.error(e.getMessage());
+		}
 
-        log.debug("Sortie de la methode");
-        return ret;
-    }
+		log.debug("Sortie de la methode");
+		return ret;
+	}
 
-    @Override
-    public RendezVous createRendezVous(RendezVous appt) {
-        log.debug("Entree de la methode");
+	@Override
+	public RendezVous createRendezVous(RendezVous appt) {
+		log.debug("Entree de la methode");
 
-        try {
-            em.persist(appt);
-        } catch (Exception e) {
-        }
+		try {
+			em.persist(appt);
+		} catch (Exception e) {
+			log.error(e.getMessage());
+		}
 
-        log.debug("Sortie de la methode");
+		log.debug("Sortie de la methode");
 
-        return appt;
-    }
+		return appt;
+	}
 
 }

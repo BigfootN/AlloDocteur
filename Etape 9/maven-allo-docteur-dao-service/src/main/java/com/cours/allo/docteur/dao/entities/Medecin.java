@@ -54,7 +54,7 @@ public class Medecin {
 	@JoinColumn(referencedColumnName = "idUtilisateur", name = "idUtilisateur")
 	private Utilisateur userDoctor;
 
-	@OneToMany(mappedBy = "docteurCreneau", cascade = CascadeType.MERGE, orphanRemoval = true,
-			   fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "doctorCreneau", cascade = CascadeType.MERGE, orphanRemoval = true,
+			   fetch = FetchType.LAZY)
 	private List<Creneau> creneaux = new ArrayList<>();
 }

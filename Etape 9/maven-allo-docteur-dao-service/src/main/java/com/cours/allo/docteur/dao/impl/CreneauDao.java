@@ -29,7 +29,9 @@ public class CreneauDao implements ICreneauDao {
 
 		try {
 			ret = em.createNamedQuery("Creneau.findAll").getResultList();
-		} catch (Exception e) {}
+		} catch (Exception e) {
+			log.error(e.getMessage());
+		}
 
 		log.debug("Sortie de la methode");
 		return ret;
@@ -43,10 +45,11 @@ public class CreneauDao implements ICreneauDao {
 		ret = null;
 
 		try {
-			ret = em.createNamedQuery("Creneau.findByHeureDebut").setParameter("heureDebut",
-																			   heureDebut)
-				  .getResultList();
-		} catch (Exception e) {}
+			ret = em.createNamedQuery("Creneau.findByHeureDebut").setParameter("heureDebut", heureDebut)
+					.getResultList();
+		} catch (Exception e) {
+			log.error(e.getMessage());
+		}
 
 		log.debug("Sortie de la methode");
 		return ret;
@@ -60,10 +63,10 @@ public class CreneauDao implements ICreneauDao {
 		ret = null;
 
 		try {
-			ret =
-				em.createNamedQuery("Creneau.findByHeureFin").setParameter("heureFin",
-																		   heureFin).getResultList();
-		} catch (Exception e) {}
+			ret = em.createNamedQuery("Creneau.findByHeureFin").setParameter("heureFin", heureFin).getResultList();
+		} catch (Exception e) {
+			log.error(e.getMessage());
+		}
 
 		log.debug("Sortie de la methode");
 		return ret;
@@ -77,10 +80,11 @@ public class CreneauDao implements ICreneauDao {
 		ret = null;
 
 		try {
-			ret = em.createNamedQuery("Creneau.findByMinuteDebut").setParameter("minuteDebut",
-																				minuteDebut)
-				  .getResultList();
-		} catch (Exception e) {}
+			ret = em.createNamedQuery("Creneau.findByMinuteDebut").setParameter("minuteDebut", minuteDebut)
+					.getResultList();
+		} catch (Exception e) {
+			log.error(e.getMessage());
+		}
 
 		log.debug("Sortie de la methode");
 		return ret;
@@ -94,10 +98,10 @@ public class CreneauDao implements ICreneauDao {
 		ret = null;
 
 		try {
-			ret =
-				em.createNamedQuery("Creneau.findByMinuteFin").setParameter("minuteFin",
-																			minuteFin).getResultList();
-		} catch (Exception e) {}
+			ret = em.createNamedQuery("Creneau.findByMinuteFin").setParameter("minuteFin", minuteFin).getResultList();
+		} catch (Exception e) {
+			log.error(e.getMessage());
+		}
 
 		log.debug("Sortie de la methode");
 		return ret;
@@ -109,7 +113,9 @@ public class CreneauDao implements ICreneauDao {
 
 		try {
 			em.persist(creneau);
-		} catch (Exception e) {}
+		} catch (Exception e) {
+			log.error(e.getMessage());
+		}
 
 		log.debug("Sortie de la methode");
 		return creneau;
@@ -122,6 +128,7 @@ public class CreneauDao implements ICreneauDao {
 		try {
 			em.remove(em.merge(creneau));
 		} catch (Exception e) {
+			log.error(e.getMessage());
 			return false;
 		}
 
@@ -138,7 +145,9 @@ public class CreneauDao implements ICreneauDao {
 
 		try {
 			ret = em.merge(creneau);
-		} catch (Exception e) {}
+		} catch (Exception e) {
+			log.error(e.getMessage());
+		}
 
 		log.debug("Sortie de la methode");
 		return ret;
