@@ -8,15 +8,17 @@ import com.cours.allo.docteur.dao.entities.Patient;
  * IPatientDao
  */
 public interface IPatientDao {
-	public List<Patient> findAll();
+    public List<Patient> findAll();
 
-	public Patient findPatientByNumeroSecuriteSocial(String numeroSecuriteSocial);
+    public Patient findPatientById(String idPatient);
 
-	public Patient findPatientByNumeroTelephone(String numeroTelephone);
+    public Patient findPatientByNumeroSecuriteSocial(String numeroSecuriteSocial);
 
-	public Patient createPatient(Patient patient);
+    public Patient findPatientByNumeroTelephone(String numeroTelephone);
 
-	public Patient updatePatient(Patient patient);
+    public Patient createPatient(Patient patient);
 
-	public boolean deletePatient(Patient patient);
+    public Patient updatePatient(Patient patient);
+
+    public boolean deletePatient(Patient patient);
 }

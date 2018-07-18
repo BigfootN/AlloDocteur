@@ -39,6 +39,25 @@ public class PatientDao implements IPatientDao {
     }
 
     @Override
+    public Patient findPatientById(String idPatient) {
+        Patient ret;
+
+        log.debug("Entree de la methode");
+
+        ret = null;
+
+        try {
+            ret = (Patient) em.createNamedQuery("Patient.findById").setParameter("idPatient", idPatient).getResultList()
+                    .get(0);
+        } catch (Exception e) {
+        }
+
+        log.debug("Sortie de la methode");
+
+        return ret;
+    }
+
+    @Override
     public Patient findPatientByNumeroSecuriteSocial(String numeroSecuriteSocial) {
         Patient ret;
 

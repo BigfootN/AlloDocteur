@@ -18,12 +18,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "Patient")
 @XmlRootElement
 @NamedQueries({ @NamedQuery(name = "Patient.findAll", query = "SELECT p FROM Patient p"),
-				@NamedQuery(name = "Patient.findByNumeroSecuriteSociale",
-							query =
-								"SELECT p FROM Patient p WHERE p.numeroSecuriteSociale = :numeroSecuriteSociale"),
-				@NamedQuery(name = "Patient.findByNumeroTelephone",
-							query =
-								"SELECT p FROM Patient p WHERE p.numeroTelephone = :numeroTelephone") })
+		@NamedQuery(name = "Patient.findById", query = "SELECT p FROM Patient p WHERE p.idPatient = :idPatient"),
+		@NamedQuery(name = "Patient.findByNumeroSecuriteSociale", query = "SELECT p FROM Patient p WHERE p.numeroSecuriteSociale = :numeroSecuriteSociale"),
+		@NamedQuery(name = "Patient.findByNumeroTelephone", query = "SELECT p FROM Patient p WHERE p.numeroTelephone = :numeroTelephone") })
 public class Patient {
 	@ManyToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(referencedColumnName = "idMedecin", name = "idMedecin")
