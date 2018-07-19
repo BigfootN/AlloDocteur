@@ -39,11 +39,8 @@ public class HomePageServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        if (serviceFacade == null)
-            log.debug("serviceFacade est null");
-        else
-            log.debug("serviceFacade est pas null");
-        response.sendRedirect("./index.jsp");
+
+        getServletContext().getRequestDispatcher("HomePage").forward(request, response);
     }
 
 }
