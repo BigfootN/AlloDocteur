@@ -17,7 +17,7 @@
         <div class="outer">
             <div class="header-outer" id="header-outer">
                 <!-- Header -->
-                <header id="header"  class="header">
+                <header id="header" class="header">
                     <div class="header padd-top">
                         <a href="${pageContext.request.contextPath}" title="Allo Docteur" class="logo"> 
                             <img src="./assets/images/logo/logo.png" alt="Allo Docteur"> 
