@@ -43,8 +43,7 @@ public class HomePageServlet extends HttpServlet {
             log.debug("serviceFacade est null");
         else
             log.debug("serviceFacade est pas null");
-        response.setContentType("text/html");
-        this.getServletContext().getRequestDispatcher("/pages/index.html").forward(request, response);
+        response.sendRedirect("./index.jsp");
     }
 
 }

@@ -16,9 +16,12 @@ public interface IMedecinDao {
 
 	public Medecin findMedecinByNumeroTelephone(String numeroTelephone);
 
+	public Medecin findMedecinByPwdAndId(String pwd, String email);
+
 	public Medecin createMedecin(Medecin Medecin);
 
 	public Medecin updateMedecin(Medecin Medecin);
 
 	public boolean deleteMedecin(Medecin Medecin);
+
 }

@@ -39,7 +39,7 @@
           </ul>
            <ul class="nav">
             <li><a class="active" href="medecin.html">Médecin</a></li>
-            <li><a href="modification-informations-medecin.html">Informations médecins</a></li>
+            <li><a href="modification-informations-medecin.jsp">Informations médecins</a></li>
             <li><a href="recherche-patient.html ">Recherche patient</a></li>
             <li><a href="presence-rendez-vous.html ">Présence rendez-vous</a></li>
             <li><a href="parrainer-medecin.html ">Parrainer un médecin</a></li>
@@ -58,11 +58,11 @@
               <div class="home-links">
                 <p>Bonjour Mr le docteur Jacques Dupont, votre chiffre d’affaire du mois est de XXXX euros.</p>
                 <div class="links">
-                  <a href="./modification-informations-medecin.html">Modifier mes informations personnelles</a>
-                  <a href="./rendez-vous-journee.html">Voir les rendez-vous de la journée</a>
-                  <a href="./recherche-rendez-vous.html">Rechercher mes rendez-vous</a>
-                  <a href="./parrainer-medecin.html">Parrainer un médecin</a>
-                  <a href="./presence-rendez-vous.html ">Présence au rendez-vous</a>
+                  <a href="./modification-informations-medecin.jsp">Modifier mes informations personnelles</a>
+                  <a href="./rendez-vous-journee.jsp">Voir les rendez-vous de la journée</a>
+                  <a href="./recherche-rendez-vous.jsp">Rechercher mes rendez-vous</a>
+                  <a href="./parrainer-medecin.jsp">Parrainer un médecin</a>
+                  <a href="./presence-rendez-vous.jsp">Présence au rendez-vous</a>
                   <a href="#">Exporter mes futurs rendez-vous au format CSV</a>
                   <a href="#">Exporter mes futurs rendez-vous au format XML</a>
                   <a href="#">Exporter mes futurs rendez-vous au format Json</a>

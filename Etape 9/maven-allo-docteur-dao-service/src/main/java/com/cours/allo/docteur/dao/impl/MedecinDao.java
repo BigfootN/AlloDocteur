@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 import com.cours.allo.docteur.dao.IMedecinDao;
 import com.cours.allo.docteur.dao.entities.Medecin;
@@ -90,6 +91,29 @@ public class MedecinDao implements IMedecinDao {
 		try {
 			ret = (Medecin) em.createNamedQuery("Medecin.findByNumeroTelephone")
 					.setParameter("numeroTelephone", numeroTelephone).getResultList().get(0);
+		} catch (Exception e) {
+			log.error(e.getMessage());
+		}
+
+		log.debug("Sortie de la methode");
+
+		return ret;
+	}
+
+	@Override
+	public Medecin findMedecinByPwdAndId(String pwd, String email) {
+		Medecin ret;
+		Query query;
+
+		log.debug("Entree de la methode");
+
+		ret = null;
+
+		try {
+			query = em.createNamedQuery("Medecin.findByMdpIdentifiant");
+			query.setParameter("motPasse", pwd);
+			query.setParameter("identifiant", email);
+			ret = (Medecin) query.getResultList().get(0);
 		} catch (Exception e) {
 			log.error(e.getMessage());
 		}

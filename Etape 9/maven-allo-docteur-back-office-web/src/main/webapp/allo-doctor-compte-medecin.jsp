@@ -59,7 +59,7 @@
                <div class="righ-block">
                  
                  <h3>SE CONNECTER</h3>
-                  <form id="login-form" class="login-form" method="post" action="http://elhadji-gaye.fr/alloDocteur/backOffice/medecin.html">
+                  <form id="login-form" class="login-form" method="post" action="${pageContext.request.contextPath}/LoginServlet">
                    <input name="login" type="text" placeholder="LOGIN">
                    <input name="password" type="password" placeholder="PASSWORD">
                    <button type="submit">se connecter</button>
