@@ -49,7 +49,7 @@ public class ServiceFacade implements IServiceFacade {
 	}
 
 	@Override
-	public IUtilisateurDao gUtilisateurDao() {
+	public IUtilisateurDao getUtilisateurDao() {
 		return uDao;
 	}
 

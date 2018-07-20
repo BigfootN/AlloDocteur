@@ -19,7 +19,7 @@ public class MedecinDao implements IMedecinDao {
 
 	@PersistenceContext
 	private EntityManager em;
-	private static final Log log = LogFactory.getLog(UtilisateurDao.class);
+	private static final Log log = LogFactory.getLog(MedecinDao.class);
 
 	@Override
 	public List<Medecin> findAll() {

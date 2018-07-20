@@ -15,9 +15,9 @@
     <!-- endbuild -->
 
     <!-- build:css styles/main.css -->
-    <link rel="stylesheet" href="./assets/styles/bootstrap.css"> 
-    <link rel="stylesheet" href="./assets/styles/main.css">
-    <link rel="stylesheet" href="./assets/styles/rwd.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/styles/bootstrap.css" type="text/css"> 
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/styles/main.css" type="text/css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/styles/rwd.css" type="text/css">
     <!-- endbuild -->
     
     <!-- build:js scripts/vendor/modernizr.js -->

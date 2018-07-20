@@ -2,8 +2,12 @@
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
     <servlet>
         <servlet-name>HomePage</servlet-name>
-        <jsp-file>/index.jsp</jsp-file>
         <servlet-class>com.cours.allo.docteur.servlets.HomePageServlet</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>Login</servlet-name>
+        <servlet-class>com.cours.allo.docteur.servlets.LoginServlet</servlet-class>
     </servlet>
 
     <servlet-mapping>
@@ -12,13 +16,9 @@
     </servlet-mapping>
 
     <servlet-mapping>
-        <servlet-name>HomePage</servlet-name>
-        <url-pattern>/</url-pattern>
+        <servlet-name>Login</servlet-name>
+        <url-pattern>/login</url-pattern>
     </servlet-mapping>
-    <!--<servlet-mapping>
-        <servlet-name>HomePage</servlet-name>
-        <url-pattern>/</url-pattern>
-    </servlet-mapping>-->
 
     <listener>
         <listener-class>
@@ -26,8 +26,22 @@
         </listener-class>
     </listener>
 
+    <welcome-file-list>
+        <welcome-file>HomePage</welcome-file>
+    </welcome-file-list>
+
     <context-param>
         <param-name>contextConfigLocation</param-name>
         <param-value>/WEB-INF/Spring/beans.xml</param-value>
     </context-param>
+
+    <filter>
+        <filter-name>LoginFilter</filter-name>
+        <filter-class>com.cours.allo.docteur.filters.LoginFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>LoginFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
 </web-app>
