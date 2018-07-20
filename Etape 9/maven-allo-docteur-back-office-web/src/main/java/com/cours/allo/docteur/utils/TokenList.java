@@ -8,30 +8,31 @@ import java.util.List;
  * TokenList
  */
 public class TokenList {
-	private static final TokenList instance = new TokenList();
-	private static List<String> tokenList = new ArrayList<>();
+    private static final TokenList instance = new TokenList();
+    private static List<String> tokenList = new ArrayList<>();
 
-	public static TokenList getInstance() {
-		return instance;
-	}
+    public static TokenList getInstance() {
+        return instance;
+    }
 
-	public void addToken(String token) {
-		tokenList.add(token);
-	}
+    public void addToken(String token) {
+        tokenList.add(token);
+    }
 
-	public boolean hasToken(String token) {
-		Iterator<String> it;
+    public boolean hasToken(String token) {
+        Iterator<String> it;
 
-		it = tokenList.iterator();
+        it = tokenList.iterator();
 
-		while (it.hasNext()) {
-			if (it.next().equals(token))
-				return true;
-		}
+        while (it.hasNext()) {
+            if (it.next().equals(token))
+                return true;
+        }
 
-		return false;
-	}
+        return false;
+    }
 
-	private TokenList() {}
+    private TokenList() {
+    }
 
 }
