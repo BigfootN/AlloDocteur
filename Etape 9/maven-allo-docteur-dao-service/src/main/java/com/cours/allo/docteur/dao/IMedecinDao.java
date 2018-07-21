@@ -10,6 +10,8 @@ import com.cours.allo.docteur.dao.entities.Medecin;
 public interface IMedecinDao {
 	public List<Medecin> findAll();
 
+	public Medecin findMedecinByIdMedecin(Integer id);
+
 	public Medecin findMedecinByNumeroAccreditation(String numeroAccreditation);
 
 	public Medecin findMedecinByNumeroSecuriteSociale(String numeroSecuriteSociale);

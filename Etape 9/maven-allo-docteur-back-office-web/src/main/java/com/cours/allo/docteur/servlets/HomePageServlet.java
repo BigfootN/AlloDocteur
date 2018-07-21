@@ -16,36 +16,36 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 public class HomePageServlet extends HttpServlet {
-    private ApplicationContext ctx;
-    private IServiceFacade serviceFacade;
-    private static final Log log = LogFactory.getLog(HomePageServlet.class);
+	private ApplicationContext ctx;
+	private IServiceFacade serviceFacade;
+	private static final Log log = LogFactory.getLog(HomePageServlet.class);
 
-    @Override
-    public void init() throws ServletException {
-        log.debug("Dans init de HomePageServlet");
-        try {
-            ctx = WebApplicationContextUtils.getWebApplicationContext(this.getServletContext());
-            serviceFacade = (IServiceFacade) ctx.getBean("serviceFacade");
-        } catch (Exception e) {
-            serviceFacade = null;
-            log.error(e.toString());
-        }
-    }
+	@Override
+	public void init() throws ServletException {
+		log.debug("Dans init de HomePageServlet");
+		try {
+			ctx = WebApplicationContextUtils.getWebApplicationContext(this.getServletContext());
+			serviceFacade = (IServiceFacade) ctx.getBean("serviceFacade");
+		} catch (Exception e) {
+			serviceFacade = null;
+			log.error(e.toString());
+		}
+	}
 
-    @Override
-    public void destroy() {
-    }
+	@Override
+	public void destroy() {}
 
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        log.debug("dans Post");
-    }
+	@Override
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException,
+	IOException {
+		log.debug("dans Post");
+	}
 
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-
-        request.getRequestDispatcher("/index.jsp").forward(request, response);
-    }
+	@Override
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+	throws ServletException, IOException {
+		System.out.println("passe dans home");
+		request.getRequestDispatcher("/index.jsp").forward(request, response);
+	}
 
 }

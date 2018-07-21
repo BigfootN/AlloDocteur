@@ -39,7 +39,7 @@
           </ul>
            <ul class="nav">
             <li><a class="active" href="medecin.html">Médecin</a></li>
-            <li><a href="modification-informations-medecin.jsp">Informations médecins</a></li>
+            <li><a href="./account">Informations médecins</a></li>
             <li><a href="recherche-patient.html ">Recherche patient</a></li>
             <li><a href="presence-rendez-vous.html ">Présence rendez-vous</a></li>
             <li><a href="parrainer-medecin.html ">Parrainer un médecin</a></li>

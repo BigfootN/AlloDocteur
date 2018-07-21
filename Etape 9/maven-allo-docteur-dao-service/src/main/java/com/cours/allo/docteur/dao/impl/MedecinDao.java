@@ -41,6 +41,26 @@ public class MedecinDao implements IMedecinDao {
 	}
 
 	@Override
+	public Medecin findMedecinByIdMedecin(Integer id) {
+		Medecin ret;
+
+		log.debug("Entree de la methode");
+
+		ret = null;
+
+		try {
+			ret = (Medecin) em.createNamedQuery("Medecin.findById").setParameter("idMedecin", id).getResultList()
+					.get(0);
+		} catch (Exception e) {
+			log.error(e.getMessage());
+		}
+
+		log.debug("Sortie de la methode");
+
+		return ret;
+	}
+
+	@Override
 	public Medecin findMedecinByNumeroAccreditation(String numeroAccreditation) {
 		Medecin ret;
 
@@ -50,7 +70,7 @@ public class MedecinDao implements IMedecinDao {
 
 		try {
 			ret = (Medecin) em.createNamedQuery("Medecin.findByNumeroAccreditation")
-				  .setParameter("numeroAccreditation", numeroAccreditation).getResultList().get(0);
+					.setParameter("numeroAccreditation", numeroAccreditation).getResultList().get(0);
 		} catch (Exception e) {
 			log.error(e.getMessage());
 		}
@@ -70,8 +90,7 @@ public class MedecinDao implements IMedecinDao {
 
 		try {
 			ret = (Medecin) em.createNamedQuery("Medecin.findByNumeroSecuriteSociale")
-				  .setParameter("numeroSecuriteSociale", numeroSecuriteSociale).getResultList().get(
-				0);
+					.setParameter("numeroSecuriteSociale", numeroSecuriteSociale).getResultList().get(0);
 		} catch (Exception e) {
 			log.error(e.getMessage());
 		}
@@ -91,7 +110,7 @@ public class MedecinDao implements IMedecinDao {
 
 		try {
 			ret = (Medecin) em.createNamedQuery("Medecin.findByNumeroTelephone")
-				  .setParameter("numeroTelephone", numeroTelephone).getResultList().get(0);
+					.setParameter("numeroTelephone", numeroTelephone).getResultList().get(0);
 		} catch (Exception e) {
 			log.error(e.getMessage());
 		}

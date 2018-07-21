@@ -1,5 +1,7 @@
 package com.cours.allo.docteur.utils;
 
+import com.cours.allo.docteur.service.IServiceFacade;
+
 /**
  * Constants
  */

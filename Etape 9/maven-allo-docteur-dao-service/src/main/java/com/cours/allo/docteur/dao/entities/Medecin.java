@@ -33,9 +33,6 @@ public class Medecin {
 	@Column(name = "idMedecin")
 	private Integer idMedecin;
 
-	@Column(name = "civilite")
-	private String prenom;
-
 	@Column(name = "numeroTelephone")
 	private String numeroTelephone;
 
@@ -52,4 +49,21 @@ public class Medecin {
 
 	@OneToMany(mappedBy = "doctorCreneau", cascade = CascadeType.MERGE, orphanRemoval = true, fetch = FetchType.LAZY)
 	private List<Creneau> creneaux = new ArrayList<>();
+
+	public Integer getIdMedecin() {
+		return idMedecin;
+	}
+
+	public Utilisateur getUtilisateur() {
+		return userDoctor;
+	}
+
+	public String getNumeroAccreditation() {
+		return numeroAccreditation;
+	}
+
+	public String getNumeroTelephone() {
+		return numeroTelephone;
+	}
+
 }

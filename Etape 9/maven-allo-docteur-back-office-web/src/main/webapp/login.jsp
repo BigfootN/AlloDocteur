@@ -35,14 +35,14 @@
             <img src="./assets/images/logo.png" alt="">
           </a>
           <ul class="loginMenu">
-            <li><a class="active" href="./allo-doctor-compte-medecin.html">Connexion</a></li>
+            <li><a class="active" href="./login">Connexion</a></li>
           </ul>
            <ul class="nav">
-            <li><a href="./medecin.html">Médecin</a></li>
-            <li><a href="./modification-informations-medecin.html">Informations médecins</a></li>
-            <li><a href="./recherche-patient.html ">Recherche patient</a></li>
-            <li><a href="./presence-rendez-vous.html ">Présence rendez-vous</a></li>
-            <li><a href="./parrainer-medecin.html ">Parrainer un médecin</a></li>
+            <li><a href="./medecin.jsp">Médecin</a></li>
+            <li><a href="./modification-informations-medecin.jsp">Informations médecins</a></li>
+            <li><a href="./recherche-patient.jsp">Recherche patient</a></li>
+            <li><a href="./presence-rendez-vous.jsp">Présence rendez-vous</a></li>
+            <li><a href="./parrainer-medecin.jsp">Parrainer un médecin</a></li>
             <li><a href="./rendez-vous-journee.html ">Rendez-vous journée</a></li>
           </ul>
         </div>
@@ -59,7 +59,7 @@
                <div class="righ-block">
                  
                  <h3>SE CONNECTER</h3>
-                  <form id="login-form" class="login-form" method="post" action="${pageContext.request.contextPath}/LoginServlet">
+                  <form id="login-form" class="login-form" method="post" action="${pageContext.request.contextPath}/login">
                    <input name="login" type="text" placeholder="LOGIN">
                    <input name="password" type="password" placeholder="PASSWORD">
                    <button type="submit">se connecter</button>

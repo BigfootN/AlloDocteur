@@ -1,4 +1,4 @@
-package com.cours.allo.docteur.utils;
+package com.cours.allo.docteur.utils.security;
 
 import java.security.SecureRandom;
 
@@ -25,7 +25,7 @@ public class Token {
 		ret = new StringBuilder();
 
 		while (idx < size) {
-			rdmIdx = rand.nextInt(size);
+			rdmIdx = rand.nextInt(randomAllChar.length());
 			ret.append(randomAllChar.charAt(rdmIdx));
 			idx++;
 		}

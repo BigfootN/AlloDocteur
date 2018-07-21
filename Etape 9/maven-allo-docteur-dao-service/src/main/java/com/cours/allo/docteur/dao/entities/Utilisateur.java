@@ -37,7 +37,10 @@ import javax.xml.bind.annotation.XmlTransient;
 								"SELECT u FROM Utilisateur u WHERE u.dateNaissance = :dateNaissance"),
 				@NamedQuery(name = "Utilisateur.findByCodePostal",
 							query =
-								"SELECT u FROM Utilisateur u LEFT JOIN u.adresses a WHERE a.codePostal = :codePostal") })
+								"SELECT u FROM Utilisateur u LEFT JOIN u.adresses a WHERE a.codePostal = :codePostal"),
+				@NamedQuery(name = "Utilisateur.findMainAddress",
+							query =
+								"SELECT a FROM Adresse a INNER JOIN a.addrOwner u WHERE u.idUtilisateur = :idUtilisateur AND a.principale = 1") })
 
 public class Utilisateur implements Serializable {
 
