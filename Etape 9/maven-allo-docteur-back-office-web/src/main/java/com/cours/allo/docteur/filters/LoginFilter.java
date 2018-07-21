@@ -15,8 +15,6 @@ import javax.servlet.http.HttpServletResponse;
 import com.cours.allo.docteur.utils.Constants;
 import com.cours.allo.docteur.utils.TokenList;
 
-import org.springframework.http.HttpRequest;
-
 /**
  * LoginFilter
  */
@@ -41,15 +39,19 @@ public class LoginFilter implements Filter {
 		uri = httpRequest.getRequestURI();
 		idx = 0;
 
-		if (cookies == null) {
-			httpResponse.sendRedirect("login");
+		if (uri.endsWith("/login")) {
+			httpRequest.getRequestDispatcher("/login").forward(request, response);
 			return;
 		}
 
-		if (uri.endsWith("/login")) {
+		if (cookies == null) {
+			httpResponse.sendRedirect("./login");
+			return;
+		}
+
+		if (uri.indexOf("/assets") > 0) {
 			chain.doFilter(request, response);
-		} else if (uri.indexOf("/assets") > 0) {
-			chain.doFilter(request, response);
+			return;
 		}
 
 		while (idx < cookies.length) {
@@ -64,7 +66,7 @@ public class LoginFilter implements Filter {
 			idx++;
 		}
 
-		httpResponse.sendRedirect("login");
+		httpResponse.sendRedirect("./login");
 	}
 
 	@Override

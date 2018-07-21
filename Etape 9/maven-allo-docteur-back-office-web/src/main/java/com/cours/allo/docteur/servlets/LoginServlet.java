@@ -12,13 +12,13 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class LoginServlet extends HttpServlet {
 
-    @Override
-    public void init() throws ServletException {
-    }
+	@Override
+	public void init() throws ServletException {}
 
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher("./login.jsp").forward(req, resp);
-    }
+	@Override
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException,
+	IOException {
+		req.getRequestDispatcher("./login.jsp").forward(req, resp);
+	}
 
 }
