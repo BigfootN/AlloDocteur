@@ -1,3 +1,5 @@
+<%@ page import="java.util.List,com.cours.allo.docteur.dao.entities.Patient" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!doctype html>
 <html class="no-js" lang="">
   <head>
@@ -39,9 +41,9 @@
             <li><a href="allo-doctor-compte-medecin.html">Connexion</a></li>
           </ul>
            <ul class="nav">
-            <li><a href="medecin.html">Médecin</a></li>
-            <li><a href="modification-informations-medecin.html">Informations médecins</a></li>
-            <li><a class="active" href="recherche-patient.html ">Recherche patient</a></li>
+            <li><a href="./home">Médecin</a></li>
+            <li><a href="./account">Informations médecins</a></li>
+            <li><a class="active" href="./searchpat">Recherche patient</a></li>
             <li><a href="presence-rendez-vous.html ">Présence rendez-vous</a></li>
             <li><a href="parrainer-medecin.html ">Parrainer un médecin</a></li>
             <li><a href="rendez-vous-journee.html ">Rendez-vous journée</a></li>
@@ -57,13 +59,13 @@
                 RECHERCHE PATIENT
               </h1>
                 <form class="search-form" action="" method="get">
-                  <select name="city">
-                    <option value="ville" selected>entrez Critère de recherche</option>
-                    <option value="ville" >Prénom</option>
-                    <option value="ville" >Nom</option>
-                    <option value="ville" >numéro de sécurité sociale</option>
+                  <select name="searchCriteria">
+                    <option value="notset" selected>entrez Critère de recherche</option>
+                    <option value="name" >Prénom</option>
+                    <option value="lastname" >Nom</option>
+                    <option value="securityNumber" >numéro de sécurité sociale</option>
                   </select>
-                  <input type="text" name="searchName" placeholder="Entrez la valeur">
+                  <input type="text" name="searchValue" placeholder="Entrez la valeur">
                   <button type="submit">Rechercher</button>
                 </form>
               
@@ -78,37 +80,15 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td title="Prénom et Nom">Mr Faris CORONA</td>
-                    <td title="Identifiant">Mich@el2001</td>
-                    <td title="Numéro de sécurité sociale">235146587452698</td>
-                    <td title="Numéro de téléphone">03365221144</td>
-                    <td title="Adresse">Avenue la résistance, n°2, 75000, Paris France </td>
-                  </tr>
-                  <tr>
-                    <td title="Prénom et Nom">Mr Faris CORONA</td>
-                    <td title="Identifiant">Mich@el2001</td>
-                    <td title="Numéro de sécurité sociale">235146587452698</td>
-                    <td title="Numéro de téléphone">03365221144</td>
-                    <td title="Adresse">Avenue la résistance, n°2, 75000, Paris France </td>
-                  </tr>
-                  <tr>
-                    <td title="Prénom et Nom">Mr Faris CORONA</td>
-                    <td title="Identifiant">Mich@el2001</td>
-                    <td title="Numéro de sécurité sociale">235146587452698</td>
-                    <td title="Numéro de téléphone">03365221144</td>
-                    <td title="Adresse">Avenue la résistance, n°2, 75000, Paris France </td>
-                  </tr>
-                  <tr>
-                    <td title="Prénom et Nom">Mr Faris CORONA</td>
-                    <td title="Identifiant">Mich@el2001</td>
-                    <td title="Numéro de sécurité sociale">235146587452698</td>
-                    <td title="Numéro de téléphone">03365221144</td>
-                    <td title="Adresse">Avenue la résistance, n°2, 75000, Paris France </td>
-                  </tr>
-                  
-                  
-
+                  <c:forEach items="${patientlist}" var="patient">
+                    <c:set var="user" value="${patient.userPatient}"/>
+                    <tr>
+                      <td title="Prénom et Nom"><c:out value="${user.civilite} ${user.prenom} ${user.nom}" /></td>
+                      <td title="Identifiant"><c:out value="${user.identifiant}" /></td>
+                      <td title="Numéro de sécurité sociale"><c:out value="${patient.numeroSecuriteSociale}"/></td>
+                      <td title="Numéro de téléphone"><c:out value="${patient.numeroTelephone}"/></td>
+                    </tr>
+                  </c:forEach>
                 </tbody>
               </table>
 

@@ -37,13 +37,13 @@
             <img src="./assets/images/logo.png" alt="">
           </a>
           <ul class="loginMenu">
-            <li><a href="allo-doctor-compte-medecin.html">Connexion</a></li>
+            <li><a href="./login">Connexion</a></li>
           </ul>
            <ul class="nav">
-            <li><a href="medecin.html">Médecin</a></li>
-            <li><a class="active" href="modification-informations-medecin.html">Informations médecins</a></li>
-            <li><a href="recherche-patient.html ">Recherche patient</a></li>
-            <li><a href="presence-rendez-vous.html ">Présence rendez-vous</a></li>
+            <li><a href="./home">Médecin</a></li>
+            <li><a class="active" href="./account">Informations médecins</a></li>
+            <li><a href="./searchpat">Recherche patient</a></li>
+            <li><a href="./appointmentpresence">Présence rendez-vous</a></li>
             <li><a href="parrainer-medecin.html ">Parrainer un médecin</a></li>
             <li><a href="rendez-vous-journee.html ">Rendez-vous journée</a></li>
           </ul>
@@ -58,7 +58,7 @@
                 INFORMATIONS PERSONNELLES DU MÉDECIN
               </h1>
               <div class="formulaire">
-                <form action="#" method="post">
+                <form action="./account" method="post">
                   <p>
                   <select name="civility">
                     <option selected value="Civilité">Civilité</option>
@@ -67,13 +67,13 @@
                   </select>
                 </p>
                   <p>
-                  <input type="text" value="<%= request.getAttribute("name") %>" name="firstName" placeholder="Prénom">
+                  <input type="text" value="<%= request.getAttribute("name") %>" name="firstName" placeholder="Prénom" required>
                   </p>
                   <p>
-                  <input type="text" value="<%= request.getAttribute("lastName") %>"  name="name" placeholder="Nom">
+                  <input type="text" value="<%= request.getAttribute("lastName") %>"  name="name" placeholder="Nom" required>
                   </p>
                   <p>
-                  <input type="text" name="identifier" value="<%= request.getAttribute("email") %>" placeholder="Identifiant">
+                  <input type="text" name="identifier" value="<%= request.getAttribute("email") %>" placeholder="Identifiant" required>
                   </p>
                   <p>
                   <input type="password" name="password" placeholder="Mot de passe">

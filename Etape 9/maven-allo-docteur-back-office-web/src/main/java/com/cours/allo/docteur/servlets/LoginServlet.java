@@ -43,14 +43,14 @@ public class LoginServlet extends HttpServlet {
 	}
 
 	@Override
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException,
+	IOException {
 		String pwd;
 		String mail;
 		IMedecinDao mDao;
 		Medecin foundDoctor;
 		Cookie cookie;
 		String generatedToken;
-		HttpSession session;
 
 		pwd = req.getParameter("password");
 		mail = req.getParameter("login");
@@ -63,7 +63,8 @@ public class LoginServlet extends HttpServlet {
 			cookie = new Cookie(Constants.TOKEN_ACCESS_KEY_NAME, generatedToken);
 			cookie.setMaxAge(3000);
 			resp.addCookie(cookie);
-			TokenAuthUserList.getInstance().addUserAuthToken(generatedToken, foundDoctor.getIdMedecin());
+			TokenAuthUserList.getInstance().addUserAuthToken(generatedToken,
+															 foundDoctor.getIdMedecin());
 			resp.sendRedirect("./home");
 		} else {
 			resp.sendRedirect("./login");
@@ -71,7 +72,8 @@ public class LoginServlet extends HttpServlet {
 	}
 
 	@Override
-	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException,
+	IOException {
 		req.getRequestDispatcher("./login.jsp").forward(req, resp);
 	}
 

@@ -15,6 +15,26 @@
         <servlet-class>com.cours.allo.docteur.servlets.LoginServlet</servlet-class>
     </servlet>
 
+    <servlet>
+        <servlet-name>SearchPatient</servlet-name>
+        <servlet-class>com.cours.allo.docteur.servlets.SearchPatientServlet</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>AppointmentPresence</servlet-name>
+        <servlet-class>com.cours.allo.docteur.servlets.AppointmentPresenceServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>AppointmentPresence</servlet-name>
+        <url-pattern>/appointmentpresence</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>SearchPatient</servlet-name>
+        <url-pattern>/searchpat</url-pattern>
+    </servlet-mapping>
+
     <servlet-mapping>
         <servlet-name>HomePage</servlet-name>
         <url-pattern>/home</url-pattern>

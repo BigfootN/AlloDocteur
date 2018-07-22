@@ -40,8 +40,8 @@
            <ul class="nav">
             <li><a class="active" href="medecin.html">Médecin</a></li>
             <li><a href="./account">Informations médecins</a></li>
-            <li><a href="recherche-patient.html ">Recherche patient</a></li>
-            <li><a href="presence-rendez-vous.html ">Présence rendez-vous</a></li>
+            <li><a href="./searchpat">Recherche patient</a></li>
+            <li><a href="./appointmentpresence">Présence rendez-vous</a></li>
             <li><a href="parrainer-medecin.html ">Parrainer un médecin</a></li>
             <li><a href="rendez-vous-journee.html ">Rendez-vous journée</a></li>
           </ul>
