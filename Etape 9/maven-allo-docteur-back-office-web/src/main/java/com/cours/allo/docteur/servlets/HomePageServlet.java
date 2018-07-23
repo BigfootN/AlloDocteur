@@ -33,19 +33,19 @@ public class HomePageServlet extends HttpServlet {
 	}
 
 	@Override
-	public void destroy() {}
+	public void destroy() {
+	}
 
 	@Override
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException,
-	IOException {
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		log.debug("dans Post");
 	}
 
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-	throws ServletException, IOException {
+			throws ServletException, IOException {
 		System.out.println("passe dans home");
-		request.getRequestDispatcher("/index.jsp").forward(request, response);
+		request.getRequestDispatcher("./index.jsp").forward(request, response);
 	}
 
 }
