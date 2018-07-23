@@ -21,6 +21,11 @@
     </servlet>
 
     <servlet>
+        <servlet-name>CreateDoctor</servlet-name>
+        <servlet-class>com.cours.allo.docteur.servlets.CreateMedecinServlet</servlet-class>
+    </servlet>
+
+    <servlet>
         <servlet-name>AppointmentPresence</servlet-name>
         <servlet-class>com.cours.allo.docteur.servlets.AppointmentPresenceServlet</servlet-class>
     </servlet>
@@ -28,6 +33,11 @@
     <servlet-mapping>
         <servlet-name>AppointmentPresence</servlet-name>
         <url-pattern>/appointmentpresence</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>CreateDoctor</servlet-name>
+        <url-pattern>/createdoctor</url-pattern>
     </servlet-mapping>
 
     <servlet-mapping>

@@ -53,7 +53,9 @@ public class AdresseDao implements IAdresseDao {
 		ret = null;
 
 		try {
-			listAddr = em.createNamedQuery("Adresse.findById").setParameter("idAdresse", idAdresse).getResultList();
+			listAddr =
+				em.createNamedQuery("Adresse.findById").setParameter("idAdresse",
+																	 idAdresse).getResultList();
 			ret = listAddr.get(0);
 		} catch (Exception e) {
 			log.error(e.getMessage());
@@ -71,7 +73,9 @@ public class AdresseDao implements IAdresseDao {
 		ret = null;
 
 		try {
-			ret = em.createNamedQuery("Adresse.findByVille").setParameter("ville", ville).getResultList();
+			ret =
+				em.createNamedQuery("Adresse.findByVille").setParameter("ville",
+																		ville).getResultList();
 		} catch (Exception e) {
 			log.error(e.getMessage());
 		}
@@ -88,8 +92,9 @@ public class AdresseDao implements IAdresseDao {
 		ret = null;
 
 		try {
-			ret = em.createNamedQuery("Adresse.findByCodePostal").setParameter("codePostal", codePostal)
-					.getResultList();
+			ret = em.createNamedQuery("Adresse.findByCodePostal").setParameter("codePostal",
+																			   codePostal)
+				  .getResultList();
 		} catch (Exception e) {
 			log.error(e.getMessage());
 		}
@@ -103,6 +108,7 @@ public class AdresseDao implements IAdresseDao {
 		log.debug("Entree de la methode");
 
 		try {
+			log.debug("adresse = " + adresse.getIdUtilisateur().getIdUtilisateur());
 			em.persist(adresse);
 		} catch (Exception e) {
 			log.error(e.getMessage());

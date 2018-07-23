@@ -49,11 +49,36 @@ public class RendezVousDao implements IRendezVousDao {
 		ret = null;
 
 		try {
-			ret = (RendezVous) em.createNamedQuery("RendezVous.findById").setParameter("idRendezVous", idRendezVous)
-					.getResultList().get(0);
+			ret = (RendezVous) em.createNamedQuery("RendezVous.findById").setParameter(
+				"idRendezVous",
+				idRendezVous)
+				  .getResultList().get(0);
 		} catch (Exception e) {
 			log.error(e.getMessage());
 		}
+
+		log.debug("Sortie de la methode");
+
+		return ret;
+	}
+
+	@Override
+	public Long chiffreAffaire() {
+		Long ret;
+
+		log.debug("Entree de la methode");
+
+		ret = null;
+
+		try {
+			ret = (Long) em.createNamedQuery("RendezVous.Revenue").getSingleResult();
+		} catch (Exception e) {
+			ret = null;
+			log.error(e.getMessage());
+		}
+
+		if (ret == null)
+			ret = 0L;
 
 		log.debug("Sortie de la methode");
 
@@ -69,7 +94,9 @@ public class RendezVousDao implements IRendezVousDao {
 		ret = null;
 
 		try {
-			ret = em.createNamedQuery("RendezVous.findByJour").setParameter("jour", time).getResultList();
+			ret =
+				em.createNamedQuery("RendezVous.findByJour").setParameter("jour",
+																		  time).getResultList();
 		} catch (Exception e) {
 			log.error(e.getMessage());
 		}

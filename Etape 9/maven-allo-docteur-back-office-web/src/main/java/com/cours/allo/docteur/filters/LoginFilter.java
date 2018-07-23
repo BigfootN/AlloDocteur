@@ -21,12 +21,11 @@ import com.cours.allo.docteur.utils.security.TokenAuthUserList;
 public class LoginFilter implements Filter {
 
 	@Override
-	public void init(FilterConfig filterConfig) throws ServletException {
-	}
+	public void init(FilterConfig filterConfig) throws ServletException {}
 
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
-			throws IOException, ServletException {
+	throws IOException, ServletException {
 		HttpServletRequest httpRequest;
 		HttpServletResponse httpResponse;
 		Cookie[] cookies;
@@ -34,15 +33,11 @@ public class LoginFilter implements Filter {
 		Integer idx;
 		String uri;
 
-		System.out.println("passe dans filter");
-
 		httpRequest = (HttpServletRequest) request;
 		httpResponse = (HttpServletResponse) response;
 		cookies = httpRequest.getCookies();
 		uri = httpRequest.getRequestURI();
 		idx = 0;
-
-		System.out.println("uri = " + uri);
 
 		if (uri.endsWith("/login")) {
 			httpRequest.getRequestDispatcher("/login").forward(request, response);
@@ -76,7 +71,6 @@ public class LoginFilter implements Filter {
 	}
 
 	@Override
-	public void destroy() {
-	}
+	public void destroy() {}
 
 }

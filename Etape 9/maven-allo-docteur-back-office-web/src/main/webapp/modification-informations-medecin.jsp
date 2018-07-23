@@ -44,7 +44,7 @@
             <li><a class="active" href="./account">Informations médecins</a></li>
             <li><a href="./searchpat">Recherche patient</a></li>
             <li><a href="./appointmentpresence">Présence rendez-vous</a></li>
-            <li><a href="parrainer-medecin.html ">Parrainer un médecin</a></li>
+            <li><a href="./createdoctor">Parrainer un médecin</a></li>
             <li><a href="rendez-vous-journee.html ">Rendez-vous journée</a></li>
           </ul>
         </div>
