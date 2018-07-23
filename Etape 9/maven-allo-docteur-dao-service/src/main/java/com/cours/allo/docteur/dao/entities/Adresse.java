@@ -51,32 +51,22 @@ public class Adresse implements Serializable {
 	public Adresse() {
 	}
 
-	public Adresse(String rue, String codePostal, String ville, String pays, Utilisateur idUtilisateur) {
-		this.rue = rue;
-		this.codePostal = codePostal;
-		this.ville = ville;
-		this.pays = pays;
-		this.addrOwner = idUtilisateur;
-	}
-
-	public Adresse(String rue, String codePostal, String ville, String pays) {
-		this.rue = rue;
-		this.codePostal = codePostal;
-		this.ville = ville;
-		this.pays = pays;
-	}
-
-	public Adresse(String rue, String codePostal, String ville, String pays, Boolean principale) {
-		this.rue = rue;
-		this.codePostal = codePostal;
-		this.ville = ville;
-		this.pays = pays;
-		this.principale = principale;
-	}
-
-	public Adresse(Integer idAdresse) {
-		this.idAdresse = idAdresse;
-	}
+	/*
+	 * public Adresse(String rue, String codePostal, String ville, String pays,
+	 * Utilisateur idUtilisateur) { this.rue = rue; this.codePostal = codePostal;
+	 * this.ville = ville; this.pays = pays; this.addrOwner = idUtilisateur; }
+	 * 
+	 * public Adresse(String rue, String codePostal, String ville, String pays) {
+	 * this.rue = rue; this.codePostal = codePostal; this.ville = ville; this.pays =
+	 * pays; }
+	 * 
+	 * public Adresse(String rue, String codePostal, String ville, String pays,
+	 * Boolean principale) { this.rue = rue; this.codePostal = codePostal;
+	 * this.ville = ville; this.pays = pays; this.principale = principale; }
+	 * 
+	 * 
+	 * public Adresse(Integer idAdresse) { this.idAdresse = idAdresse; }
+	 */
 
 	public Integer getIdAdresse() {
 		return idAdresse;
@@ -139,6 +129,8 @@ public class Adresse implements Serializable {
 	}
 
 	public void setIdUtilisateur(Utilisateur idUtilisateur) {
+		if (addrOwner == null)
+			this.addrOwner = new Utilisateur();
 		this.addrOwner.setIdUtilisateur(idUtilisateur.getIdUtilisateur());
 	}
 

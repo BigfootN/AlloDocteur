@@ -16,6 +16,8 @@ public interface IRendezVousDao {
 
 	public List<RendezVous> findRendezVousByJour(LocalTime time);
 
+	public Long chiffreAffaire();
+
 	public boolean deleteRendezVous(RendezVous appt);
 
 	public RendezVous updateRendezVous(RendezVous appt);

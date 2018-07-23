@@ -23,17 +23,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "Medecin")
 @XmlRootElement
 @NamedQueries({ @NamedQuery(name = "Medecin.findAll", query = "SELECT m FROM Medecin m"),
-				@NamedQuery(name = "Medecin.findById",
-							query = "SELECT m FROM Medecin m WHERE m.idMedecin = :idMedecin"),
-				@NamedQuery(name = "Medecin.findByNumeroAccreditation",
-							query =
-								"SELECT m FROM Medecin m WHERE m.numeroAccreditation = :numeroAccreditation"),
-				@NamedQuery(name = "Medecin.findByNumeroTelephone",
-							query =
-								"SELECT m FROM Medecin m WHERE m.numeroTelephone = :numeroTelephone"),
-				@NamedQuery(name = "Medecin.findByMdpIdentifiant",
-							query =
-								"SELECT m FROM Medecin m INNER JOIN m.userDoctor u WHERE u.identifiant = :identifiant AND u.motPasse = :motPasse") })
+		@NamedQuery(name = "Medecin.findById", query = "SELECT m FROM Medecin m WHERE m.idMedecin = :idMedecin"),
+		@NamedQuery(name = "Medecin.findByNumeroAccreditation", query = "SELECT m FROM Medecin m WHERE m.numeroAccreditation = :numeroAccreditation"),
+		@NamedQuery(name = "Medecin.findByNumeroTelephone", query = "SELECT m FROM Medecin m WHERE m.numeroTelephone = :numeroTelephone"),
+		@NamedQuery(name = "Medecin.findByMdpIdentifiant", query = "SELECT m FROM Medecin m INNER JOIN m.userDoctor u WHERE u.identifiant = :identifiant AND u.motPasse = :motPasse") })
 public class Medecin {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -54,8 +47,7 @@ public class Medecin {
 	@JoinColumn(referencedColumnName = "idUtilisateur", name = "idUtilisateur")
 	private Utilisateur userDoctor;
 
-	@OneToMany(mappedBy = "doctorCreneau", cascade = CascadeType.MERGE, orphanRemoval = true,
-			   fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "doctorCreneau", cascade = CascadeType.MERGE, orphanRemoval = true, fetch = FetchType.LAZY)
 	private List<Creneau> creneaux = new ArrayList<>();
 
 	public Integer getIdMedecin() {
@@ -78,4 +70,11 @@ public class Medecin {
 		this.numeroAccreditation = numeroAccreditation;
 	}
 
+	public void setUtilisateur(Utilisateur user) {
+		this.userDoctor = user;
+	}
+
+	public void setNumeroTelephone(String numeroTelephone) {
+		this.numeroTelephone = numeroTelephone;
+	}
 }

@@ -22,13 +22,25 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "Utilisateur")
 @XmlRootElement
 @NamedQueries({ @NamedQuery(name = "Utilisateur.findAll", query = "SELECT u FROM Utilisateur u"),
-		@NamedQuery(name = "Utilisateur.findById", query = "SELECT u FROM Utilisateur u WHERE u.idUtilisateur = :idUtilisateur"),
-		@NamedQuery(name = "Utilisateur.findByNom", query = "SELECT u FROM Utilisateur u WHERE u.nom = :nom"),
-		@NamedQuery(name = "Utilisateur.findByPrenom", query = "SELECT u FROM Utilisateur u WHERE u.prenom = :prenom"),
-		@NamedQuery(name = "Utilisateur.findByIdentifiant", query = "SELECT u FROM Utilisateur u WHERE u.identifiant = :identifiant"),
-		@NamedQuery(name = "Utilisateur.findByDateNaissance", query = "SELECT u FROM Utilisateur u WHERE u.dateNaissance = :dateNaissance"),
-		@NamedQuery(name = "Utilisateur.findByCodePostal", query = "SELECT u FROM Utilisateur u LEFT JOIN u.adresses a WHERE a.codePostal = :codePostal"),
-		@NamedQuery(name = "Utilisateur.findMainAddress", query = "SELECT a FROM Adresse a INNER JOIN a.addrOwner u WHERE u.idUtilisateur = :idUtilisateur AND a.principale = 1") })
+				@NamedQuery(name = "Utilisateur.findById",
+							query =
+								"SELECT u FROM Utilisateur u WHERE u.idUtilisateur = :idUtilisateur"),
+				@NamedQuery(name = "Utilisateur.findByNom",
+							query = "SELECT u FROM Utilisateur u WHERE u.nom = :nom"),
+				@NamedQuery(name = "Utilisateur.findByPrenom",
+							query = "SELECT u FROM Utilisateur u WHERE u.prenom = :prenom"),
+				@NamedQuery(name = "Utilisateur.findByIdentifiant",
+							query =
+								"SELECT u FROM Utilisateur u WHERE u.identifiant = :identifiant"),
+				@NamedQuery(name = "Utilisateur.findByDateNaissance",
+							query =
+								"SELECT u FROM Utilisateur u WHERE u.dateNaissance = :dateNaissance"),
+				@NamedQuery(name = "Utilisateur.findByCodePostal",
+							query =
+								"SELECT u FROM Utilisateur u LEFT JOIN u.adresses a WHERE a.codePostal = :codePostal"),
+				@NamedQuery(name = "Utilisateur.findMainAddress",
+							query =
+								"SELECT a FROM Adresse a INNER JOIN a.addrOwner u WHERE u.idUtilisateur = :idUtilisateur AND a.principale = 1") })
 
 public class Utilisateur implements Serializable {
 
@@ -73,21 +85,31 @@ public class Utilisateur implements Serializable {
 	@Version
 	private Integer version;
 
-	@OneToMany(mappedBy = "addrOwner", cascade = CascadeType.MERGE, orphanRemoval = true, fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "addrOwner", cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
 	private List<Adresse> adresses = new ArrayList<>();
 
-	@OneToMany(mappedBy = "userPatient", cascade = CascadeType.MERGE, orphanRemoval = true, fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "userPatient", cascade = CascadeType.MERGE, orphanRemoval = true,
+			   fetch = FetchType.LAZY)
 	private List<Patient> patients = new ArrayList<>();
 
-	@OneToMany(mappedBy = "userDoctor", cascade = CascadeType.MERGE, orphanRemoval = true, fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "userDoctor", cascade = CascadeType.MERGE, orphanRemoval = true,
+			   fetch = FetchType.LAZY)
 	private List<Medecin> doctors = new ArrayList<>();
 
-	public Utilisateur() {
-	}
+	public Utilisateur() {}
 
-	public Utilisateur(Integer idUtilisateur, String civilite, String prenom, String nom, String identifiant,
-			String motPasse, Date dateCreation, Date dateModification, Boolean actif, Boolean marquerEffacer,
-			Integer version, List<Adresse> adresses) {
+	public Utilisateur(Integer idUtilisateur,
+					   String civilite,
+					   String prenom,
+					   String nom,
+					   String identifiant,
+					   String motPasse,
+					   Date dateCreation,
+					   Date dateModification,
+					   Boolean actif,
+					   Boolean marquerEffacer,
+					   Integer version,
+					   List<Adresse> adresses) {
 		this.idUtilisateur = idUtilisateur;
 		this.civilite = civilite;
 		this.prenom = prenom;
@@ -103,9 +125,19 @@ public class Utilisateur implements Serializable {
 
 	}
 
-	public Utilisateur(Integer idUtilisateur, String civilite, String prenom, String nom, String identifiant,
-			String motPasse, Date dateNaissance, Date dateCreation, Date dateModification, Boolean actif,
-			Boolean marquerEffacer, Integer version, List<Adresse> adresses) {
+	public Utilisateur(Integer idUtilisateur,
+					   String civilite,
+					   String prenom,
+					   String nom,
+					   String identifiant,
+					   String motPasse,
+					   Date dateNaissance,
+					   Date dateCreation,
+					   Date dateModification,
+					   Boolean actif,
+					   Boolean marquerEffacer,
+					   Integer version,
+					   List<Adresse> adresses) {
 		this.idUtilisateur = idUtilisateur;
 		this.civilite = civilite;
 		this.prenom = prenom;
@@ -122,9 +154,18 @@ public class Utilisateur implements Serializable {
 
 	}
 
-	public Utilisateur(Integer idUtilisateur, String civilite, String prenom, String nom, String identifiant,
-			String motPasse, Date dateNaissance, Date dateCreation, Date dateModification, Boolean actif,
-			Boolean marquerEffacer, Integer version) {
+	public Utilisateur(Integer idUtilisateur,
+					   String civilite,
+					   String prenom,
+					   String nom,
+					   String identifiant,
+					   String motPasse,
+					   Date dateNaissance,
+					   Date dateCreation,
+					   Date dateModification,
+					   Boolean actif,
+					   Boolean marquerEffacer,
+					   Integer version) {
 		this.idUtilisateur = idUtilisateur;
 		this.civilite = civilite;
 		this.prenom = prenom;
@@ -139,8 +180,12 @@ public class Utilisateur implements Serializable {
 		this.version = version;
 	}
 
-	public Utilisateur(String civilite, String prenom, String nom, String identifiant, String motPasse,
-			Date dateNaissance) {
+	public Utilisateur(String civilite,
+					   String prenom,
+					   String nom,
+					   String identifiant,
+					   String motPasse,
+					   Date dateNaissance) {
 		this.civilite = civilite;
 		this.prenom = prenom;
 		this.nom = nom;
@@ -272,7 +317,7 @@ public class Utilisateur implements Serializable {
 		}
 		Utilisateur other = (Utilisateur) object;
 		if ((this.idUtilisateur == null && other.idUtilisateur != null)
-				|| (this.idUtilisateur != null && !this.idUtilisateur.equals(other.idUtilisateur))) {
+			|| (this.idUtilisateur != null && !this.idUtilisateur.equals(other.idUtilisateur))) {
 			return false;
 		}
 		return true;
@@ -281,9 +326,19 @@ public class Utilisateur implements Serializable {
 	@Override
 	public String toString() {
 		return String.format(
-				"\n[idUtilisateur=%s, civilite=%s, prenom=%s, nom=%s, identifiant=%s, motPasse=%s, dateNaissance=%s, dateCreation=%s, dateModification=%s, actif=%s, marquerEffacer=%s ,version=%s]\n",
-				idUtilisateur, civilite, prenom, nom, identifiant, motPasse, dateNaissance, dateCreation,
-				dateModification, actif, marquerEffacer, version);
+			"\n[idUtilisateur=%s, civilite=%s, prenom=%s, nom=%s, identifiant=%s, motPasse=%s, dateNaissance=%s, dateCreation=%s, dateModification=%s, actif=%s, marquerEffacer=%s ,version=%s]\n",
+			idUtilisateur,
+			civilite,
+			prenom,
+			nom,
+			identifiant,
+			motPasse,
+			dateNaissance,
+			dateCreation,
+			dateModification,
+			actif,
+			marquerEffacer,
+			version);
 	}
 
 }

@@ -39,11 +39,11 @@
             <li><a href="allo-doctor-compte-medecin.html">Connexion</a></li>
           </ul>
            <ul class="nav">
-            <li><a href="medecin.html">Médecin</a></li>
-            <li><a href="modification-informations-medecin.html">Informations médecins</a></li>
-            <li><a href="recherche-patient.html ">Recherche patient</a></li>
-            <li><a href="presence-rendez-vous.html ">Présence rendez-vous</a></li>
-            <li><a class="active" href="parrainer-medecin.html ">Parrainer un médecin</a></li>
+            <li><a href="./home">Médecin</a></li>
+            <li><a href="./account">Informations médecins</a></li>
+            <li><a href="./searchpat">Recherche patient</a></li>
+            <li><a href="./appointmentpresence">Présence rendez-vous</a></li>
+            <li><a class="active" href="./createdoctor">Parrainer un médecin</a></li>
             <li><a href="rendez-vous-journee.html ">Rendez-vous journée</a></li>
           </ul>
         </div>
@@ -57,7 +57,7 @@
                 Parrainer un médecin
               </h1>
               <div class="formulaire">
-                <form action="#" method="post">
+                <form action="./createdoctor" method="post">
                   <p>
                   <select name="civility">
                     <option selected value="Civilité">Civilité</option>
@@ -66,47 +66,47 @@
                   </select>
                 </p>
                   <p>
-                  <input type="text" name="firstName" placeholder="Prénom">
+                  <input type="text" name="firstName" placeholder="Prénom" required>
                   </p>
                   <p>
-                  <input type="text" name="name" placeholder="Nom">
+                  <input type="text" name="name" placeholder="Nom" required>
                   </p>
                   <p>
-                  <input type="text" name="identifier" placeholder="Identifiant">
+                  <input type="text" name="identifier" placeholder="Identifiant" required>
                   </p>
                   <p>
-                  <input type="text" name="password" placeholder="Mot de passe">
+                  <input type="text" name="password" placeholder="Mot de passe" required>
                   </p>
                   <p>
-                  <input type="text" name="cnfpassword" placeholder="Confirmation mot de passe">
+                  <input type="text" name="cnfpassword" placeholder="Confirmation mot de passe" required>
                   </p>
                   <p>
                     <input autocomplete="off" data-toggle="datepicker" type="text" name="naissance" placeholder="Date de naissance">
                   </p>
                   <p>
-                  <input type="text" name="tel" placeholder="Numéro de Téléphone">
+                  <input type="text" name="tel" placeholder="Numéro de Téléphone" required>
                   </p>
                   <p>
-                  <input type="text" name="numAcreditation" placeholder="numéro d’accréditation">
+                  <input type="text" name="numAcreditation" placeholder="numéro d’accréditation" required>
                   </p>
                   <p>
-                  <input type="text" name="street" placeholder="Rue">
+                  <input type="text" name="street" placeholder="Rue" required>
                   </p>
                   <p>
-                  <input type="text" name="postaCode" placeholder="Code postale">
+                  <input type="text" name="postaCode" placeholder="Code postale" required>
                   </p>
                   
                   <p>
                   <select name="city">
                     <option value="ville" selected>Ville</option>
-                    <option value="ville" >Paris</option>
-                    <option value="ville" >lavale</option>
-                    <option value="ville" >Lille</option>
-                    <option value="ville" >Lion</option>
+                    <option value="paris" >Paris</option>
+                    <option value="lavale" >lavale</option>
+                    <option value="Lille" >Lille</option>
+                    <option value="Lyon" >Lion</option>
                   </select>
                   </p>
                   <p>
-                  <input type="text" name="pays" placeholder="Pays">
+                  <input type="text" name="country" placeholder="Pays" required>
                   </p>
                   <p>
                   <button type="submit">Créer</button>
