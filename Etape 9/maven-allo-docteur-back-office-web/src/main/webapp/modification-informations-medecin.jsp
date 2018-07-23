@@ -1,9 +1,10 @@
 <!doctype html>
 <html class="no-js" lang="">
   <head>
-    <meta charset="utf-8">
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-type" content="text/html; charset=UTF-8">
     <title>Allo Docteur</title>
 
     <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -32,17 +33,17 @@
     <div class="container-fluid  no-padding ">
       <div class="container-fluid clearfix no-padding header-container ">
         <div class="container header-content">
-          <a href="./index.html" class="logo">
+          <a href="./home" class="logo">
             <img src="./assets/images/logo.png" alt="">
           </a>
           <ul class="loginMenu">
-            <li><a href="allo-doctor-compte-medecin.html">Connexion</a></li>
+            <li><a href="./login">Connexion</a></li>
           </ul>
            <ul class="nav">
-            <li><a href="medecin.html">Médecin</a></li>
-            <li><a class="active" href="modification-informations-medecin.html">Informations médecins</a></li>
-            <li><a href="recherche-patient.html ">Recherche patient</a></li>
-            <li><a href="presence-rendez-vous.html ">Présence rendez-vous</a></li>
+            <li><a href="./home">Médecin</a></li>
+            <li><a class="active" href="./account">Informations médecins</a></li>
+            <li><a href="./searchpat">Recherche patient</a></li>
+            <li><a href="./appointmentpresence">Présence rendez-vous</a></li>
             <li><a href="parrainer-medecin.html ">Parrainer un médecin</a></li>
             <li><a href="rendez-vous-journee.html ">Rendez-vous journée</a></li>
           </ul>
@@ -57,7 +58,7 @@
                 INFORMATIONS PERSONNELLES DU MÉDECIN
               </h1>
               <div class="formulaire">
-                <form action="#" method="post">
+                <form action="./account" method="post">
                   <p>
                   <select name="civility">
                     <option selected value="Civilité">Civilité</option>
@@ -66,16 +67,16 @@
                   </select>
                 </p>
                   <p>
-                  <input type="text" name="firstName" placeholder="Prénom">
+                  <input type="text" value="<%= request.getAttribute("name") %>" name="firstName" placeholder="Prénom" required>
                   </p>
                   <p>
-                  <input type="text" name="name" placeholder="Nom">
+                  <input type="text" value="<%= request.getAttribute("lastName") %>"  name="name" placeholder="Nom" required>
                   </p>
                   <p>
-                  <input type="text" name="identifier" placeholder="Identifiant">
+                  <input type="text" name="identifier" value="<%= request.getAttribute("email") %>" placeholder="Identifiant" required>
                   </p>
                   <p>
-                  <input type="text" name="password" placeholder="Mot de passe">
+                  <input type="password" name="password" placeholder="Mot de passe">
                   </p>
                   <p>
                   <input type="text" name="cnfpassword" placeholder="Confirmation mot de passe">
@@ -84,16 +85,16 @@
                     <input autocomplete="off" data-toggle="datepicker" type="text" name="naissance" placeholder="Date de naissance">
                   </p>
                   <p>
-                  <input type="text" name="tel" placeholder="Numéro de Téléphone">
+                  <input type="text" name="tel" value="<%= request.getAttribute("telNumber") %>" placeholder="Numéro de Téléphone">
                   </p>
                   <p>
-                  <input type="text" name="numAcreditation" placeholder="numéro d’accréditation">
+                  <input type="text" name="numAcreditation" value="<%= request.getAttribute("accrNumber") %>" placeholder="numéro d’accréditation">
                   </p>
                   <p>
-                  <input type="text" name="street" placeholder="Rue">
+                  <input type="text" name="street" value="<%= request.getAttribute("street") %>" placeholder="Rue">
                   </p>
                   <p>
-                  <input type="text" name="postaCode" placeholder="Code postale">
+                  <input type="text" name="postaCode" value="<%= request.getAttribute("postalCode") %>" placeholder="Code postale">
                   </p>
                   
                   <p>
@@ -106,7 +107,7 @@
                   </select>
                   </p>
                   <p>
-                  <input type="text" name="pays" placeholder="Pays">
+                  <input type="text" name="pays" value="<%= request.getAttribute("country") %>" placeholder="Pays">
                   </p>
                   <p>
                   <button type="submit">Modifier</button>

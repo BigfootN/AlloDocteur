@@ -23,7 +23,7 @@ CREATE TABLE Utilisateur (
 	civilite VARCHAR(100),
 	prenom VARCHAR(100),
 	nom VARCHAR(100),
-	identifiant VARCHAR(100),
+	idewwwwwwwwwntifiant VARCHAR(100),
 	motPasse VARCHAR(100),
 	dateNaissance TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	dateCreation TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

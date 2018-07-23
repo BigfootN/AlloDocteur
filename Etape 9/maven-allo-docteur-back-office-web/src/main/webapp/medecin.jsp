@@ -35,13 +35,13 @@
             <img src="./assets/images/logo.png" alt="">
           </a>
           <ul class="loginMenu">
-            <li><a href="allo-doctor-compte-medecin.html">Connexion</a></li>
+            <li><a href="./login">Connexion</a></li>
           </ul>
           <ul class="nav">
-            <li><a class="active" href="medecin.html">Médecin</a></li>
-            <li><a href="modification-informations-medecin.html">Informations médecins</a></li>
-            <li><a href="recherche-patient.html ">Recherche patient</a></li>
-            <li><a href="presence-rendez-vous.html ">Présence rendez-vous</a></li>
+            <li><a class="active" href="./home">Médecin</a></li>
+            <li><a href="./account">Informations médecins</a></li>
+            <li><a href="./searchpat">Recherche patient</a></li>
+            <li><a href="./appointmentpresence">Présence rendez-vous</a></li>
             <li><a href="parrainer-medecin.html ">Parrainer un médecin</a></li>
             <li><a href="rendez-vous-journee.html ">Rendez-vous journée</a></li>
           </ul>
@@ -60,7 +60,7 @@
                 <div class="links">
                   <a href="./modification-informations-medecin.html">Modifier mes informations personnelles</a>
                   <a href="./rendez-vous-journee.html">Voir les rendez-vous de la journée</a>
-                  <a href="./recherche-patient.html">Recherche patients</a>
+                  <a href="./searchpat">Recherche patients</a>
                   <a href="./recherche-rendez-vous.html">Rechercher mes rendez-vous</a>
                   <a href="./parrainer-medecin.html">Parrainer un médecin</a>
                   <a href="./presence-rendez-vous.html ">Présence au rendez-vous</a>

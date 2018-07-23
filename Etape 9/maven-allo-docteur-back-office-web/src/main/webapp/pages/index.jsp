@@ -1,7 +1,3 @@
-
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-
 <!doctype html>
 <html class="no-js" lang="">   
   <head>
@@ -10,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Allo Docteur</title>
 
-    <link rel="apple-touch-icon" href="../apple-touch-icon.png">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
     <!-- Place favicon.ico in the root directory -->
 
     <!-- build:css styles/vendor.css -->
@@ -19,9 +15,9 @@
     <!-- endbuild -->
 
     <!-- build:css styles/main.css -->
-    <link rel="stylesheet" href="./assets/styles/bootstrap.css">
-    <link rel="stylesheet" href="./assets/styles/main.css">
-    <link rel="stylesheet" href="./assets/styles/rwd.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/styles/bootstrap.css" type="text/css"> 
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/styles/main.css" type="text/css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/styles/rwd.css" type="text/css">
     <!-- endbuild -->
     
     <!-- build:js scripts/vendor/modernizr.js -->
@@ -36,16 +32,16 @@
       <div class="container-fluid clearfix no-padding header-container ">
         <div class="container header-content">
           <a href="./index.html" class="logo">
-            <img src="../assets/images/logo.png" alt="">
+            <img src="./assets/images/logo.png" alt="">
           </a>
           <ul class="loginMenu">
             <li><a href="allo-doctor-compte-medecin.html">Connexion</a></li>
           </ul>
            <ul class="nav">
             <li><a class="active" href="medecin.html">Médecin</a></li>
-            <li><a href="../modification-informations-medecin.jsp">Informations médecins</a></li>
-            <li><a href="recherche-patient.html ">Recherche patient</a></li>
-            <li><a href="presence-rendez-vous.html ">Présence rendez-vous</a></li>
+            <li><a href="./account">Informations médecins</a></li>
+            <li><a href="./searchpat">Recherche patient</a></li>
+            <li><a href="./appointmentpresence">Présence rendez-vous</a></li>
             <li><a href="parrainer-medecin.html ">Parrainer un médecin</a></li>
             <li><a href="rendez-vous-journee.html ">Rendez-vous journée</a></li>
           </ul>
@@ -62,11 +58,11 @@
               <div class="home-links">
                 <p>Bonjour Mr le docteur Jacques Dupont, votre chiffre d’affaire du mois est de XXXX euros.</p>
                 <div class="links">
-                  <a href="../modification-informations-medecin.jsp">Modifier mes informations personnelles</a>
-                  <a href="../rendez-vous-journee.jsp">Voir les rendez-vous de la journée</a>
-                  <a href="../recherche-rendez-vous.jsp">Rechercher mes rendez-vous</a>
-                  <a href="../parrainer-medecin.jsp">Parrainer un médecin</a>
-                  <a href="../presence-rendez-vous.jsp">Présence au rendez-vous</a>
+                  <a href="./modification-informations-medecin.jsp">Modifier mes informations personnelles</a>
+                  <a href="./rendez-vous-journee.jsp">Voir les rendez-vous de la journée</a>
+                  <a href="./recherche-rendez-vous.jsp">Rechercher mes rendez-vous</a>
+                  <a href="./parrainer-medecin.jsp">Parrainer un médecin</a>
+                  <a href="./presence-rendez-vous.jsp">Présence au rendez-vous</a>
                   <a href="#">Exporter mes futurs rendez-vous au format CSV</a>
                   <a href="#">Exporter mes futurs rendez-vous au format XML</a>
                   <a href="#">Exporter mes futurs rendez-vous au format Json</a>
@@ -83,13 +79,13 @@
 
     <!-- build:js scripts/vendor.js -->
     <!-- bower:js -->
-    <script src="../assets/scripts/jquery.js"></script>
+    <script src="./assets/scripts/jquery.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
     
     <!-- build:js scripts/main.js -->
-    <script src="../assets/scripts/jquery.slicknav.js"></script>
-    <script src="../assets/scripts/main.js"></script>
+    <script src="./assets/scripts/jquery.slicknav.js"></script>
+    <script src="./assets/scripts/main.js"></script>
     <!-- endbuild -->
   </body>
 </html>

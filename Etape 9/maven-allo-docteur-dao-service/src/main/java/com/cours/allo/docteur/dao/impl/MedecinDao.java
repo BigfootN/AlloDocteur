@@ -19,7 +19,7 @@ public class MedecinDao implements IMedecinDao {
 
 	@PersistenceContext
 	private EntityManager em;
-	private static final Log log = LogFactory.getLog(UtilisateurDao.class);
+	private static final Log log = LogFactory.getLog(MedecinDao.class);
 
 	@Override
 	public List<Medecin> findAll() {
@@ -31,6 +31,26 @@ public class MedecinDao implements IMedecinDao {
 
 		try {
 			ret = em.createNamedQuery("Medecin.findAll").getResultList();
+		} catch (Exception e) {
+			log.error(e.getMessage());
+		}
+
+		log.debug("Sortie de la methode");
+
+		return ret;
+	}
+
+	@Override
+	public Medecin findMedecinByIdMedecin(Integer id) {
+		Medecin ret;
+
+		log.debug("Entree de la methode");
+
+		ret = null;
+
+		try {
+			ret = (Medecin) em.createNamedQuery("Medecin.findById").setParameter("idMedecin", id).getResultList()
+					.get(0);
 		} catch (Exception e) {
 			log.error(e.getMessage());
 		}

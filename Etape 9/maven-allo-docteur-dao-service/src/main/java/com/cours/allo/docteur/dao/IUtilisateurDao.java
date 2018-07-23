@@ -5,6 +5,7 @@
  */
 package com.cours.allo.docteur.dao;
 
+import com.cours.allo.docteur.dao.entities.Adresse;
 import com.cours.allo.docteur.dao.entities.Utilisateur;
 import java.util.List;
 
@@ -19,6 +20,8 @@ public interface IUtilisateurDao {
 	public List<Utilisateur> findUtilisateursByNom(String nom);
 
 	public List<Utilisateur> findUtilisateursByCodePostal(String codePostal);
+
+	public Adresse findAdressePrincipale(int idUtilisateur);
 
 	public Utilisateur createUtilisateur(Utilisateur user);
 

@@ -1,5 +1,6 @@
 package com.cours.allo.docteur.dao.entities;
 
+import java.sql.Date;
 import java.time.LocalTime;
 
 import javax.persistence.CascadeType;
@@ -20,8 +21,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "RendezVous")
 @XmlRootElement
 @NamedQueries({ @NamedQuery(name = "RendezVous.findAll", query = "SELECT r FROM RendezVous r"),
-		@NamedQuery(name = "RendezVous.findById", query = "SELECT r FROM RendezVous r WHERE r.idRendezVous = :idRendezVous"),
-		@NamedQuery(name = "RendezVous.findByJour", query = "SELECT r FROM RendezVous r WHERE r.jour = :jour") })
+				@NamedQuery(name = "RendezVous.findById",
+							query =
+								"SELECT r FROM RendezVous r WHERE r.idRendezVous = :idRendezVous"),
+				@NamedQuery(name = "RendezVous.findByJour",
+							query = "SELECT r FROM RendezVous r WHERE r.jour = :jour") })
 public class RendezVous {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,10 +33,10 @@ public class RendezVous {
 	private Integer idRendezVous;
 
 	@Column(name = "jour")
-	private LocalTime jour;
+	private Date jour;
 
-	@Column(name = "prixConsultationDouble")
-	private Double prixConsultationDouble;
+	@Column(name = "prixConsultation")
+	private Double prixConsultation;
 
 	@Column(name = "present")
 	private Boolean present;
@@ -48,4 +52,19 @@ public class RendezVous {
 	@ManyToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(referencedColumnName = "idCreneau", name = "idCreneau")
 	private Creneau creneauRdv;
+
+	/**
+	 * @return the patientRdv
+	 */
+	public Patient getPatientRdv() {
+		return patientRdv;
+	}
+
+	/**
+	 * @return the present
+	 */
+	public Boolean getPresent() {
+		return present;
+	}
+
 }

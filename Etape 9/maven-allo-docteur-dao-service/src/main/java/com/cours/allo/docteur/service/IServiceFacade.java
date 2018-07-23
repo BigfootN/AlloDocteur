@@ -10,15 +10,15 @@ import com.cours.allo.docteur.dao.IUtilisateurDao;
 import org.springframework.stereotype.Service;
 
 public interface IServiceFacade {
-    public IAdresseDao getAdresseDao();
+	public IAdresseDao getAdresseDao();
 
-    public IUtilisateurDao gUtilisateurDao();
+	public IUtilisateurDao getUtilisateurDao();
 
-    public IRendezVousDao getRendezVousDao();
+	public IRendezVousDao getRendezVousDao();
 
-    public IMedecinDao getMedecinDao();
+	public IMedecinDao getMedecinDao();
 
-    public ICreneauDao getCreneauDao();
+	public ICreneauDao getCreneauDao();
 
-    public IPatientDao getPatientDao();
+	public IPatientDao getPatientDao();
 }
