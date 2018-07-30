@@ -51,8 +51,31 @@ public class RendezVousDao implements IRendezVousDao {
 		ret = null;
 
 		try {
-			ret = (RendezVous) em.createNamedQuery("RendezVous.findById").setParameter("idRendezVous", idRendezVous)
-					.getResultList().get(0);
+			ret = (RendezVous) em.createNamedQuery("RendezVous.findById").setParameter(
+				"idRendezVous",
+				idRendezVous)
+				  .getResultList().get(0);
+		} catch (Exception e) {
+			log.error(e.getMessage());
+		}
+
+		log.debug("Sortie de la methode");
+
+		return ret;
+	}
+
+	@Override
+	public List<RendezVous> findRendezVousByIdMedecin(Integer idMedecin) {
+		List<RendezVous> ret;
+
+		log.debug("Entree de la methode");
+
+		ret = null;
+
+		try {
+			ret = em.createNamedQuery("RendezVous.findByIdMedecin").setParameter("idMedecin",
+																				 idMedecin)
+				  .getResultList();
 		} catch (Exception e) {
 			log.error(e.getMessage());
 		}
@@ -94,7 +117,9 @@ public class RendezVousDao implements IRendezVousDao {
 		ret = null;
 
 		try {
-			ret = em.createNamedQuery("RendezVous.findByJour").setParameter("jour", time).getResultList();
+			ret =
+				em.createNamedQuery("RendezVous.findByJour").setParameter("jour",
+																		  time).getResultList();
 		} catch (Exception e) {
 			log.error(e.getMessage());
 		}
@@ -118,7 +143,10 @@ public class RendezVousDao implements IRendezVousDao {
 		try {
 			df = new SimpleDateFormat("yyyy-MM-dd");
 			dateApptStr = df.format(time);
-			ret = em.createNamedQuery("RendezVous.findAllFutur").setParameter("jour", dateApptStr).getResultList();
+			ret =
+				em.createNamedQuery("RendezVous.findAllFutur").setParameter("jour",
+																			dateApptStr).
+				getResultList();
 		} catch (Exception e) {
 			log.error(e.getMessage() + " lmessage: " + dateApptStr);
 		}

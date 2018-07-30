@@ -16,6 +16,7 @@ import com.cours.allo.docteur.dao.entities.RendezVous;
 import com.cours.allo.docteur.service.IServiceFacade;
 import com.cours.allo.docteur.utils.AppointmentsXML;
 import com.cours.allo.docteur.utils.Utils;
+import com.cours.allo.docteur.utils.security.TokenAuthUserList;
 
 import org.springframework.context.ApplicationContext;
 
@@ -42,9 +43,12 @@ public class DownloadAppointmentsXMLServlet extends HttpServlet {
         int length;
         IRendezVousDao rDao;
         List<RendezVous> appts;
+        Integer idMedecin;
+
+        idMedecin = TokenAuthUserList.getInstance().getUserId(req);
 
         rDao = serviceFacade.getRendezVousDao();
-        appts = rDao.findAll();
+        appts = rDao.findRendezVousByIdMedecin(idMedecin);
         apptsXML = new AppointmentsXML();
         xmlFile = apptsXML.toXML(appts);
 
