@@ -6,6 +6,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+
+import com.cours.allo.docteur.utils.Constants;
+
 /**
  * TokenList
  */
@@ -30,6 +35,25 @@ public class TokenAuthUserList {
 
     public Integer getUserId(String token) {
         return tokenUserAuthMap.get(token);
+    }
+
+    public Integer getUserId(HttpServletRequest req) {
+        Integer ret;
+        Cookie[] cookies;
+        int idx;
+
+        idx = 0;
+        cookies = req.getCookies();
+        ret = null;
+
+        while (idx < cookies.length) {
+            if (cookies[idx].getName().equals(Constants.TOKEN_ACCESS_KEY_NAME)) {
+                ret = tokenUserAuthMap.get(cookies[idx].getValue());
+                break;
+            }
+        }
+
+        return ret;
     }
 
     private TokenAuthUserList() {

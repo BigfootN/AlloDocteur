@@ -43,7 +43,7 @@
             <li><a href="./searchpat">Recherche patient</a></li>
             <li><a href="./appointmentpresence">Présence rendez-vous</a></li>
             <li><a href="./createdoctor">Parrainer un médecin</a></li>
-            <li><a href="rendez-vous-journee.html ">Rendez-vous journée</a></li>
+            <li><a href="./apptday">Rendez-vous journée</a></li>
           </ul>
         </div>
       </div>
@@ -58,15 +58,15 @@
               <div class="home-links">
                 <p>Bonjour Mr le docteur Jacques Dupont, votre chiffre d’affaire du mois est de XXXX euros.</p>
                 <div class="links">
-                  <a href="./modification-informations-medecin.html">Modifier mes informations personnelles</a>
-                  <a href="./rendez-vous-journee.html">Voir les rendez-vous de la journée</a>
+                  <a href="/account">Modifier mes informations personnelles</a>
+                  <a href="/apptday">Voir les rendez-vous de la journée</a>
                   <a href="./searchpat">Recherche patients</a>
-                  <a href="./recherche-rendez-vous.html">Rechercher mes rendez-vous</a>
-                  <a href="./parrainer-medecin.html">Parrainer un médecin</a>
-                  <a href="./presence-rendez-vous.html ">Présence au rendez-vous</a>
-                  <a href="#">Exporter mes futurs rendez-vous au format CSV</a>
-                  <a href="#">Exporter mes futurs rendez-vous au format XML</a>
-                  <a href="#">Exporter mes futurs rendez-vous au format Json</a>
+                  <a href="./searchappt">Rechercher mes rendez-vous</a>
+                  <a href="./createdoctor">Parrainer un médecin</a>
+                  <a href="./appointmentpresence">Présence au rendez-vous</a>
+                  <a href="">Exporter mes futurs rendez-vous au format CSV</a>
+                  <a href="./dlapptxml">Exporter mes futurs rendez-vous au format XML</a>
+                  <a href="./dlapptjson">Exporter mes futurs rendez-vous au format Json</a>
                   <a href="#">Exporter tous mes rendez-vous au format CSV</a>
                 </div>
               </div>

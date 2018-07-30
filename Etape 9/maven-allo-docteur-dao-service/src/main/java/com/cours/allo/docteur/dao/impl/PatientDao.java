@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 
 import com.cours.allo.docteur.dao.IPatientDao;
 import com.cours.allo.docteur.dao.entities.Patient;
@@ -14,11 +15,12 @@ import org.apache.commons.logging.LogFactory;
 /**
  * PatientDao
  */
+@Transactional
 public class PatientDao implements IPatientDao {
+	private static final Log log = LogFactory.getLog(PatientDao.class);
 
 	@PersistenceContext
 	private EntityManager em;
-	private static final Log log = LogFactory.getLog(UtilisateurDao.class);
 
 	@Override
 	public List<Patient> findAll() {
@@ -138,6 +140,7 @@ public class PatientDao implements IPatientDao {
 	}
 
 	@Override
+	@Transactional
 	public Patient createPatient(Patient patient) {
 		log.debug("Entree de la methode");
 

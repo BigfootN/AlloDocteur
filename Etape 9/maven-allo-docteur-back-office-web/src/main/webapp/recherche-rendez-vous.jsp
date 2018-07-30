@@ -1,3 +1,4 @@
+<%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
 <!doctype html>
 <html class="no-js" lang="">
   <head>
@@ -36,7 +37,7 @@
             <img src="./assets/images/logo.png" alt="">
           </a>
          <ul class="loginMenu">
-            <li><a href="allo-doctor-compte-medecin.html">Connexion</a></li>
+            <li><a href="./account">Connexion</a></li>
           </ul>
           <ul class="nav">
             <li><a href="./home">Médecin</a></li>
@@ -44,7 +45,7 @@
             <li><a href="./searchpat">Recherche patient</a></li>
             <li><a href="./appointmentpresence">Présence rendez-vous</a></li>
             <li><a href="./createdoctor">Parrainer un médecin</a></li>
-            <li><a href="rendez-vous-journee.html ">Rendez-vous journée</a></li>
+            <li><a href="./apptday">Rendez-vous journée</a></li>
           </ul>
         </div>
       </div>
@@ -57,7 +58,7 @@
                 Rechercher un rendez-vous
               </h1>
               <div class="formulaire">
-                <form action="" method="get">   
+                <form action="./searchappt" method="get">   
                 
                   <p>
                     <input data-toggle="datepicker" type="text" name="rdvDate" placeholder="sélectionner une date">
@@ -81,56 +82,20 @@
                     <th>Date</th>
                   </tr>
                 </thead>
-                <tbody>
-                  <tr>
-                    <td title="Prénom et Nom">Mr Faris CORONA</td>
-                    <td title="Identifiant">Mich@el2001</td>
-                    <td title="Numéro de sécurité sociale">235146587452698</td>
-                    <td title="Numéro de téléphone">03365221144</td>
-                    <td title="Adresse"> 2 rue du Paradis, 75000 Paris, France</td>
-                    <td title="Date">25/11/2017 <p>de</p> 9h00-9h15</td>
-                    
-                  </tr>
-                  <tr>
-                    <td title="Prénom et Nom">Mr Faris CORONA</td>
-                    <td title="Identifiant">Mich@el2001</td>
-                    <td title="Numéro de sécurité sociale">235146587452698</td>
-                    <td title="Numéro de téléphone">03365221144</td>
-                    <td title="Adresse"> 2 rue du Paradis, 75000 Paris, France</td>
-                    <td title="Date">25/11/2017 <p>de</p> 9h00-9h15</td>
-                    
-                  </tr>
-                  <tr>
-                    <td title="Prénom et Nom">Mr Faris CORONA</td>
-                    <td title="Identifiant">Mich@el2001</td>
-                    <td title="Numéro de sécurité sociale">235146587452698</td>
-                    <td title="Numéro de téléphone">03365221144</td>
-                    <td title="Adresse"> 2 rue du Paradis, 75000 Paris, France</td>
-                    <td title="Date">25/11/2017 <p>de</p> 9h00-9h15</td>
-                    
-                  </tr>
-                  <tr>
-                    <td title="Prénom et Nom">Mr Faris CORONA</td>
-                    <td title="Identifiant">Mich@el2001</td>
-                    <td title="Numéro de sécurité sociale">235146587452698</td>
-                    <td title="Numéro de téléphone">03365221144</td>
-                    <td title="Adresse"> 2 rue du Paradis, 75000 Paris, France</td>
-                    <td title="Date">25/11/2017 <p>de</p> 9h00-9h15</td>
-                    
-                  </tr>
-                  <tr>
-                    <td title="Prénom et Nom">Mr Faris CORONA</td>
-                    <td title="Identifiant">Mich@el2001</td>
-                    <td title="Numéro de sécurité sociale">235146587452698</td>
-                    <td title="Numéro de téléphone">03365221144</td>
-                    <td title="Adresse"> 2 rue du Paradis, 75000 Paris, France</td>
-                    <td title="Date">25/11/2017 <p>de</p> 9h00-9h15</td>
-                    
-                  </tr>
-                  
-                  
-
-                </tbody>
+                  <tbody>
+                    <c:forEach items="${rdvlist}" var="rdv">
+                      <c:set var="patient" value="rdv.patientRdv"/>
+                      <c:set var="user" value="patient.userPatient"/>
+                        <tr>
+                          <td title="Prénom et Nom"><c:out value="${user.civilite} ${user.prenom} ${user.nom}" /></td>
+                          <td title="Identifiant"><c:out value="${user.identifiant}" /></td>
+                          <td title="Numéro de sécurité sociale"><c:out value="${patient.numeroSecuriteSociale}"/></td>
+                          <td title="Numéro de téléphone"><c:out value="${patient.numeroTelephone}"/></td>
+                          <td title="Adresse"> 2 rue du Paradis, 75000 Paris, France</td>
+                          <td title="Date">25/11/2017 <p>de</p> 9h00-9h15</td>
+                        </tr>
+                      </c:forEach>
+                    </tbody>
               </table>
             </div>
           </div>

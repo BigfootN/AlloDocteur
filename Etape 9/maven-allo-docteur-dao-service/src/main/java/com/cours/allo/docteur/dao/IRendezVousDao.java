@@ -1,5 +1,6 @@
 package com.cours.allo.docteur.dao;
 
+import java.util.Date;
 import java.time.LocalTime;
 import java.util.List;
 
@@ -14,7 +15,9 @@ public interface IRendezVousDao {
 
 	public RendezVous findRendezVousById(Integer idRendezVous);
 
-	public List<RendezVous> findRendezVousByJour(LocalTime time);
+	public List<RendezVous> findRendezVousByJour(Date time);
+
+	public List<RendezVous> findAllFuturRendezVous(Date time);
 
 	public Long chiffreAffaire();
 
