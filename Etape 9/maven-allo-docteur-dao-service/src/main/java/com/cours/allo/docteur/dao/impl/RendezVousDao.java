@@ -143,10 +143,10 @@ public class RendezVousDao implements IRendezVousDao {
 		try {
 			df = new SimpleDateFormat("yyyy-MM-dd");
 			dateApptStr = df.format(time);
+			System.out.println("dateappstr = " + dateApptStr);
 			ret =
 				em.createNamedQuery("RendezVous.findAllFutur").setParameter("jour",
-																			dateApptStr).
-				getResultList();
+																			time).getResultList();
 		} catch (Exception e) {
 			log.error(e.getMessage() + " lmessage: " + dateApptStr);
 		}
