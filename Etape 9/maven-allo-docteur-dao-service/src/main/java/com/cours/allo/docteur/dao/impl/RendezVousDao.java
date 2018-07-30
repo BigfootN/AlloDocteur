@@ -1,6 +1,8 @@
 package com.cours.allo.docteur.dao.impl;
 
-import java.time.LocalTime;
+import java.util.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -63,6 +65,27 @@ public class RendezVousDao implements IRendezVousDao {
 	}
 
 	@Override
+	public List<RendezVous> findRendezVousByIdMedecin(Integer idMedecin) {
+		List<RendezVous> ret;
+
+		log.debug("Entree de la methode");
+
+		ret = null;
+
+		try {
+			ret = em.createNamedQuery("RendezVous.findByIdMedecin").setParameter("idMedecin",
+																				 idMedecin)
+				  .getResultList();
+		} catch (Exception e) {
+			log.error(e.getMessage());
+		}
+
+		log.debug("Sortie de la methode");
+
+		return ret;
+	}
+
+	@Override
 	public Long chiffreAffaire() {
 		Long ret;
 
@@ -86,7 +109,7 @@ public class RendezVousDao implements IRendezVousDao {
 	}
 
 	@Override
-	public List<RendezVous> findRendezVousByJour(LocalTime time) {
+	public List<RendezVous> findRendezVousByJour(Date time) {
 		List<RendezVous> ret;
 
 		log.debug("Entree de la methode");
@@ -99,6 +122,33 @@ public class RendezVousDao implements IRendezVousDao {
 																		  time).getResultList();
 		} catch (Exception e) {
 			log.error(e.getMessage());
+		}
+
+		log.debug("Sortie de la methode");
+
+		return ret;
+	}
+
+	@Override
+	public List<RendezVous> findAllFuturRendezVous(Date time) {
+		List<RendezVous> ret;
+		DateFormat df;
+		String dateApptStr;
+
+		log.debug("Entree de la methode");
+
+		ret = null;
+		dateApptStr = null;
+
+		try {
+			df = new SimpleDateFormat("yyyy-MM-dd");
+			dateApptStr = df.format(time);
+			ret =
+				em.createNamedQuery("RendezVous.findAllFutur").setParameter("jour",
+																			dateApptStr).
+				getResultList();
+		} catch (Exception e) {
+			log.error(e.getMessage() + " lmessage: " + dateApptStr);
 		}
 
 		log.debug("Sortie de la methode");

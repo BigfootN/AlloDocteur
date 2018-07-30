@@ -103,6 +103,7 @@ public class AccountServlet extends HttpServlet {
 			idx++;
 		}
 
+		System.out.println("doctorid != null = " + (doctorId != null));
 		return serviceFacade.getMedecinDao().findMedecinByIdMedecin(doctorId);
 	}
 

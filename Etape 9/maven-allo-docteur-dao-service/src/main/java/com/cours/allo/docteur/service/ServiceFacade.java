@@ -44,6 +44,9 @@ public class ServiceFacade implements IServiceFacade {
 		System.out.println("instancie service facade");
 	}
 
+	@Override
+	@Autowired
+	@Qualifier("adresseDao")
 	public IAdresseDao getAdresseDao() {
 		return aDao;
 	}

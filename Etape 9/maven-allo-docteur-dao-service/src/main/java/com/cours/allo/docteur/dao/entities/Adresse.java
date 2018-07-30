@@ -5,17 +5,30 @@
  */
 package com.cours.allo.docteur.dao.entities;
 
-import javax.persistence.*;
-import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
+import javax.persistence.Version;
 
 @Entity
 @Table(name = "Adresse")
-@XmlRootElement
 @NamedQueries({ @NamedQuery(name = "Adresse.findAll", query = "SELECT u FROM Adresse u"),
-		@NamedQuery(name = "Adresse.findById", query = "SELECT u FROM Adresse u WHERE u.idAdresse = :idAdresse"),
-		@NamedQuery(name = "Adresse.findByVille", query = "SELECT u FROM Adresse u WHERE u.ville = :ville"),
-		@NamedQuery(name = "Adresse.findByCodePostal", query = "SELECT u FROM Adresse u WHERE u.codePostal = :codePostal"), })
+				@NamedQuery(name = "Adresse.findById",
+							query = "SELECT u FROM Adresse u WHERE u.idAdresse = :idAdresse"),
+				@NamedQuery(name = "Adresse.findByVille",
+							query = "SELECT u FROM Adresse u WHERE u.ville = :ville"),
+				@NamedQuery(name = "Adresse.findByCodePostal",
+							query = "SELECT u FROM Adresse u WHERE u.codePostal = :codePostal"), })
 public class Adresse implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -45,28 +58,8 @@ public class Adresse implements Serializable {
 	private Integer version;
 
 	@ManyToOne(cascade = CascadeType.MERGE)
-	@JoinColumn(referencedColumnName = "idUtilisateur", name = "idUtilisateur")
+	@JoinColumn(name = "idUtilisateur", referencedColumnName = "idUtilisateur")
 	private Utilisateur addrOwner;
-
-	public Adresse() {
-	}
-
-	/*
-	 * public Adresse(String rue, String codePostal, String ville, String pays,
-	 * Utilisateur idUtilisateur) { this.rue = rue; this.codePostal = codePostal;
-	 * this.ville = ville; this.pays = pays; this.addrOwner = idUtilisateur; }
-	 * 
-	 * public Adresse(String rue, String codePostal, String ville, String pays) {
-	 * this.rue = rue; this.codePostal = codePostal; this.ville = ville; this.pays =
-	 * pays; }
-	 * 
-	 * public Adresse(String rue, String codePostal, String ville, String pays,
-	 * Boolean principale) { this.rue = rue; this.codePostal = codePostal;
-	 * this.ville = ville; this.pays = pays; this.principale = principale; }
-	 * 
-	 * 
-	 * public Adresse(Integer idAdresse) { this.idAdresse = idAdresse; }
-	 */
 
 	public Integer getIdAdresse() {
 		return idAdresse;
@@ -74,6 +67,10 @@ public class Adresse implements Serializable {
 
 	public void setIdAdresse(Integer idAdresse) {
 		this.idAdresse = idAdresse;
+	}
+
+	public Utilisateur getAddrOwner() {
+		return addrOwner;
 	}
 
 	public String getRue() {
@@ -129,9 +126,7 @@ public class Adresse implements Serializable {
 	}
 
 	public void setIdUtilisateur(Utilisateur idUtilisateur) {
-		if (addrOwner == null)
-			this.addrOwner = new Utilisateur();
-		this.addrOwner.setIdUtilisateur(idUtilisateur.getIdUtilisateur());
+		this.addrOwner = idUtilisateur;
 	}
 
 	@Override
@@ -148,7 +143,7 @@ public class Adresse implements Serializable {
 		}
 		Adresse other = (Adresse) object;
 		if ((this.idAdresse == null && other.idAdresse != null)
-				|| (this.idAdresse != null && !this.idAdresse.equals(other.idAdresse))) {
+			|| (this.idAdresse != null && !this.idAdresse.equals(other.idAdresse))) {
 			return false;
 		}
 		return true;
@@ -157,8 +152,15 @@ public class Adresse implements Serializable {
 	@Override
 	public String toString() {
 		return String.format(
-				"[idAdresse=%s , rue=%s , ville=%s , codePostal=%s , pays=%s , principale=%s , version=%s, idUtilisateur=%s]\n",
-				idAdresse, rue, ville, codePostal, pays, principale, version, addrOwner.getIdUtilisateur());
+			"[idAdresse=%s , rue=%s , ville=%s , codePostal=%s , pays=%s , principale=%s , version=%s, idUtilisateur=%s]\n",
+			idAdresse,
+			rue,
+			ville,
+			codePostal,
+			pays,
+			principale,
+			version,
+			addrOwner.getIdUtilisateur());
 	}
 
 }

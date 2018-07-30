@@ -36,7 +36,7 @@
             <img src="./assets/images/logo.png" alt="">
           </a>
           <ul class="loginMenu">
-            <li><a href="allo-doctor-compte-medecin.html">Connexion</a></li>
+            <li><a href="./login">Connexion</a></li>
           </ul>
            <ul class="nav">
             <li><a href="./home">Médecin</a></li>
@@ -44,7 +44,7 @@
             <li><a href="./searchpat">Recherche patient</a></li>
             <li><a href="./appointmentpresence">Présence rendez-vous</a></li>
             <li><a class="active" href="./createdoctor">Parrainer un médecin</a></li>
-            <li><a href="rendez-vous-journee.html ">Rendez-vous journée</a></li>
+            <li><a href="./apptday">Rendez-vous journée</a></li>
           </ul>
         </div>
       </div>

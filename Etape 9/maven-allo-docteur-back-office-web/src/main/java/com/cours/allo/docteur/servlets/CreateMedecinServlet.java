@@ -58,9 +58,11 @@ public class CreateMedecinServlet extends HttpServlet {
         List<Adresse> addrList;
         IUtilisateurDao uDao;
         IAdresseDao aDao;
+        IMedecinDao mDao;
 
         uDao = serviceFacade.getUtilisateurDao();
         aDao = serviceFacade.getAdresseDao();
+        mDao = serviceFacade.getMedecinDao();
 
         ret = new Medecin();
         user = new Utilisateur();
@@ -75,6 +77,7 @@ public class CreateMedecinServlet extends HttpServlet {
         user.setMotPasse(req.getParameter("password"));
         user.setActif(true);
         user.setMarquerEffacer(false);
+        user = uDao.createUtilisateur(user);
 
         addr.setCodePostal(req.getParameter("postaCode"));
         addr.setPrincipale(true);
@@ -82,20 +85,15 @@ public class CreateMedecinServlet extends HttpServlet {
         addr.setVille(req.getParameter("city"));
         addr.setPays(req.getParameter("country"));
 
-        user = uDao.createUtilisateur(user);
-
-        System.out.println("iduser = " + user.getIdUtilisateur());
         addrList = new ArrayList<>();
         addrList.add(addr);
-        user.setIdUtilisateur(20);
         addr.setIdUtilisateur(user);
-
-        System.out.println("idUserAddr = " + addr.getIdUtilisateur().getIdUtilisateur());
 
         addr = aDao.createAdresse(addr);
 
         user.setAdresseSet(addrList);
-        ret.setUtilisateur(uDao.createUtilisateur(user));
+        ret.setUtilisateur(user);
+        ret = mDao.createMedecin(ret);
 
         return ret;
     }

@@ -6,6 +6,11 @@
     </servlet>
 
     <servlet>
+        <servlet-name>SearchAppointment</servlet-name>
+        <servlet-class>com.cours.allo.docteur.servlets.SearchAppointmentServlet</servlet-class>
+    </servlet>
+
+    <servlet>
         <servlet-name>Account</servlet-name>
         <servlet-class>com.cours.allo.docteur.servlets.AccountServlet</servlet-class>
     </servlet>
@@ -18,6 +23,21 @@
     <servlet>
         <servlet-name>SearchPatient</servlet-name>
         <servlet-class>com.cours.allo.docteur.servlets.SearchPatientServlet</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>DownloadJsonAppt</servlet-name>
+        <servlet-class>com.cours.allo.docteur.servlets.DownloadAppointmentsJsonServlet</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>DownloadXMLAppt</servlet-name>
+        <servlet-class>com.cours.allo.docteur.servlets.DownloadAppointmentsXMLServlet</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>AppointmentsDay</servlet-name>
+        <servlet-class>com.cours.allo.docteur.servlets.AppointmentsDayServlet</servlet-class>
     </servlet>
 
     <servlet>
@@ -36,6 +56,21 @@
     </servlet-mapping>
 
     <servlet-mapping>
+        <servlet-name>DownloadJsonAppt</servlet-name>
+        <url-pattern>/dlapptjson</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>DownloadXMLAppt</servlet-name>
+        <url-pattern>/dlapptxml</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>SearchAppointment</servlet-name>
+        <url-pattern>/searchappt</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
         <servlet-name>CreateDoctor</servlet-name>
         <url-pattern>/createdoctor</url-pattern>
     </servlet-mapping>
@@ -43,6 +78,11 @@
     <servlet-mapping>
         <servlet-name>SearchPatient</servlet-name>
         <url-pattern>/searchpat</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>AppointmentsDay</servlet-name>  
+        <url-pattern>/apptday</url-pattern>
     </servlet-mapping>
 
     <servlet-mapping>

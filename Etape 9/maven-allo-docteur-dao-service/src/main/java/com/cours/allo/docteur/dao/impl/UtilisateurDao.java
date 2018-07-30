@@ -57,10 +57,8 @@ public class UtilisateurDao implements IUtilisateurDao {
 
 		try {
 
-			ret = (Utilisateur) em.createNamedQuery("Utilisateur.findById").setParameter(
-				"idUtilisateur",
-				idUtilisateur)
-				  .getResultList().get(0);
+			ret = (Utilisateur) em.createNamedQuery("Utilisateur.findById").setParameter("idUtilisateur", idUtilisateur)
+					.getResultList().get(0);
 		} catch (Exception e) {
 			log.error(e.getMessage());
 		}
@@ -77,7 +75,7 @@ public class UtilisateurDao implements IUtilisateurDao {
 		try {
 
 			ret = (Adresse) em.createNamedQuery("Utilisateur.findMainAddress")
-				  .setParameter("idUtilisateur", idUtilisateur).getResultList().get(0);
+					.setParameter("idUtilisateur", idUtilisateur).getResultList().get(0);
 		} catch (Exception e) {
 			log.error(e.getMessage());
 		}
@@ -94,9 +92,7 @@ public class UtilisateurDao implements IUtilisateurDao {
 		ret = null;
 
 		try {
-			ret =
-				em.createNamedQuery("Utilisateur.findByPrenom").setParameter("prenom",
-																			 prenom).getResultList();
+			ret = em.createNamedQuery("Utilisateur.findByPrenom").setParameter("prenom", prenom).getResultList();
 		} catch (Exception e) {
 			log.error(e.getMessage());
 		}
@@ -114,9 +110,7 @@ public class UtilisateurDao implements IUtilisateurDao {
 		ret = null;
 
 		try {
-			ret =
-				em.createNamedQuery("Utilisateur.findByNom").setParameter("nom",
-																		  nom).getResultList();
+			ret = em.createNamedQuery("Utilisateur.findByNom").setParameter("nom", nom).getResultList();
 		} catch (Exception e) {
 			log.error(e.getMessage());
 		}
@@ -134,9 +128,8 @@ public class UtilisateurDao implements IUtilisateurDao {
 		ret = null;
 
 		try {
-			ret = em.createNamedQuery("Utilisateur.findByCodePostal").setParameter("codePostal",
-																				   codePostal)
-				  .getResultList();
+			ret = em.createNamedQuery("Utilisateur.findByCodePostal").setParameter("codePostal", codePostal)
+					.getResultList();
 		} catch (Exception e) {
 			log.error(e.getMessage());
 		}

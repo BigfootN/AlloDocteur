@@ -23,11 +23,20 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "Patient")
 @XmlRootElement
 @NamedQueries({ @NamedQuery(name = "Patient.findAll", query = "SELECT p FROM Patient p"),
-		@NamedQuery(name = "Patient.findById", query = "SELECT p FROM Patient p WHERE p.idPatient = :idPatient"),
-		@NamedQuery(name = "Patient.findByNumeroSecuriteSociale", query = "SELECT p FROM Patient p WHERE p.numeroSecuriteSociale = :numeroSecuriteSociale"),
-		@NamedQuery(name = "Patient.findByNumeroTelephone", query = "SELECT p FROM Patient p WHERE p.numeroTelephone = :numeroTelephone"),
-		@NamedQuery(name = "Patient.findByPrenom", query = "SELECT p FROM Patient p INNER JOIN p.userPatient u WHERE u.prenom = :prenom"),
-		@NamedQuery(name = "Patient.findByNom", query = "SELECT p FROM Patient p INNER JOIN p.userPatient u WHERE u.nom = :nom") })
+				@NamedQuery(name = "Patient.findById",
+							query = "SELECT p FROM Patient p WHERE p.idPatient = :idPatient"),
+				@NamedQuery(name = "Patient.findByNumeroSecuriteSociale",
+							query =
+								"SELECT p FROM Patient p WHERE p.numeroSecuriteSociale = :numeroSecuriteSociale"),
+				@NamedQuery(name = "Patient.findByNumeroTelephone",
+							query =
+								"SELECT p FROM Patient p WHERE p.numeroTelephone = :numeroTelephone"),
+				@NamedQuery(name = "Patient.findByPrenom",
+							query =
+								"SELECT p FROM Patient p INNER JOIN p.userPatient u WHERE u.prenom = :prenom"),
+				@NamedQuery(name = "Patient.findByNom",
+							query =
+								"SELECT p FROM Patient p INNER JOIN p.userPatient u WHERE u.nom = :nom") })
 public class Patient {
 	/*
 	 * @ManyToOne(cascade = CascadeType.MERGE)
@@ -55,7 +64,8 @@ public class Patient {
 	@JoinColumn(referencedColumnName = "idUtilisateur", name = "idUtilisateur")
 	private Utilisateur userPatient;
 
-	@OneToMany(mappedBy = "patientRdv", cascade = CascadeType.MERGE, orphanRemoval = true, fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "patientRdv", cascade = CascadeType.MERGE, orphanRemoval = true,
+			   fetch = FetchType.LAZY)
 	private List<RendezVous> rdv = new ArrayList<>();
 
 	/**
@@ -77,6 +87,20 @@ public class Patient {
 	 */
 	public String getNumeroTelephone() {
 		return numeroTelephone;
+	}
+
+	/**
+	 * @param userPatient the userPatient to set
+	 */
+	public void setUserPatient(Utilisateur userPatient) {
+		this.userPatient = userPatient;
+	}
+
+	/**
+	 * @param numeroTelephone the numeroTelephone to set
+	 */
+	public void setNumeroTelephone(String numeroTelephone) {
+		this.numeroTelephone = numeroTelephone;
 	}
 
 }
