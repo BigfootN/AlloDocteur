@@ -35,7 +35,7 @@
             <img src="./assets/images/logo.png" alt="">
           </a>
           <ul class="loginMenu">
-            <li><a href="allo-doctor-compte-medecin.html">Connexion</a></li>
+            <li><a href="./login">Connexion</a></li>
           </ul>
            <ul class="nav">
             <li><a class="active" href="./home">Médecin</a></li>
