@@ -21,6 +21,8 @@ public interface IRendezVousDao {
 
 	public List<RendezVous> findAllFuturRendezVous(Date time);
 
+	public List<RendezVous> findRendezVousByJourAndIdMedecin(Integer idMedecin, Date time);
+
 	public Long chiffreAffaire();
 
 	public boolean deleteRendezVous(RendezVous appt);

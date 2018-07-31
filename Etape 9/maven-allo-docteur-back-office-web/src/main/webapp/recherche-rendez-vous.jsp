@@ -88,11 +88,11 @@
                       <c:set var="user" value="${patient.userPatient}"/>
                         <tr>
                           <td title="Prénom et Nom"><c:out value="${user.civilite} ${user.prenom} ${user.nom}" /></td>
-                          <td title="Identifiant"><c:out value="${identifiant}" /></td>
-                          <td title="Numéro de sécurité sociale"><c:out value="${numerosecu}"/></td>
+                          <td title="Identifiant"><c:out value="${user.identifiant}" /></td>
+                          <td title="Numéro de sécurité sociale"><c:out value="${patient.numeroSecuriteSociale}"/></td>
                           <td title="Numéro de téléphone"><c:out value="${patient.numeroTelephone}"/></td>
+                          <td title="Date"><c:out value="${rdv.jour}"/></td>
                           <td title="Adresse"> 2 rue du Paradis, 75000 Paris, France</td>
-                          <td title="Date">25/11/2017 <p>de</p> 9h00-9h15</td>
                         </tr>
                       </c:forEach>
                     </tbody>

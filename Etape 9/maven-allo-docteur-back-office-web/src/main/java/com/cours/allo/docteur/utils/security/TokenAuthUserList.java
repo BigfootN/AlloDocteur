@@ -40,18 +40,19 @@ public class TokenAuthUserList {
     public Integer getUserId(HttpServletRequest req) {
         Integer ret;
         Cookie[] cookies;
-        int idx;
+        int i;
 
-        idx = 0;
+        i = 0;
         cookies = req.getCookies();
         ret = null;
-
-        while (idx < cookies.length) {
-            if (cookies[idx].getName().equals(Constants.TOKEN_ACCESS_KEY_NAME)) {
-                ret = tokenUserAuthMap.get(cookies[idx].getValue());
+        while (i < cookies.length) {
+            if (cookies[i].getName().equals(Constants.TOKEN_ACCESS_KEY_NAME)) {
+                ret = tokenUserAuthMap.get(cookies[i].getValue());
                 break;
             }
+            i++;
         }
+
 
         return ret;
     }

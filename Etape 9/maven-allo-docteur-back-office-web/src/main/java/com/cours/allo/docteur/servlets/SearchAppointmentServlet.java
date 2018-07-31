@@ -15,6 +15,7 @@ import com.cours.allo.docteur.dao.entities.RendezVous;
 import com.cours.allo.docteur.service.IServiceFacade;
 import com.cours.allo.docteur.utils.Utils;
 
+import com.cours.allo.docteur.utils.security.TokenAuthUserList;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.context.ApplicationContext;
@@ -41,13 +42,20 @@ public class SearchAppointmentServlet extends HttpServlet {
 		SimpleDateFormat sdf;
 		IRendezVousDao rDao;
 		List<RendezVous> rdvlist;
+		TokenAuthUserList tokenAuthUserList = TokenAuthUserList.getInstance();
+
+		System.out.println("test");
 
 		try {
 			sdf = new SimpleDateFormat("dd/MM/yyyy");
 			date = sdf.parse((String) req.getParameter("rdvDate"));
 			rDao = serviceFacade.getRendezVousDao();
 			sdf = new SimpleDateFormat("yyyy - MM - dd");
-			rdvlist = rDao.findAllFuturRendezVous(date);
+			System.out.println(tokenAuthUserList.getUserId(req));
+			rdvlist = rDao.findRendezVousByJourAndIdMedecin(tokenAuthUserList.getUserId(req), date);
+			//rdvlist = rDao.findRendezVousByIdMedecin(tokenAuthUserList.getUserId(req));
+			//rdvlist = rDao.findAll();
+
 			req.setAttribute("rdvlist", rdvlist);
 			req.getRequestDispatcher("./recherche-rendez-vous.jsp").forward(req, resp);
 		} catch (Exception e) {

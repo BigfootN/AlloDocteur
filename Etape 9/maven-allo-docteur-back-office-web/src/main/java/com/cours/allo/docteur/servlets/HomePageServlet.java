@@ -44,7 +44,7 @@ public class HomePageServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 	throws ServletException, IOException {
 		System.out.println("passe dans home");
-		request.getRequestDispatcher("./index.jsp").forward(request, response);
+		request.getRequestDispatcher("./pages/index.jsp").forward(request, response);
 	}
 
 }

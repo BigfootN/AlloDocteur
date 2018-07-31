@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 import com.cours.allo.docteur.dao.IRendezVousDao;
 import com.cours.allo.docteur.dao.entities.RendezVous;
@@ -109,6 +110,29 @@ public class RendezVousDao implements IRendezVousDao {
 	}
 
 	@Override
+	public List<RendezVous> findRendezVousByJourAndIdMedecin(Integer idMedecin, Date time) {
+		List<RendezVous> ret;
+		Query query;
+
+		log.debug("Entree de la methode");
+
+		ret = null;
+
+		try {
+			query = em.createNamedQuery("RendezVous.findRendezVousByJourAndIdMedecin");
+			query.setParameter("idMedecin", idMedecin);
+			query.setParameter("jour", time);
+			ret = query.getResultList();
+		} catch (Exception e) {
+			log.error(e.getMessage());
+		}
+
+		log.debug("Sortie de la methode");
+
+		return ret;
+	}
+
+	@Override
 	public List<RendezVous> findRendezVousByJour(Date time) {
 		List<RendezVous> ret;
 
@@ -118,8 +142,8 @@ public class RendezVousDao implements IRendezVousDao {
 
 		try {
 			ret =
-				em.createNamedQuery("RendezVous.findByJour").setParameter("jour",
-																		  time).getResultList();
+					em.createNamedQuery("RendezVous.findByJour").setParameter("jour",
+							time).getResultList();
 		} catch (Exception e) {
 			log.error(e.getMessage());
 		}
