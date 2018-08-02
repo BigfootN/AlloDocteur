@@ -75,4 +75,8 @@ public class RendezVous {
 		return jour;
 	}
 
+	public void setJour(Date jour) {
+		this.jour = jour;
+	}
+
 }

@@ -39,6 +39,7 @@ public class SearchAppointmentServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException,
 	IOException {
 		Date date;
+		Date test;
 		SimpleDateFormat sdf;
 		IRendezVousDao rDao;
 		List<RendezVous> rdvlist;
@@ -52,19 +53,23 @@ public class SearchAppointmentServlet extends HttpServlet {
 
 		try {
 			sdf = new SimpleDateFormat("dd/MM/yyyy");
-			System.out.println("test1");
+
 			date = sdf.parse((String) req.getParameter("rdvDate"));
-			System.out.println("test2");
+
 			rDao = serviceFacade.getRendezVousDao();
-			System.out.println("test3");
+
 			sdf = new SimpleDateFormat("yyyy - MM - dd");
-			System.out.println("test3");
-			System.out.println(tokenAuthUserList.getUserId(req));
-			System.out.println("test4");
+
 			rdvlist = rDao.findRendezVousByJourAndIdMedecin(tokenAuthUserList.getUserId(req), date);
-			System.out.println("test5");
-			//rdvlist = rDao.findRendezVousByIdMedecin(tokenAuthUserList.getUserId(req));
-			//rdvlist = rDao.findAll();
+
+
+
+			/*for (int i = 0; i < rdvlist.size(); i++){
+				sdf = new SimpleDateFormat("yyyy-MM-dd");
+				test = sdf.parse(sdf.format(rdvlist.get(i).getJour()));
+				System.out.println(test);
+				rdvlist.get(i).setJour(test);
+			}*/
 
 			req.setAttribute("rdvlist", rdvlist);
 			req.getRequestDispatcher("./recherche-rendez-vous.jsp").forward(req, resp);

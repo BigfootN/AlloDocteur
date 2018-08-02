@@ -59,4 +59,36 @@ public class Creneau {
 	@OneToMany(mappedBy = "creneauRdv", cascade = CascadeType.MERGE, orphanRemoval = true, fetch = FetchType.LAZY)
 	private List<RendezVous> rdv = new ArrayList<>();
 
+	public Integer getHeureDebut() {
+		return heureDebut;
+	}
+
+	public void setHeureDebut(Integer heureDebut) {
+		this.heureDebut = heureDebut;
+	}
+
+	public Integer getHeureFin() {
+		return heureFin;
+	}
+
+	public void setHeureFin(Integer heureFin) {
+		this.heureFin = heureFin;
+	}
+
+	public Integer getMinuteDebut() {
+		return minuteDebut;
+	}
+
+	public void setMinuteDebut(Integer minuteDebut) {
+		this.minuteDebut = minuteDebut;
+	}
+
+	public Integer getMinuteFin() {
+		return minuteFin;
+	}
+
+	public void setMinuteFin(Integer minuteFin) {
+		this.minuteFin = minuteFin;
+	}
+
 }

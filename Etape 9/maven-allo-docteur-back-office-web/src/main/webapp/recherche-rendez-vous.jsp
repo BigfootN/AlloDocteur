@@ -1,4 +1,6 @@
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
+
 <!doctype html>
 <html class="no-js" lang="">
   <head>
@@ -78,20 +80,22 @@
                     <th>Identifiant</th>
                     <th>Numéro de sécurité sociale</th>
                     <th>Numéro de téléphone</th>
-                    <th>Adresse</th>
                     <th>Date</th>
+                    <th>Adresse</th>
                   </tr>
                 </thead>
                   <tbody>
                     <c:forEach items="${rdvlist}" var="rdv">
                       <c:set var="patient" value="${rdv.patientRdv}"/>
                       <c:set var="user" value="${patient.userPatient}"/>
+                      <c:set var="creneau" value="${rdv.creneau}"/>
                         <tr>
                           <td title="Prénom et Nom"><c:out value="${user.civilite} ${user.prenom} ${user.nom}" /></td>
                           <td title="Identifiant"><c:out value="${user.identifiant}" /></td>
                           <td title="Numéro de sécurité sociale"><c:out value="${patient.numeroSecuriteSociale}"/></td>
                           <td title="Numéro de téléphone"><c:out value="${patient.numeroTelephone}"/></td>
-                          <td title="Date"><c:out value="${rdv.jour}"/></td>
+                          <td title="Date"><fmt:formatDate value="${rdv.jour}" pattern="yyyy-MM-dd" /><br /><c:out value="${creneau.heureDebut}" />h
+                            <c:out value="${creneau.minuteDebut}" />m - <c:out value="${creneau.heureFin}" />h <c:out value="${creneau.minuteFin}" />m</td>
                           <td title="Adresse"> 2 rue du Paradis, 75000 Paris, France</td>
                         </tr>
                       </c:forEach>
