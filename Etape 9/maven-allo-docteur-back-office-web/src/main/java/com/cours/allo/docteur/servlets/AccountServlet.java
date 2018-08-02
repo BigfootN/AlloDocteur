@@ -48,6 +48,8 @@ public class AccountServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		Medecin curDoctor;
 
+		System.out.println("test");
+
 		curDoctor = getCurrentDoctor(req);
 
 		insertDoctorIntoRequest(req, curDoctor);

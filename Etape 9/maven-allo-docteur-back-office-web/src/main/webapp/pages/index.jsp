@@ -58,11 +58,11 @@
               <div class="home-links">
                 <p>Bonjour Mr le docteur Jacques Dupont, votre chiffre d’affaire du mois est de XXXX euros.</p>
                 <div class="links">
-                  <a href="./modification-informations-medecin.jsp">Modifier mes informations personnelles</a>
-                  <a href="./rendez-vous-journee.jsp">Voir les rendez-vous de la journée</a>
-                  <a href="./recherche-rendez-vous.jsp">Rechercher mes rendez-vous</a>
-                  <a href="./parrainer-medecin.jsp">Parrainer un médecin</a>
-                  <a href="./presence-rendez-vous.jsp">Présence au rendez-vous</a>
+                  <a href="./account">Modifier mes informations personnelles</a>
+                  <a href="./apptday">Voir les rendez-vous de la journée</a>
+                  <a href="./searchappt">Rechercher mes rendez-vous</a>
+                  <a href="./createdoctor">Parrainer un médecin</a>
+                  <a href="./appointmentpresence">Présence au rendez-vous</a>
                   <a href="#">Exporter mes futurs rendez-vous au format CSV</a>
                   <a href="./dlapptxml">Exporter mes futurs rendez-vous au format XML</a>
                   <a href="./dlapptjson">Exporter mes futurs rendez-vous au format Json</a>

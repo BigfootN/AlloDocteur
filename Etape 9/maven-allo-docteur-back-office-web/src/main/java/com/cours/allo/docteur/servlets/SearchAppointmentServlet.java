@@ -46,13 +46,23 @@ public class SearchAppointmentServlet extends HttpServlet {
 
 		System.out.println("test");
 
+		if(req.getParameter("rdvDate") == null){
+			req.getRequestDispatcher("./recherche-rendez-vous.jsp").forward(req, resp);
+		}
+
 		try {
 			sdf = new SimpleDateFormat("dd/MM/yyyy");
+			System.out.println("test1");
 			date = sdf.parse((String) req.getParameter("rdvDate"));
+			System.out.println("test2");
 			rDao = serviceFacade.getRendezVousDao();
+			System.out.println("test3");
 			sdf = new SimpleDateFormat("yyyy - MM - dd");
+			System.out.println("test3");
 			System.out.println(tokenAuthUserList.getUserId(req));
+			System.out.println("test4");
 			rdvlist = rDao.findRendezVousByJourAndIdMedecin(tokenAuthUserList.getUserId(req), date);
+			System.out.println("test5");
 			//rdvlist = rDao.findRendezVousByIdMedecin(tokenAuthUserList.getUserId(req));
 			//rdvlist = rDao.findAll();
 
