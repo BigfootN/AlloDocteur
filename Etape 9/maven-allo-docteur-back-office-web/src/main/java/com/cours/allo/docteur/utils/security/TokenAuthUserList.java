@@ -15,77 +15,82 @@ import com.cours.allo.docteur.utils.Constants;
  * TokenList
  */
 public class TokenAuthUserList {
-	private static final TokenAuthUserList instance = new TokenAuthUserList();
-	private static Map<String, Integer> tokenUserAuthMap = new HashMap<>();
+    private static final TokenAuthUserList instance = new TokenAuthUserList();
+    private static Map<String, Integer> tokenUserAuthMap = new HashMap<>();
 
-	public static TokenAuthUserList getInstance() {
-		return instance;
-	}
+    public static TokenAuthUserList getInstance() {
+        return instance;
+    }
 
-	public void addUserAuthToken(String token, Integer userId) {
-		tokenUserAuthMap.put(token, userId);
-	}
+    public void addUserAuthToken(String token, Integer userId) {
+        tokenUserAuthMap.put(token, userId);
+    }
 
-	public void disconnect(HttpServletRequest req) {
-		String token;
+    public void disconnect(HttpServletRequest req) {
+        String token;
 
-		token = getToken(req);
-		tokenUserAuthMap.remove(token);
-	}
+        token = getToken(req);
+        tokenUserAuthMap.remove(token);
+    }
 
-	public boolean hasToken(String token) {
-		if (tokenUserAuthMap.get(token) == null)
-			return false;
-		else
-			return true;
-	}
+    public boolean hasToken(String token) {
+        if (tokenUserAuthMap.get(token) == null)
+            return false;
+        else
+            return true;
+    }
 
-	public Integer getUserId(String token) {
-		return tokenUserAuthMap.get(token);
-	}
+    public Integer getUserId(String token) {
+        return tokenUserAuthMap.get(token);
+    }
 
-	public Integer getUserId(HttpServletRequest req) {
-		Integer ret;
+    public Integer getUserId(HttpServletRequest req) {
+        Integer ret;
 
-		ret = tokenUserAuthMap.get(getCookieToken(req).getValue());
+        ret = tokenUserAuthMap.get(getCookieToken(req).getValue());
 
-		return ret;
-	}
+        return ret;
+    }
 
-	private String getToken(HttpServletRequest req) {
-		String ret;
-		Cookie cookie;
+    private String getToken(HttpServletRequest req) {
+        String ret;
+        Cookie cookie;
 
-		cookie = getCookieToken(req);
+        cookie = getCookieToken(req);
 
-		if (cookie != null)
-			ret = cookie.getValue();
-		else
-			ret = null;
+        if (cookie != null)
+            ret = cookie.getValue();
+        else
+            ret = null;
 
-		return ret;
-	}
+        return ret;
+    }
 
-	private Cookie getCookieToken(HttpServletRequest req) {
-		Cookie ret;
-		int i;
-		Cookie[] cookies;
+    private Cookie getCookieToken(HttpServletRequest req) {
+        Cookie ret;
+        int i;
+        Cookie[] cookies;
 
-		i = 0;
-		cookies = req.getCookies();
-		ret = null;
+        i = 0;
+        cookies = req.getCookies();
 
-		while (i < cookies.length && ret == null) {
-			if (cookies[i].getName().equals(Constants.TOKEN_ACCESS_KEY_NAME)) {
-				ret = cookies[i];
-			}
+        ret = null;
 
-			i++;
-		}
+        if (cookies == null)
+            return null;
 
-		return ret;
-	}
+        while (i < cookies.length && ret == null) {
+            if (cookies[i].getName().equals(Constants.TOKEN_ACCESS_KEY_NAME)) {
+                ret = cookies[i];
+            }
 
-	private TokenAuthUserList() {}
+            i++;
+        }
+
+        return ret;
+    }
+
+    private TokenAuthUserList() {
+    }
 
 }
