@@ -26,6 +26,13 @@ public class TokenAuthUserList {
         tokenUserAuthMap.put(token, userId);
     }
 
+    public void disconnect(HttpServletRequest req) {
+        String token;
+
+        token = getToken(req);
+        tokenUserAuthMap.remove(token);
+    }
+
     public boolean hasToken(String token) {
         if (tokenUserAuthMap.get(token) == null)
             return false;
@@ -39,20 +46,36 @@ public class TokenAuthUserList {
 
     public Integer getUserId(HttpServletRequest req) {
         Integer ret;
-        Cookie[] cookies;
+
+        ret = tokenUserAuthMap.get(getCookieToken(req).getValue());
+
+        return ret;
+    }
+
+    private String getToken(HttpServletRequest req) {
+        String ret;
+
+        ret = getCookieToken(req).getValue();
+
+        return ret;
+    }
+
+    private Cookie getCookieToken(HttpServletRequest req) {
+        Cookie ret;
         int i;
+        Cookie[] cookies;
 
         i = 0;
         cookies = req.getCookies();
         ret = null;
-        while (i < cookies.length) {
+
+        while (i < cookies.length && ret == null) {
             if (cookies[i].getName().equals(Constants.TOKEN_ACCESS_KEY_NAME)) {
-                ret = tokenUserAuthMap.get(cookies[i].getValue());
-                break;
+                ret = cookies[i];
             }
+
             i++;
         }
-
 
         return ret;
     }

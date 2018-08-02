@@ -72,7 +72,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <c:forEach items="${rdvlist}" var="rdv">
+                  <c:forEach items="${rdvlist}" var="rdv" varStatus="status">
                     <c:set var="patient" value="${rdv.patientRdv}"/>
                     <c:set var="user" value="${patient.userPatient}"/>
                     <tr>
@@ -80,7 +80,7 @@
                       <td title="Identifiant"><c:out value="${user.identifiant}"/></td>
                       <td title="Numéro de sécurité sociale"><c:out value="${patient.numeroSecuriteSociale}"/></td>
                       <td title="Numéro de téléphone"><c:out value="${patient.numeroTelephone}"/></td>
-                      <td title="Adresse"></td>
+                      <td title="Adresse">${addrList[status.index].rue}</td>
                       <td title="Date"></td>
                       <td title="">
                         <c:choose>
@@ -93,54 +93,6 @@
                         </c:choose>
                       </td>
                   </c:forEach>
-                  <tr>
-                    <td title="Prénom et Nom">Mr Faris CORONA</td>
-                    <td title="Identifiant">Mich@el2001</td>
-                    <td title="Numéro de sécurité sociale">235146587452698</td>
-                    <td title="Numéro de téléphone">03365221144</td>
-                    <td title="Adresse"> 2 rue du Paradis, 75000 Paris, France</td>
-                    <td title="Date">25/11/2017 <p>de</p> 9h00-9h15</td>
-                    <td title=""><a href="#" role="button">Present</a></td>
-                  </tr>
-                  <tr>
-                    <td title="Prénom et Nom">Mr Faris CORONA</td>
-                    <td title="Identifiant">Mich@el2001</td>
-                    <td title="Numéro de sécurité sociale">235146587452698</td>
-                    <td title="Numéro de téléphone">03365221144</td>
-                    <td title="Adresse"> 2 rue du Paradis, 75000 Paris, France</td>
-                    <td title="Date">25/11/2017 <p>de</p> 9h00-9h15</td>
-                    <td title=""><a href="#" role="button">Present</a></td>
-                  </tr>
-                  <tr>
-                    <td title="Prénom et Nom">Mr Faris CORONA</td>
-                    <td title="Identifiant">Mich@el2001</td>
-                    <td title="Numéro de sécurité sociale">235146587452698</td>
-                    <td title="Numéro de téléphone">03365221144</td>
-                    <td title="Adresse"> 2 rue du Paradis, 75000 Paris, France</td>
-                    <td title="Date">25/11/2017 <p>de</p> 9h00-9h15</td>
-                    <td title=""><a href="#" role="button">Present</a></td>
-                  </tr>
-                  <tr>
-                    <td title="Prénom et Nom">Mr Faris CORONA</td>
-                    <td title="Identifiant">Mich@el2001</td>
-                    <td title="Numéro de sécurité sociale">235146587452698</td>
-                    <td title="Numéro de téléphone">03365221144</td>
-                    <td title="Adresse"> 2 rue du Paradis, 75000 Paris, France</td>
-                    <td title="Date">25/11/2017 <p>de</p> 9h00-9h15</td>
-                    <td title=""><a href="#" role="button">Present</a></td>
-                  </tr>
-                  <tr>
-                    <td title="Prénom et Nom">Mr Faris CORONA</td>
-                    <td title="Identifiant">Mich@el2001</td>
-                    <td title="Numéro de sécurité sociale">235146587452698</td>
-                    <td title="Numéro de téléphone">03365221144</td>
-                    <td title="Adresse"> 2 rue du Paradis, 75000 Paris, France</td>
-                    <td title="Date">25/11/2017 <p>de</p> 9h00-9h15</td>
-                    <td title=""><a href="#" role="button">Present</a></td>
-                  </tr>
-                  
-                  
-
                 </tbody>
               </table>
 

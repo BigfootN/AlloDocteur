@@ -21,12 +21,11 @@ import com.cours.allo.docteur.utils.security.TokenAuthUserList;
 public class LoginFilter implements Filter {
 
 	@Override
-	public void init(FilterConfig filterConfig) throws ServletException {
-	}
+	public void init(FilterConfig filterConfig) throws ServletException {}
 
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
-			throws IOException, ServletException {
+	throws IOException, ServletException {
 		HttpServletRequest httpRequest;
 		HttpServletResponse httpResponse;
 		Cookie[] cookies;
@@ -41,6 +40,7 @@ public class LoginFilter implements Filter {
 		idx = 0;
 
 		if (uri.endsWith("/login")) {
+			TokenAuthUserList.getInstance().disconnect(httpRequest);
 			httpRequest.getRequestDispatcher("/login").forward(request, response);
 			return;
 		}
@@ -71,7 +71,6 @@ public class LoginFilter implements Filter {
 	}
 
 	@Override
-	public void destroy() {
-	}
+	public void destroy() {}
 
 }
